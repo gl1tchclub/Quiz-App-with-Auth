@@ -1,6 +1,7 @@
 import express from "express";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
+import cors from "cors";
 // Import the index routes module
 import indexRoutes from './routes/index.js';
 //import rest of routes here
@@ -45,13 +46,30 @@ app.use(setXContentTypeOptions);
 app.use(setXFrameOptions);
 app.use(setContentSecurityPolicy);
 app.use(limiter);
+app.use(cors());
+app.use(helmet());
 
 // Use the routes module
 app.use('/', indexRoutes);
 //declare rest of app.use routes here
+//
+//
+//
 
-app.use(cors());
-app.use(helmet());
+// Sets 404 error message if request contains an invalid route and sends to next middleware function in the stack
+app.use((req, res, next) => {
+  next(
+    res.status(404).json({
+      msg: "404 route not found",
+    })
+  )
+})
+
+// Displays a written error message depending on the error found
+app.use((err, req, res, next) => {
+  res.status(err.status || 500)
+  res.send(err.message)
+})
 
 // Start the server on port 3000
 app.listen(3000, () => {
