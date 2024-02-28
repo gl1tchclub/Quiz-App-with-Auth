@@ -2,7 +2,8 @@ import express from "express";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 // Import the index routes module
-import indexRoutes from './routes/app.js';
+import indexRoutes from './routes/index.js';
+//import rest of routes here
 
 const app = express();
 
@@ -37,6 +38,8 @@ const setContentSecurityPolicy = helmet({
   },
 });
 
+app.use(urlencoded({ extended: false }));
+app.use(json());
 app.use(setXPoweredBy);
 app.use(setXContentTypeOptions);
 app.use(setXFrameOptions);
@@ -45,6 +48,7 @@ app.use(limiter);
 
 // Use the routes module
 app.use('/', indexRoutes);
+//declare rest of app.use routes here
 
 app.use(cors());
 app.use(helmet());
