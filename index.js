@@ -3,17 +3,16 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import cors from "cors";
 // Import the index routes module
-import indexRoutes from './routes/index.js';
+import indexRoutes from "./routes/index.js";
 //import rest of routes here
 
 const app = express();
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
-  message: "Too many requests from this IP, please try again in 15 minutes",
-});
-
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 100, // Limit each IP to 100 requests per windowMs
+//   message: "Too many requests from this IP, please try again in 15 minutes",
+// });
 
 const setXPoweredBy = helmet({
   hidePoweredBy: true,
@@ -50,7 +49,7 @@ app.use(cors());
 app.use(helmet());
 
 // Use the routes module
-app.use('/', indexRoutes);
+app.use("/", indexRoutes);
 //declare rest of app.use routes here
 //
 //
@@ -62,18 +61,18 @@ app.use((req, res, next) => {
     res.status(404).json({
       msg: "404 route not found",
     })
-  )
-})
+  );
+});
 
 // Displays a written error message depending on the error found
 app.use((err, req, res, next) => {
-  res.status(err.status || 500)
-  res.send(err.message)
-})
+  res.status(err.status || 500);
+  res.send(err.message);
+});
 
 // Start the server on port 3000
 app.listen(3000, () => {
-  console.log('Server is listening on port 3000.');
+  console.log("Server is listening on port 3000.");
 });
 
 // Export the Express application. Other modules may use it. For example, API testing
