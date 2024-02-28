@@ -40,13 +40,12 @@ const setContentSecurityPolicy = helmet({
 
 app.use(urlencoded({ extended: false }));
 app.use(json());
+app.use(limiter);
+app.use(cors());
 app.use(setXPoweredBy);
 app.use(setXContentTypeOptions);
 app.use(setXFrameOptions);
 app.use(setContentSecurityPolicy);
-app.use(limiter);
-app.use(cors());
-app.use(helmet());
 
 // Use the routes module
 app.use("/", indexRoutes);
