@@ -1,9 +1,12 @@
 import express, { urlencoded, json } from "express";
 import helmet from "helmet";
-import rateLimit from "express-rate-limit";
+// import rateLimit from "express-rate-limit";
 import cors from "cors";
 // Import the index routes module
-import indexRoutes from "./routes/index.js";
+import authRouteMiddleware from "./middleware/authRoute.js";
+import authV1Routes from "./routes/v1/auth.js";
+import indexV1Routes from "./routes/v1/index.js";
+import userV1Routes from "./routes/v1/user.js";
 //import rest of routes here
 
 const app = express();
@@ -48,8 +51,10 @@ app.use(setXFrameOptions);
 app.use(setContentSecurityPolicy);
 
 // Use the routes module
-app.use("/", indexRoutes);
-//declare rest of app.use routes here
+app.use("/api/v1/auth", authV1Routes);
+app.use("/", indexV1Routes);
+app.use("/api/v1/users", authRouteMiddleware, userV1Routes); // Authenticated route
+//declare rest of app.use authenticated routes here
 //
 //
 //

@@ -1,6 +1,6 @@
 // ...
 
-const createInstitution = async (req, res) => {
+const createUser = async (req, res) => {
     try {
       const contentType = req.headers["content-type"];
       if (!contentType || contentType !== "application/json") {

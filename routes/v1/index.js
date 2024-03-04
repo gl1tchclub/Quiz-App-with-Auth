@@ -7,7 +7,7 @@
 import express, { urlencoded, json } from "express";
 
 // Import the index controllers module
-import { get } from "../controllers/resources.js";
+import { get } from "../../controllers/v1/resources.js";
 
 // Create an Express router
 const router = express.Router();
