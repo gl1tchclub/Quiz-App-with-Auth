@@ -1,4 +1,6 @@
-// ...
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 const createUser = async (req, res) => {
     try {
@@ -9,25 +11,25 @@ const createUser = async (req, res) => {
         });
       }
       
-      const { name, region, country } = req.body;
+      const { email, firstName, lastName, password, username } = req.body;
   
       // Get the authenticated user's id from the Request's user property
       const { id } = req.user;
   
-      // Now you will know which authenticated user created which institution
-      await prisma.institution.create({
-        data: { name, region, country, userId: id },
+      // Now you will know which authenticated user created which user
+      await prisma.user.create({
+        data: { email, firstName, lastName, password, username },
       });
   
-      const newInstitutions = await prisma.institution.findMany({
+      const newUsers = await prisma.user.findMany({
         include: {
           departments: true,
         },
       });
   
       return res.status(201).json({
-        msg: "Institution successfully created",
-        data: newInstitutions,
+        msg: "User successfully created",
+        data: newUsers,
       });
     } catch (err) {
       return res.status(500).json({

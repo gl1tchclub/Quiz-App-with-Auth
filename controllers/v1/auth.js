@@ -55,8 +55,6 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const MAX_LOGIN_ATTEMPTS = 5;
-  const LOCK_TIME_MS = 5 * 60 * 1000; // 5 minutes
 
   try {
     const contentType = req.headers["content-type"];
@@ -72,32 +70,13 @@ const login = async (req, res) => {
 
     if (!user) return res.status(401).json({ msg: "Invalid email" });
 
-    if (
-      user.loginAttempts >= MAX_LOGIN_ATTEMPTS &&
-      user.lastLoginAttempt >= Date.now() - LOCK_TIME_MS
-    ) {
-      return res.status(401).json({
-        msg: "Maximum login attempts reached. Please try again later",
-      });
-    }
-
     /**
      * Compare the given string, i.e., Pazzw0rd123, with the given
      * hash, i.e., user's hashed password
      */
     const isPasswordCorrect = await bcryptjs.compare(password, user.password);
 
-    if (!isPasswordCorrect) {
-      await prisma.user.update({
-        where: { email },
-        data: {
-          loginAttempts: user.loginAttempts + 1,
-          lastLoginAttempt: new Date(),
-        },
-      });
-
-      return res.status(401).json({ msg: "Invalid password" });
-    }
+    if (!isPasswordCorrect) return res.status(401).json({ msg: "Invalid password" });
 
     const { JWT_SECRET, JWT_LIFETIME } = process.env;
 
@@ -114,14 +93,6 @@ const login = async (req, res) => {
       JWT_SECRET,
       { expiresIn: JWT_LIFETIME }
     );
-
-    await prisma.user.update({
-      where: { email },
-      data: {
-        loginAttempts: 0,
-        lastLoginAttempt: null,
-      },
-    });
 
     return res.status(200).json({
       msg: "User successfully logged in",
