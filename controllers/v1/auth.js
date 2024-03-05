@@ -1,5 +1,6 @@
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import {v4 as uuidv4} from 'uuid';
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -13,7 +14,7 @@ const register = async (req, res) => {
       });
     }
 
-    const { name, email, password } = req.body;
+    const { firstName, lastName, email, password, role } = req.body;
 
     let user = await prisma.user.findUnique({ where: { email } });
 
@@ -32,8 +33,10 @@ const register = async (req, res) => {
      */
     const hashedPassword = await bcryptjs.hash(password, salt);
 
+    // create get random pfp function here using uuid (imported above) which has a function e.g. let myuuid = uuidv4();
+
     user = await prisma.user.create({
-      data: { name, email, password: hashedPassword },
+      data: { firstName, lastName, email, password: hashedPassword, role },
     });
 
     /**
