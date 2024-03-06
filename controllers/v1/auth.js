@@ -14,7 +14,7 @@ const register = async (req, res) => {
       });
     }
 
-    const { firstName, lastName, email, password, role } = req.body;
+    const { email, firstName, lastName, password, username, role } = req.body;
 
     let user = await prisma.user.findUnique({ where: { email } });
 
@@ -36,7 +36,7 @@ const register = async (req, res) => {
     // create get random pfp function here using uuid (imported above) which has a function e.g. let myuuid = uuidv4();
 
     user = await prisma.user.create({
-      data: { firstName, lastName, email, password: hashedPassword, role },
+      data: { email, firstName, lastName, password: hashedPassword, username, role },
     });
 
     /**
