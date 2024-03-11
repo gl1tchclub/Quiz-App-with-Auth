@@ -1,6 +1,5 @@
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import {v4 as uuidv4} from 'uuid';
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -19,8 +18,8 @@ const register = async (req, res) => {
     let user = await prisma.user.findFirst({ 
       where: { 
         OR: [ 
-          { email: user.email }, 
-          { username: user.username },  
+          { email: email }, 
+          { username: username },  
         ],  
       }, 
     });
@@ -40,11 +39,15 @@ const register = async (req, res) => {
      */
     const hashedPassword = await bcryptjs.hash(password, salt);
 
-    // create get random pfp function here using uuid (imported above) which has a function e.g. let myuuid = uuidv4();
+    // create get random pfp function here 
+    const names = ["Midnight", "Bella", "Precious", "Simba", "Jasmine", "Salem", "Cali", "Princess", "Scooter", "Bob", "Missy", "Spooky", "Sammy", "Molly", "Felix", "Milo", "Boots", "Mimi"]
+    
+    avatar = await fetch(`https://api.dicebear.com/7.x/adventurer/svg?seed=${names[Math.floor(Math.random() * names.length)]}&randomizeIds=true&earringsProbability=50&featuresProbability=70&glassesProbability=40&skinColor=9e5622,763900,ecad80`)
 
     user = await prisma.user.create({
-      data: { email, firstName, lastName, password: hashedPassword, username, role },
+      data: { email, firstName, lastName, password: hashedPassword, avatar: avatar, username, role },
     });
+    console.log(user)
 
     /**
      * Delete the password property from the user object. It
