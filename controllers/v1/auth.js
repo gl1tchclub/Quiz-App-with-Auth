@@ -15,13 +15,10 @@ const register = async (req, res) => {
 
     const { email, firstName, lastName, password, username, role } = req.body;
 
-    let user = await prisma.user.findFirst({ 
-      where: { 
-        OR: [ 
-          { email: email }, 
-          { username: username },  
-        ],  
-      }, 
+    let user = await prisma.user.findFirst({
+      where: {
+        OR: [{ email }, { username }],
+      },
     });
 
     if (user) return res.status(409).json({ msg: "User already exists" });
@@ -39,15 +36,18 @@ const register = async (req, res) => {
      */
     const hashedPassword = await bcryptjs.hash(password, salt);
 
-    // create get random pfp function here 
-    const names = ["Midnight", "Bella", "Precious", "Simba", "Jasmine", "Salem", "Cali", "Princess", "Scooter", "Bob", "Missy", "Spooky", "Sammy", "Molly", "Felix", "Milo", "Boots", "Mimi"]
-    
-    avatar = await fetch(`https://api.dicebear.com/7.x/adventurer/svg?seed=${names[Math.floor(Math.random() * names.length)]}&randomizeIds=true&earringsProbability=50&featuresProbability=70&glassesProbability=40&skinColor=9e5622,763900,ecad80`)
-
+    const avatar = `https://api.dicebear.com/7.x/adventurer/svg?seed=${username}`;
     user = await prisma.user.create({
-      data: { email, firstName, lastName, password: hashedPassword, avatar: avatar, username, role },
+      data: {
+        email,
+        firstName,
+        lastName,
+        password: hashedPassword,
+        avatar,
+        username,
+        role,
+      },
     });
-    console.log(user)
 
     /**
      * Delete the password property from the user object. It
@@ -68,7 +68,6 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-
   try {
     const contentType = req.headers["content-type"];
     if (!contentType || contentType !== "application/json") {
@@ -77,11 +76,15 @@ const login = async (req, res) => {
       });
     }
 
-    const { email, password } = req.body;
+    const { email, password, username } = req.body;
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [{ email }, { username }],
+      },
+    });
 
-    if (!user) return res.status(401).json({ msg: "Invalid email" });
+    if (!user) return res.status(401).json({ msg: "Invalid email or username" });
 
     /**
      * Compare the given string, i.e., Pazzw0rd123, with the given
@@ -89,7 +92,8 @@ const login = async (req, res) => {
      */
     const isPasswordCorrect = await bcryptjs.compare(password, user.password);
 
-    if (!isPasswordCorrect) return res.status(401).json({ msg: "Invalid password" });
+    if (!isPasswordCorrect)
+      return res.status(401).json({ msg: "Invalid password" });
 
     const { JWT_SECRET, JWT_LIFETIME } = process.env;
 
