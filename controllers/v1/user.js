@@ -40,7 +40,7 @@ const createUser = async (req, res) => {
 };
 
 //admin
-const getAllUsers = async (req, res) => {
+const getUsers = async (req, res) => {
   try {
     const { id } = req.user;
 
@@ -51,7 +51,7 @@ const getAllUsers = async (req, res) => {
         msg: "Not authorized to access this route",
       });
     }
-    
+
     const users = await prisma.user.findMany();
 
     if (users.length === 0) {
@@ -64,4 +64,11 @@ const getAllUsers = async (req, res) => {
       msg: err.message,
     });
   }
+};
+
+
+
+export {
+  createUser,
+  getUsers,
 };
