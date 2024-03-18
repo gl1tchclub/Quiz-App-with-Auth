@@ -66,9 +66,32 @@ const getUsers = async (req, res) => {
   }
 };
 
+const getUser = async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: Number(req.params.id) },
+    });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ msg: `No User with the id: ${req.params.id} found` });
+    }
+
+    return res.json({
+      data: user,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      msg: err.message,
+    });
+  }
+};
+
 
 
 export {
   createUser,
   getUsers,
+  getUser,
 };
