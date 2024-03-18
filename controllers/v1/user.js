@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { register, login } from "auth.js";
 
 const prisma = new PrismaClient();
 
@@ -20,7 +21,7 @@ const createUser = async (req, res) => {
       });
     }
 
-    await prisma.user.create({
+    await register({
       data: { email, firstName, lastName, password, username, role },
     });
 
@@ -34,6 +35,22 @@ const createUser = async (req, res) => {
       msg: "User successfully created",
       data: newUsers,
     });
+  } catch (err) {
+    return res.status(500).json({
+      msg: err.message,
+    });
+  }
+};
+
+const getUser = async (req, res) => {
+  try {
+    const users = await prisma.user.findMany();
+
+    if (users.length === 0) {
+      return res.status(404).json({ msg: "No users found" });
+    }
+
+    return res.json({ data: users });
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
