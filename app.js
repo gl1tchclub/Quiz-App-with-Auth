@@ -4,6 +4,7 @@ import helmet from "helmet";
 import cors from "cors";
 // Declare this with your other imports
 import cacheRouteMiddleware from "./middleware/cacheRoute.js";
+import compression from "compression";
 // Import the index routes module
 import authRouteMiddleware from "./middleware/authRoute.js";
 import authV1Routes from "./routes/v1/auth.js";
@@ -52,6 +53,7 @@ app.use(setXPoweredBy);
 app.use(setXContentTypeOptions);
 app.use(setXFrameOptions);
 app.use(setContentSecurityPolicy);
+app.use(compression());
 
 // Use the routes module
 app.use("/api/v1/auth", authV1Routes);
