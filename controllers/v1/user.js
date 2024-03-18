@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const createUser = async (req, res) => {
   try {
-    const { name, region, country } = req.body;
+    const { email, firstName, lastName, password, username, role } = req.body;
 
     const { id } = req.user;
 
@@ -14,14 +14,14 @@ const createUser = async (req, res) => {
      * If the authenticated user is not an admin, they can
      * not create a new record
      */
-    if (user.role !== "ADMIN_USER") {
+    if (user.role == "BASIC_USER") {
       return res.status(403).json({
         msg: "Not authorized to access this route",
       });
     }
 
     await prisma.user.create({
-      data: { name, region, country, userId: id },
+      data: { email, firstName, lastName, password, username, role },
     });
 
     const newUsers = await prisma.user.findMany({
