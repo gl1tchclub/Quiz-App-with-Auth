@@ -23,7 +23,7 @@ router.put("/:id", validatePostUser, (req, res) =>
 //DELETE
 router.delete("/:id", (req, res) => resources.deleteType(req, res, "user"))
 
-export default router
+// /users/seed/basic
 
-import express from "express";
+export default router
 

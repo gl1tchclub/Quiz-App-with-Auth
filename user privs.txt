@@ -9,3 +9,6 @@ get ALL users
 update ALL BASIC users
 delete ALL BASIC users
 create new BASIC users
+
+
+No one can delete themselves!
