@@ -2,6 +2,8 @@ import express, { urlencoded, json } from "express";
 import helmet from "helmet";
 // import rateLimit from "express-rate-limit";
 import cors from "cors";
+// Declare this with your other imports
+import cacheRouteMiddleware from "./middleware/cacheRoute.js";
 // Import the index routes module
 import authRouteMiddleware from "./middleware/authRoute.js";
 import authV1Routes from "./routes/v1/auth.js";
@@ -44,6 +46,7 @@ const setContentSecurityPolicy = helmet({
 app.use(urlencoded({ extended: false }));
 app.use(json());
 // app.use(limiter);
+app.use(cacheRouteMiddleware);
 app.use(cors());
 app.use(setXPoweredBy);
 app.use(setXContentTypeOptions);

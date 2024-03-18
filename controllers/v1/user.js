@@ -3,6 +3,7 @@ import { register, login } from "auth.js";
 
 const prisma = new PrismaClient();
 
+//admin
 const createUser = async (req, res) => {
   try {
     const { email, firstName, lastName, password, username, role } = req.body;
@@ -25,11 +26,7 @@ const createUser = async (req, res) => {
       data: { email, firstName, lastName, password, username, role },
     });
 
-    const newUsers = await prisma.user.findMany({
-      include: {
-        departments: true,
-      },
-    });
+    const newUsers = await prisma.user.findMany();
 
     return res.status(201).json({
       msg: "User successfully created",
@@ -42,8 +39,19 @@ const createUser = async (req, res) => {
   }
 };
 
-const getUser = async (req, res) => {
+//admin
+const getAllUsers = async (req, res) => {
   try {
+    const { id } = req.user;
+
+    const user = await prisma.user.findUnique({ where: { id: id } });
+
+    if (user.role == "BASIC_USER") {
+      return res.status(403).json({
+        msg: "Not authorized to access this route",
+      });
+    }
+    
     const users = await prisma.user.findMany();
 
     if (users.length === 0) {
