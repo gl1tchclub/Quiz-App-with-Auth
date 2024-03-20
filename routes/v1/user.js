@@ -21,7 +21,7 @@ router.put("/:id", validatePostUser, (req, res) =>
 )
 
 //DELETE
-router.delete("/:id", (req, res) => resources.deleteType(req, res, "user"))
+router.delete("/:uuid", (req, res) => resources.deleteType(req, res, "user"))
 
 // /users/seed/basic
 

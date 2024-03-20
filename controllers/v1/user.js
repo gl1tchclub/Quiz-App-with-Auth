@@ -118,7 +118,7 @@ const updateUser = async (req, res) => {
     });
 
     return res.json({
-      msg: `User with the id: ${req.params.id} successfully updated`,
+      msg: `${req.params.username}'s information successfully updated`,
       data: user,
     });
   } catch (err) {
@@ -131,6 +131,7 @@ const updateUser = async (req, res) => {
 // Delete a specific user by the ID
 const deleteUser = async (req, res) => {
   try {
+    // Get logged in user's ID
     const { id } = req.user;
 
     const user = await prisma.user.findUnique({ where: { id: id } });
@@ -141,22 +142,32 @@ const deleteUser = async (req, res) => {
       });
     }
 
-    const removeUser = await prisma.user.findUnique({
-      where: { id: Number(req.params.id) },
+    // 
+    const removeUser = await prisma.user.findFirst({
+      where: {
+        id: Number(req.params.uuid),
+        NOT: {
+          id: id,
+        },
+      },
     });
+
+    if (user.id === removeUser.id) {
+      return res.status(403).json({ msg: `Cannot delete logged in user` });
+    }
 
     if (!removeUser) {
       return res
         .status(404)
-        .json({ msg: `No user with the id: ${req.params.id} found` });
+        .json({ msg: `No user with the id: ${req.params.uuid} found` });
     }
 
-    await prisma.removeUser.delete({
-      where: { id: Number(req.params.id) },
+    await prisma.user.delete({
+      where: { id: removeUser.id },
     });
 
     return res.json({
-      msg: `User with the id: ${req.params.id} successfully deleted`,
+      msg: `User with the id: ${req.params.uuid} successfully deleted`,
     });
   } catch (err) {
     return res.status(500).json({
@@ -165,10 +176,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-
-
-export {
-  seedBasicUser,
-  getUsers,
-  getUser,
-};
+export { seedBasicUser, getUsers, getUser };
