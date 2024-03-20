@@ -4,7 +4,7 @@ import { register, login } from "auth.js";
 const prisma = new PrismaClient();
 
 //admin
-const createUser = async (req, res) => {
+const seedBasicUser = async (req, res) => {
   try {
     //const { email, firstName, lastName, password, username, role } = req.body;
 
@@ -168,7 +168,7 @@ const deleteUser = async (req, res) => {
 
 
 export {
-  createUser,
+  seedBasicUser,
   getUsers,
   getUser,
 };
