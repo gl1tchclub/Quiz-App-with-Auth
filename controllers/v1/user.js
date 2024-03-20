@@ -142,13 +142,10 @@ const deleteUser = async (req, res) => {
       });
     }
 
-    // 
-    const removeUser = await prisma.user.findFirst({
+    // Get user with ID to delete from parameters
+    const removeUser = await prisma.user.findUnique({
       where: {
         id: Number(req.params.uuid),
-        NOT: {
-          id: id,
-        },
       },
     });
 
