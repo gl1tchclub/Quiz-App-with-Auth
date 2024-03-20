@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { register, login } from "auth.js";
-import { checkPrivilege } from "./resources";
+// import { register, login } from "auth.js";
+import { checkPrivilege } from "./resources.js";
 
 const prisma = new PrismaClient();
 
