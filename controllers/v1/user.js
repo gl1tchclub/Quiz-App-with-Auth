@@ -149,12 +149,13 @@ const deleteUser = async (req, res) => {
     // Get user with ID to delete from parameters
     const removeUser = await prisma.user.findUnique({
       where: {
-        id: Number(req.params.uuid),
+        id: req.params.uuid,
       },
     });
 
-    if (user.id === removeUser.id) {
-      return res.status(403).json({ msg: `Cannot delete logged in user` });
+    // Can't delete own account nor remove an admin user
+    if (user.id === removeUser.id || removeUser.role === "ADMIN_USER") {
+      return res.status(403).json({ msg: `Cannot delete user` });
     }
 
     if (!removeUser) {
