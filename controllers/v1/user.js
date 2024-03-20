@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { register, login } from "auth.js";
+import { checkPrivilege } from "./resources";
 
 const prisma = new PrismaClient();
 
@@ -133,7 +134,10 @@ const deleteUser = async (req, res) => {
   try {
     // Get logged in user's ID
     const { id } = req.user;
-
+    const user = checkPrivilege(id);
+    if (user.errorStatus) {
+      return res.status(user.errorStatus).json(user.errorMsg);
+    }
     // const user = await prisma.user.findUnique({ where: { id: id } });
 
     // if (user.role == "BASIC_USER") {
