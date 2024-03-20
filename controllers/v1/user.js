@@ -134,13 +134,13 @@ const deleteUser = async (req, res) => {
     // Get logged in user's ID
     const { id } = req.user;
 
-    const user = await prisma.user.findUnique({ where: { id: id } });
+    // const user = await prisma.user.findUnique({ where: { id: id } });
 
-    if (user.role == "BASIC_USER") {
-      return res.status(403).json({
-        msg: "Not authorized to access this route",
-      });
-    }
+    // if (user.role == "BASIC_USER") {
+    //   return res.status(403).json({
+    //     msg: "Not authorized to access this route",
+    //   });
+    // }
 
     // Get user with ID to delete from parameters
     const removeUser = await prisma.user.findUnique({
@@ -173,4 +173,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-export { seedBasicUser, getUsers, getUser };
+export { seedBasicUser, getUsers, getUser, deleteUser };

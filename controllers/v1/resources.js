@@ -3,6 +3,30 @@
  * @author Elizabeth Minty
  */
 
+    const user = await prisma.user.findUnique({ where: { id: id } });
+
+    if (user.role == "BASIC_USER") {
+      return res.status(403).json({
+        msg: "Not authorized to access this route",
+      });
+    }
+const checkPrivilege = async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({ where: { id: id } });
+
+    if (user.role == "BASIC_USER") {
+      return res.status(403).json({
+        msg: "Not authorized to access this route",
+      });
+    }
+
+  } catch (err) {
+    res.status(500).json({
+      msg: err.message,
+    });
+  }
+};
+
 //creates CRUD and exports it
 
 // Create a GET route
@@ -53,4 +77,4 @@ const getAll = async (req, res, type, include) => {
   }
 }
   // Export the get function
-  export { getAll };
+  export { getAll, checkPrivilege };
