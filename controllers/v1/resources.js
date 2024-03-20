@@ -12,16 +12,14 @@ const checkPrivilege = async (req, res) => {
     const user = await prisma.user.findUnique({ where: { id: id } });
 
     if (user.role == "BASIC_USER") {
-      const noAuth = {
-        errorStatus: res.status(403),
+      return res.json({errorStatus: res.status(403),
         errorMsg: res.json({
           msg: "Not authorized to access this route",
         }),
-      };
-      return noAuth;
+      });
     }
 
-    return user;
+    return res.json({data: user});
   } catch (err) {
     res.status(500).json({
       msg: err.message,
