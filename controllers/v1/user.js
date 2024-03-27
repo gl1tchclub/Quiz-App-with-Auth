@@ -80,7 +80,7 @@ const getUser = async (req, res) => {
 
     if (user.role == "BASIC_USER") {
       // if uuid sent by basic user is their own ID, send the res
-      if (Number(req.params.uuid) == id) {
+      if (req.params.uuid === id) {
         return res.json({
           data: user,
         });
@@ -88,7 +88,7 @@ const getUser = async (req, res) => {
       // send error msg if not their own ID
       else {
         return res.status(403).json({
-          msg: "Not authorized to access other user data",
+          msg: `${user.id} ${req.params.uuid}  Not authorized to access other user data`,
         });
       }
     }
@@ -96,7 +96,7 @@ const getUser = async (req, res) => {
     // if admin, store data of any given user ID
     else {
       findUser = await prisma.user.findUnique({
-        where: { id: Number(req.params.uuid) },
+        where: { id: req.params.uuid },
       });
 
       if (!findUser) {
