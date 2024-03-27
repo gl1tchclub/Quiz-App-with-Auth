@@ -12,6 +12,7 @@ const Game = () => {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [xIsNext, setXIsNext] = useState(true);
   const [gameStarted, setGameStarted] = useState(false);
+  const [isNull, setIsNull] = useState(true);
 
   const winner = calculateGameState(squares);
 
@@ -34,6 +35,7 @@ const Game = () => {
       <div style={style}>
         {gameStarted && (
           <p>
+            {/* create a draw option - use .includes method (search up) */}
             {winner
               ? `Winner: ${winner}`
               : `Next Player: ${xIsNext ? "X" : "O"}`}
