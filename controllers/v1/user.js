@@ -73,18 +73,41 @@ const getUsers = async (req, res) => {
 // Fetch a data for a singular user by a given ID
 const getUser = async (req, res) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: { id: Number(req.params.id) },
-    });
+    const { id } = req.user;
 
-    if (!user) {
-      return res
-        .status(404)
-        .json({ msg: `No User with the id: ${req.params.id} found` });
+    const user = await prisma.user.findUnique({ where: { id: id } });
+    const findUser = {};
+
+    if (user.role == "BASIC_USER") {
+      // if uuid sent by basic user is their own ID, send the res
+      if (Number(req.params.uuid) == id) {
+        return res.json({
+          data: user,
+        });
+      }
+      // send error msg if not their own ID
+      else {
+        return res.status(403).json({
+          msg: "Not authorized to access other user data",
+        });
+      }
+    }
+
+    // if admin, store data of any given user ID
+    else {
+      findUser = await prisma.user.findUnique({
+        where: { id: Number(req.params.uuid) },
+      });
+
+      if (!findUser) {
+        return res
+          .status(404)
+          .json({ msg: `No User with the id: ${req.params.uuid} found` });
+      }
     }
 
     return res.json({
-      data: user,
+      data: findUser,
     });
   } catch (err) {
     return res.status(500).json({

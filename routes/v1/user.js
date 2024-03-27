@@ -12,7 +12,7 @@ router.post("/", (req, res) => resources.seedBasicUser(req, res));
 router.get("/", (req, res) => resources.getUsers(req, res));
 
 //GET ID
-router.get("/:id", (req, res) => resources.getID(req, res));
+router.get("/:uuid", (req, res) => resources.getID(req, res));
 
 //PUT
 router.put("/:id", (req, res) => resources.update(req, res));
