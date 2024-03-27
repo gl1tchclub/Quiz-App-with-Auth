@@ -1,6 +1,7 @@
-import PropTypes from "prop-types"; // Make sure you install prop-types -> npm install prop-types
+import PropTypes from "prop-types";
 
 const Square = (props) => {
+  // Set style of prop
   const style = {
     border: "1px solid #000",
     cursor: "pointer",
@@ -9,6 +10,7 @@ const Square = (props) => {
     outline: "none",
   };
 
+  // Return button with set style and prop value
   return (
     <button style={style} onClick={props.onClick}>
       {props.value}
