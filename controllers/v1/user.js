@@ -43,7 +43,7 @@ const seedBasicUser = async (req, res) => {
   }
 };
 
-//admin
+// With authorized access only, fetch a data for all users 
 const getUsers = async (req, res) => {
   try {
     const { id } = req.user;
@@ -70,7 +70,7 @@ const getUsers = async (req, res) => {
   }
 };
 
-// Fetch a data for a singular user by a given ID
+// Fetch a data for a singular user by a given ID with authorization
 const getUser = async (req, res) => {
   try {
     const { id } = req.user;
