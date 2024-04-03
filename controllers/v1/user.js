@@ -126,25 +126,33 @@ const updateUser = async (req, res) => {
       });
     }
 
-    let user = await prisma.user.findUnique({
-      where: { id: Number(req.params.id) },
+    const user = await prisma.user.findUnique({ where: { id: req.user.uuid } });
+
+    let putUser = await prisma.user.findUnique({
+      where: { id: req.params.uuid },
     });
 
-    if (!user) {
+    if (putUser) {
+      if (user.id === putUser.id || (user.role == "ADMIN_USER" && putUser.role == "BASIC_USER")) {
+        user = await prisma.user.update({
+          where: { id: req.params.uuid },
+          data: { ...req.body },
+        });
+        return res.json({
+          msg: `${req.params.username}'s information successfully updated`,
+          data: user,
+        });
+      }
+      else {
+
+      }
+    }
+    else {
       return res
         .status(404)
-        .json({ msg: `No user with the id: ${req.params.id} found` });
+        .json({ msg: `No user with the id: ${req.params.uuid} found` });
     }
 
-    user = await prisma.user.update({
-      where: { id: Number(req.params.id) },
-      data: { ...req.body },
-    });
-
-    return res.json({
-      msg: `${req.params.username}'s information successfully updated`,
-      data: user,
-    });
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
@@ -177,15 +185,14 @@ const deleteUser = async (req, res) => {
       // Can't delete own account nor remove an admin user
       if (user.id === removeUser.id || removeUser.role === "ADMIN_USER") {
         return res.status(403).json({ msg: `Cannot delete user` });
-      } else {
-        await prisma.user.delete({
-          where: { id: removeUser.id },
-        });
-
-        return res.json({
-          msg: `User with the id: ${req.params.uuid} successfully deleted`,
-        });
       }
+      await prisma.user.delete({
+        where: { id: removeUser.id },
+      });
+
+      return res.json({
+        msg: `User with the id: ${req.params.uuid} successfully deleted`,
+      });
     }
     return res
       .status(404)
@@ -197,4 +204,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-export { seedBasicUser, getUsers, getUser, deleteUser };
+export { seedBasicUser, getUsers, getUser, deleteUser, updateUser };

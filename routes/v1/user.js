@@ -15,7 +15,7 @@ router.get("/", (req, res) => resources.getUsers(req, res));
 router.get("/:uuid", (req, res) => resources.getUser(req, res));
 
 //PUT
-router.put("/:id", (req, res) => resources.update(req, res));
+router.put("/:uuid", (req, res) => resources.update(req, res));
 
 //DELETE
 router.delete("/:uuid", (req, res) => resources.deleteUser(req, res));
