@@ -126,8 +126,9 @@ const updateUser = async (req, res) => {
       });
     }
 
+    const { id } = req.user;
     // Get logged in user data and user to update
-    const user = await prisma.user.findUnique({ where: { id: req.user.uuid } });
+    let user = await prisma.user.findUnique({ where: { id: id } });
 
     let putUser = await prisma.user.findUnique({
       where: { id: req.params.uuid },
@@ -144,7 +145,7 @@ const updateUser = async (req, res) => {
           data: { ...req.body },
         });
         return res.json({
-          msg: `${req.params.username}'s information successfully updated`,
+          msg: `${putUser.username}'s information successfully updated`,
           data: user,
         });
       } else {
