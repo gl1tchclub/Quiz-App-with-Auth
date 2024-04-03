@@ -8,7 +8,22 @@ admin:
 get ALL users
 update ALL BASIC users
 delete ALL BASIC users
-create new BASIC users
 
 
 No one can delete themselves!
+
+Validation:
+First/last name has a minimum length of two characters, a maximum length of 50 characters and alpha
+characters only.
+
+Username is unique, has a minimum length of five characters, maximum length of ten characters
+and alphanumeric characters only, i.e., johndoe123.
+
+Email address is unique, contains the username above, an @ special character and a second-level
+domain, i.e., johndoe123@email.com.
+
+· Password has a minimum length of eight characters, maximum length of 16 characters and contains
+one numeric character and one special character.
+
+· Confirm password is the same as the password above. Note: Confirm password will not be a field
+in the User table. Rather, it will be used to validate the user’s password.
