@@ -43,7 +43,7 @@ const seedBasicUser = async (req, res) => {
   }
 };
 
-// With authorized access only, fetch a data for all users 
+// With authorized access only, fetch a data for all users
 const getUsers = async (req, res) => {
   try {
     const { id } = req.user;
@@ -157,10 +157,7 @@ const deleteUser = async (req, res) => {
   try {
     // Get logged in user's ID
     const { id } = req.user;
-    // const user = checkPrivilege(id);
-    // if (user.errorStatus) {
-    //   return res.status(user.errorStatus).json(user.errorMsg);
-    // }
+
     const user = await prisma.user.findUnique({ where: { id: id } });
 
     if (user.role == "BASIC_USER") {
@@ -176,24 +173,23 @@ const deleteUser = async (req, res) => {
       },
     });
 
-    // Can't delete own account nor remove an admin user
-    if (user.id === removeUser.id || removeUser.role === "ADMIN_USER") {
-      return res.status(403).json({ msg: `Cannot delete user` });
+    if (removeUser) {
+      // Can't delete own account nor remove an admin user
+      if (user.id === removeUser.id || removeUser.role === "ADMIN_USER") {
+        return res.status(403).json({ msg: `Cannot delete user` });
+      } else {
+        await prisma.user.delete({
+          where: { id: removeUser.id },
+        });
+
+        return res.json({
+          msg: `User with the id: ${req.params.uuid} successfully deleted`,
+        });
+      }
     }
-
-    if (!removeUser) {
-      return res
-        .status(404)
-        .json({ msg: `No user with the id: ${req.params.uuid} found` });
-    }
-
-    await prisma.user.delete({
-      where: { id: removeUser.id },
-    });
-
-    return res.json({
-      msg: `User with the id: ${req.params.uuid} successfully deleted`,
-    });
+    return res
+      .status(404)
+      .json({ msg: `No user with the id: ${req.params.uuid} found` });
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
