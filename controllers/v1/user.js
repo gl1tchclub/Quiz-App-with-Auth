@@ -126,14 +126,19 @@ const updateUser = async (req, res) => {
       });
     }
 
+    // Get logged in user data and user to update
     const user = await prisma.user.findUnique({ where: { id: req.user.uuid } });
 
     let putUser = await prisma.user.findUnique({
       where: { id: req.params.uuid },
     });
 
+    // If user data is successfully retrieved, check if the user can be updated based on the logged in user's privileges
     if (putUser) {
-      if (user.id === putUser.id || (user.role == "ADMIN_USER" && putUser.role == "BASIC_USER")) {
+      if (
+        user.id === putUser.id ||
+        (user.role == "ADMIN_USER" && putUser.role == "BASIC_USER")
+      ) {
         user = await prisma.user.update({
           where: { id: req.params.uuid },
           data: { ...req.body },
@@ -142,17 +147,16 @@ const updateUser = async (req, res) => {
           msg: `${req.params.username}'s information successfully updated`,
           data: user,
         });
-      }
-      else {
-
+      } else {
+        return res.status(403).json({
+          msg: `Not authorized to update this user`,
+        });
       }
     }
-    else {
-      return res
-        .status(404)
-        .json({ msg: `No user with the id: ${req.params.uuid} found` });
-    }
 
+    return res
+      .status(404)
+      .json({ msg: `No user with the id: ${req.params.uuid} found` });
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
