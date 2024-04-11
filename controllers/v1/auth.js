@@ -15,6 +15,12 @@ const register = async (req, res) => {
 
     const { email, firstName, lastName, password, username, role } = req.body;
 
+    // Ensures user provides data for all rows (role optional)
+    if (Object.keys(req.body).length < 5) return res.status(400).json({ msg: "Please fill out all details" });
+
+    // Ensure email includes username
+    if (!email.includes(username)) return res.status(400).json({ msg: "Email must contain the username"});
+
     let user = await prisma.user.findFirst({
       where: {
         OR: [{ email }, { username }],
@@ -22,7 +28,6 @@ const register = async (req, res) => {
     });
 
     if (user) return res.status(409).json({ msg: "User already exists" });
-
     /**
      * A salt is random bits added to a password before it is hashed. Salts
      * create unique passwords even if two users have the same passwords
@@ -84,7 +89,8 @@ const login = async (req, res) => {
       },
     });
 
-    if (!user) return res.status(401).json({ msg: "Invalid email or username" });
+    if (!user)
+      return res.status(401).json({ msg: "Invalid email or username" });
 
     /**
      * Compare the given string, i.e., Pazzw0rd123, with the given
