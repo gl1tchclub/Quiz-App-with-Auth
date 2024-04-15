@@ -16,7 +16,7 @@ const register = async (req, res) => {
     const { email, firstName, lastName, password, username, role } = req.body;
 
     // Ensures user provides data for all rows (role optional)
-    if (Object.keys(req.body).length < 5) return res.status(400).json({ msg: "Please fill out all details" });
+    if (Object.keys(req.body).length < 6 && role) return res.status(400).json({ msg: "Please fill out all details" });
 
     // Ensure email includes username
     if (!email.includes(username)) return res.status(400).json({ msg: "Email must contain the username"});
