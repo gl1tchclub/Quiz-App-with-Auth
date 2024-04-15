@@ -4,26 +4,31 @@
  */
 import Joi from "joi";
 
-// function stringMsgs(type) {
-//   return {
-//     "string.base": `${type} must be a string`,
-//     "string.min": `${type} must have a minimum length of`,
-//     "string.max": `${type} must have a maximum length of`,
-//   }
-// }
+function stringMsgs(obj) {
+  return {
+    "string.base": `${obj.type} must be a string.`,
+    "string.min": `${obj} must have a minimum length of ${obj.min}.`,
+    "string.max": `${obj} must have a maximum length of ${obj.max}.`,
+    "string.empty": `${obj} cannot be empty.`,
+    "string.email": `Invalid email format. Please provide a valid email address.`,
+    "string.tlds": "Only email addresses with .com, .net, or .co.nz domains are allowed.",
+    "any.custom": "Email must contain your username.",
+    "string.minDomainSegments": "Email domain must have 2 segments.",
+    "string.maxDomainSegments": "Email domain must have 2 segments.",
+  }
+}
 
 const validateRegister = (req, res, next) => {
   const userSchema = Joi.object({
     email: Joi.string().email({
-       minDomainSegments: 2, tlds: { allow: ['com', 'net', 'co.nz'] } 
+       minDomainSegments: 2, maxDomainSegments: 2, tlds: { allow: ['com', 'net', 'co.nz'] } 
       })
-      .maxDomainSegments(2).custom(value => {
-        if(!value.includes(username))
-          throw new Error("Email must contain ");
+      .custom(value => {
+        if(!value.includes(Object.username))
+          throw new Error("any.custom");
+        return value;
       })
-        .messages({
-      "string.base": "Email must be a string",
-    }),
+      .messages(stringMsgs({type: "Email", min: null, max: null})),
     firstName: Joi.string().min(2).max(50).pattern(new RegExp("^[a-zA-Z]$")).messages({
       
     }),
