@@ -2,7 +2,48 @@
  * @file Seeds data for the admin users and inserts it into the User table
  * @author Elizabeth Minty
  */
-const name = "admin"
-const data =[{},{},{}]
+const name = "user";
+const data = [
+  {
+    email: "ddriuzzi0@moonfruit.com",
+    firstName: "Deanna",
+    lastName: "Driuzzi",
+    password: "easyp@ssw0rd",
+    username: "ddriuzzi0",
+    role: "ADMIN_USER",
+  },
+  {
+    email: "xdinwoodie1@google.com",
+    firstName: "Xylia",
+    lastName: "Dinwoodie",
+    password: "0~n,c}P(t",
+    username: "xdinwoodie1",
+    role: "ADMIN_USER",
+  },
+  {
+    email: "delijahu2@mail.com",
+    firstName: "De witt",
+    lastName: "Elijahu",
+    password: "6#db~.OlLZ",
+    username: "delijahu2",
+    role: "ADMIN_USER",
+  },
+  {
+    email: "pgedney3@patch.com",
+    firstName: "Pavia",
+    lastName: "Gedney",
+    password: "4'ONyVNT2",
+    username: "pgedney3",
+    role: "ADMIN_USER",
+  },
+  {
+    email: "imoncreiffe4@booking.com",
+    firstName: "Idette",
+    lastName: "Moncreiffe",
+    password: '0"aAMuQ)O',
+    username: "imoncreiffe4",
+    role: "ADMIN_USER",
+  },
+];
 
-export {name, data}
+export { name, data };

@@ -6,26 +6,26 @@
 /**  Checks role of given user ID
  * @returns admin user data
  */
-const checkPrivilege = async (req, res) => {
-  try {
-    const { id } = req.id;
-    const user = await prisma.user.findUnique({ where: { id: id } });
+// const checkPrivilege = async (req, res) => {
+//   try {
+//     const { id } = req.id;
+//     const user = await prisma.user.findUnique({ where: { id: id } });
 
-    if (user.role == "BASIC_USER") {
-      return res.json({errorStatus: res.status(403),
-        errorMsg: res.json({
-          msg: "Not authorized to access this route",
-        }),
-      });
-    }
+//     if (user.role == "BASIC_USER") {
+//       return res.json({errorStatus: res.status(403),
+//         errorMsg: res.json({
+//           msg: "Not authorized to access this route",
+//         }),
+//       });
+//     }
 
-    return res.json({data: user});
-  } catch (err) {
-    res.status(500).json({
-      msg: err.message,
-    });
-  }
-};
+//     return res.json({data: user});
+//   } catch (err) {
+//     res.status(500).json({
+//       msg: err.message,
+//     });
+//   }
+// };
 
 //creates CRUD and exports it
 

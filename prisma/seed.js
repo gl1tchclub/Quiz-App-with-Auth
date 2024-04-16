@@ -1,8 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 
 const seeds = [
-//   "./data/01-colosseumSeed.js", <-- example
-// insert admin seed file paths here
+  "./data/01-adminSeed.js"
 ]
 const prisma = new PrismaClient()
 
