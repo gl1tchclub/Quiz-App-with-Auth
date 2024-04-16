@@ -9,7 +9,7 @@ CREATE TYPE "Difficulty" AS ENUM ('easy', 'medium', 'hard');
 
 -- CreateTable
 CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE "Quiz" (
 -- CreateTable
 CREATE TABLE "UserQuestionAnswer" (
     "id" SERIAL NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
     "quizId" INTEGER NOT NULL,
     "questionId" INTEGER NOT NULL,
     "answer" TEXT NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE "UserQuestionAnswer" (
 -- CreateTable
 CREATE TABLE "UserParticipateQuiz" (
     "id" SERIAL NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
     "quizId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -83,7 +83,7 @@ CREATE TABLE "UserParticipateQuiz" (
 -- CreateTable
 CREATE TABLE "UserQuizScore" (
     "id" SERIAL NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
     "quizId" INTEGER NOT NULL,
     "score" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

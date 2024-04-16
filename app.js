@@ -1,10 +1,11 @@
 import express, { urlencoded, json } from "express";
 import helmet from "helmet";
+
 // import rateLimit from "express-rate-limit";
 import cors from "cors";
-// Declare this with your other imports
 import cacheRouteMiddleware from "./middleware/cacheRoute.js";
 import compression from "compression";
+
 // Import the index routes module
 import authRouteMiddleware from "./middleware/authRoute.js";
 import authV1Routes from "./routes/v1/auth.js";

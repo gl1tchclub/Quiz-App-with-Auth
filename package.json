@@ -7,7 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "mig": "npx prisma migrate reset && npx prisma migrate dev",
     "reset": "npx prisma migrate reset",
-    "dev": "nodemon app.js"
+    "dev": "npx prisma generate && nodemon app.js",
+    "db-reset": "npx prisma db push --force-reset && npx prisma db seed",
+    "studio": "npx prisma studio",
+    "seed": "npx prisma db seed",
+    "write": "npx prettier --write .",
+    "check": "npx prettier --check ."
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   },
   "type": "module",
   "keywords": [],
@@ -25,6 +33,9 @@
     "jsonwebtoken": "^9.0.2",
     "node-cache": "^5.1.2",
     "nodemon": "^3.1.0",
+    "prettier": "^3.2.5",
+    "prettier-plugin-prisma": "^5.0.0",
+    "pretty-quick": "^4.0.0",
     "prisma": "^4.16.2",
     "uuid": "^9.0.1"
   },
