@@ -20,7 +20,6 @@ const register = async (req, res) => {
 
     // Ensure given details match required criteria
     if (!email.includes(username)) return res.status(400).json({ msg: "Email must contain the username"});
-    if (confirm_password != password) return res.status(400).json({ msg: "Confirm password does not match password"});
 
     let user = await prisma.user.findFirst({
       where: {

@@ -16,11 +16,11 @@ function stringMsgs(obj) {
   }
   return {
     "string.base": `${obj.type} must be a string.`,
-    "string.min": `${obj} must have a minimum length of ${obj.min}.`,
-    "string.max": `${obj} must have a maximum length of ${obj.max}.`,
-    "string.empty": `${obj} cannot be empty.`,
+    "string.min": `${obj.type} must have a minimum length of ${obj.min}.`,
+    "string.max": `${obj.type} must have a maximum length of ${obj.max}.`,
+    "string.empty": `${obj.type} cannot be empty.`,
     "string.email": `Invalid email format. Please provide a valid email address.`,
-    "string.tlds":
+    "tlds.allow":
       "Only email addresses with .com, .net, or .co.nz domains are allowed.",
     "string.minDomainSegments": "Email domain must have 2 segments.",
     "string.maxDomainSegments": "Email domain must have 2 segments.",
@@ -35,7 +35,7 @@ const validateRegister = (req, res, next) => {
       .email({
         minDomainSegments: 2,
         maxDomainSegments: 2,
-        tlds: { allow: ["com", "net", "co.nz"] },
+        tlds: false,
       })
       .messages(stringMsgs({ type: "Email", min: null, max: null })),
     firstName: Joi.string()
@@ -56,11 +56,13 @@ const validateRegister = (req, res, next) => {
     password: Joi.string()
       .regex(passRegex)
       .messages(stringMsgs({ type: "Password", min: 8, max: 16 })),
-    confirm_password: Joi.valid(Joi.ref("password").required()).messages({
+    confirm_password: Joi.string().valid(Joi.ref("password")).required().messages({
       "any.required": "Please confirm password",
       "any.only": "Confirm password does not match given password",
+      "string.base": "Password must be a string"
     }),
   });
+  
   const { error } = userSchema.validate(req.body);
 
   if (error) {
@@ -71,3 +73,4 @@ const validateRegister = (req, res, next) => {
 
   next();
 };
+export {validateRegister}
