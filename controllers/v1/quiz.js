@@ -31,19 +31,16 @@ const createQuiz = async (req, res) => {
     // Chooses a random category Id from 9-32 (change this to allow admin to select category?)
     let catId = Math.floor(Math.random() * 32) + 9;
     let res = await fetch(`https://opentdb.com/api.php?amount=10&category=${catId}&difficulty=${difficulty}`);
-    let quizData = await res.json();
-    let questions = () => {
-      for 
-    }
+    let quizData = await res.json().results;
+    quizData.forEach(async (question) => await prisma.quiz.create({}))
     quiz = await prisma.quiz.create({
         data: {
             categoryId: catId,
             name: name,
-            type: quizData.results[0].type,
+            type: quizData[0].type,
             difficulty: difficulty,
             startDate: startDate,
             endDate: endDate,
-            questions: quizData.results
         }
     })
 
