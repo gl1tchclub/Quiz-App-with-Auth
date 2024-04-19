@@ -13,7 +13,7 @@ const createQuiz = async (req, res) => {
       });
     }
 
-    const { name, startDate, endDate } = req.body;
+    const { name, difficulty, startDate, endDate } = req.body;
 
     let quiz = await prisma.user.findUnique({
       where: { name: name },
@@ -28,13 +28,22 @@ const createQuiz = async (req, res) => {
         .status(400)
         .json({ msg: `Please fill out all fields` })
 
-    // Chooses a random category Id from 9-32 (change this to allow admin to select category)
-    let catId = Math.floor(Math.random() * 32) + 9
-    let res = await fetch("https://opentdb.com/api.php?amount=10");
+    // Chooses a random category Id from 9-32 (change this to allow admin to select category?)
+    let catId = Math.floor(Math.random() * 32) + 9;
+    let res = await fetch(`https://opentdb.com/api.php?amount=10&category=${catId}&difficulty=${difficulty}`);
     let quizData = await res.json();
+    let questions = () => {
+      for 
+    }
     quiz = await prisma.quiz.create({
         data: {
-            categoryId: catId
+            categoryId: catId,
+            name: name,
+            type: quizData.results[0].type,
+            difficulty: difficulty,
+            startDate: startDate,
+            endDate: endDate,
+            questions: quizData.results
         }
     })
 
