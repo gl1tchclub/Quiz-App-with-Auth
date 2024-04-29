@@ -13,7 +13,7 @@ const createQuiz = async (req, res) => {
       });
     }
 
-    const { name, difficulty, startDate, endDate } = req.body;
+    const { name, categoryId, difficulty, startDate, endDate } = req.body;
 
     let quiz = await prisma.user.findUnique({
       where: { name: name },
@@ -24,18 +24,15 @@ const createQuiz = async (req, res) => {
         .status(409)
         .json({ msg: `Quiz with name ${name} already exists` });
     
-    if (Object.keys(req.body).length < 3) return res
+    if (Object.keys(req.body).length < 5) return res
         .status(400)
         .json({ msg: `Please fill out all fields` })
 
-    // Chooses a random category Id from 9-32 (change this to allow admin to select category?)
-    let catId = Math.floor(Math.random() * 32) + 9;
-    let res = await fetch(`https://opentdb.com/api.php?amount=10&category=${catId}&difficulty=${difficulty}`);
+    let res = await fetch(`https://opentdb.com/api.php?amount=10&category=${categoryId}&difficulty=${difficulty}`);
     let quizData = await res.json().results;
-    quizData.forEach(async (question) => await prisma.quiz.create({}))
     quiz = await prisma.quiz.create({
         data: {
-            categoryId: catId,
+            categoryId: categoryId,
             name: name,
             type: quizData[0].type,
             difficulty: difficulty,
@@ -43,6 +40,13 @@ const createQuiz = async (req, res) => {
             endDate: endDate,
         }
     })
+    const quizId = quiz.id;
+    quizData.forEach(async (q) => await prisma.question.create({ 
+      quizId: quizId,
+      question: q.question,
+      correctAnswer: q.correct_answer,
+      incorrectAnswers: q.incorrect_answers,
+     }));
 
   } catch (err) {
     return res.status(500).json({
