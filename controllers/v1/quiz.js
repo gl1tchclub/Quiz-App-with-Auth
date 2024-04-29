@@ -25,35 +25,38 @@ const createQuiz = async (req, res) => {
       return res
         .status(409)
         .json({ msg: `Quiz with name ${name} already exists` });
-    
-    if (Object.keys(req.body).length < 5) return res
-        .status(400)
-        .json({ msg: `Please fill out all fields` })
 
-    let res = await fetch(`https://opentdb.com/api.php?amount=10&category=${categoryId}&difficulty=${difficulty}&type=${type}`);
+    if (Object.keys(req.body).length < 5)
+      return res.status(400).json({ msg: `Please fill out all fields` });
+
+    let res = await fetch(
+      `https://opentdb.com/api.php?amount=10&category=${categoryId}&difficulty=${difficulty}&type=${type}`,
+    );
     let quizData = await res.json().results;
 
     // Insert quiz data
     quiz = await prisma.quiz.create({
-        data: {
-            categoryId: categoryId,
-            name: name,
-            type: type,
-            difficulty: difficulty,
-            startDate: startDate,
-            endDate: endDate,
-        }
-    })
+      data: {
+        categoryId: categoryId,
+        name: name,
+        type: type,
+        difficulty: difficulty,
+        startDate: startDate,
+        endDate: endDate,
+      },
+    });
 
     // Insert question data with associated quiz ID
     const quizId = quiz.id;
-    quizData.forEach(async (q) => await prisma.question.create({ 
-      quizId: quizId,
-      question: q.question,
-      correctAnswer: q.correct_answer,
-      incorrectAnswers: q.incorrect_answers,
-     }));
-
+    quizData.forEach(
+      async (q) =>
+        await prisma.question.create({
+          quizId: quizId,
+          question: q.question,
+          correctAnswer: q.correct_answer,
+          incorrectAnswers: q.incorrect_answers,
+        }),
+    );
   } catch (err) {
     return res.status(500).json({
       msg: err.message,

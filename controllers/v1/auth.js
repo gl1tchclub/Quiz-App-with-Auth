@@ -13,13 +13,23 @@ const register = async (req, res) => {
       });
     }
 
-    const { email, firstName, lastName, password, username, role, confirm_password } = req.body;
+    const {
+      email,
+      firstName,
+      lastName,
+      password,
+      username,
+      role,
+      confirm_password,
+    } = req.body;
 
     // Ensures user provides data for all rows (role optional)
-    if (Object.keys(req.body).length < 7 && role) return res.status(400).json({ msg: "Please fill out all details" });
+    if (Object.keys(req.body).length < 7 && role)
+      return res.status(400).json({ msg: "Please fill out all details" });
 
     // Ensure given details match required criteria
-    if (!email.includes(username)) return res.status(400).json({ msg: "Email must contain the username"});
+    if (!email.includes(username))
+      return res.status(400).json({ msg: "Email must contain the username" });
 
     let user = await prisma.user.findFirst({
       where: {
@@ -114,7 +124,7 @@ const login = async (req, res) => {
         name: user.name,
       },
       JWT_SECRET,
-      { expiresIn: JWT_LIFETIME }
+      { expiresIn: JWT_LIFETIME },
     );
 
     return res.status(200).json({

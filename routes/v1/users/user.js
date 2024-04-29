@@ -3,7 +3,6 @@
 import express from "express";
 import * as resources from "../../../controllers/v1/user.js";
 
-
 const router = express.Router();
 
 //GET ALL

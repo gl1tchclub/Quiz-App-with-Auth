@@ -56,13 +56,16 @@ const validateRegister = (req, res, next) => {
     password: Joi.string()
       .regex(passRegex)
       .messages(stringMsgs({ type: "Password", min: 8, max: 16 })),
-    confirm_password: Joi.string().valid(Joi.ref("password")).required().messages({
-      "any.required": "Please confirm password",
-      "any.only": "Confirm password does not match given password",
-      "string.base": "Password must be a string"
-    }),
+    confirm_password: Joi.string()
+      .valid(Joi.ref("password"))
+      .required()
+      .messages({
+        "any.required": "Please confirm password",
+        "any.only": "Confirm password does not match given password",
+        "string.base": "Password must be a string",
+      }),
   });
-  
+
   const { error } = userSchema.validate(req.body);
 
   if (error) {
@@ -73,4 +76,4 @@ const validateRegister = (req, res, next) => {
 
   next();
 };
-export {validateRegister}
+export { validateRegister };

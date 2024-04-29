@@ -1,0 +1,10 @@
+# Ignore artifacts:
+build
+coverage
+*.test.js
+*.md
+*.json
+
+
+# Ignore all HTML files:
+**/*.html

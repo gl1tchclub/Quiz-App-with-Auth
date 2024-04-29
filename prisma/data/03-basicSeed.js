@@ -5,9 +5,11 @@
 import axios from "axios";
 const name = "user";
 const data = async () => {
-    let res = await axios("https://gist.githubusercontent.com/Grayson-Orr/693f8678c4cdca98c03a2729f8352ec5/raw");
-    let json = await res.json();
-    return json;
-}
+  let res = await axios(
+    "https://gist.githubusercontent.com/Grayson-Orr/693f8678c4cdca98c03a2729f8352ec5/raw",
+  );
+  let json = await res.json();
+  return json;
+};
 
-export { name, data }
+export { name, data };
