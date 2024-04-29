@@ -1,13 +1,10 @@
 import { PrismaClient } from "@prisma/client";
-// import { checkPrivilege } from "./resources.js";
 
 const prisma = new PrismaClient();
 
 //admin
 const seedBasicUser = async (req, res) => {
   try {
-    //const { email, firstName, lastName, password, username, role } = req.body;
-
     const { id } = req.user;
 
     const user = await prisma.user.findUnique({ where: { id: id } });

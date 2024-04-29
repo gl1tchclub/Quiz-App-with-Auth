@@ -13,6 +13,14 @@ const seedBasicUsers = async (req, res) => {
     }
 
     let { name, data } = await import("../../prisma/data/03-basicSeed");
+    data.data.forEach((user) => {
+        user.password = bcryptjs.hashSync(user.password, bcryptjs.genSaltSync());
+        user.avatar =
+            `https://api.dicebear.com/7.x/adventurer/svg?seed=${user.username}`;
+    })
+    await prisma.user.createMany({
+        data: data.data,
+    });
   } catch (err) {
     return res.status(500).json({
       msg: err.message,

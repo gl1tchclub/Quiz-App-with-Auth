@@ -9,11 +9,11 @@ const main = async () => {
     for (let i = 0; i < seeds.length; i++) {
       let { name, data } = await import(seeds[i]);
       if (name == "user") {
-        for (let u = 0; u < data.length; u++) {
-          const salt = await bcryptjs.genSalt();
-          data[u].password = await bcryptjs.hash(data[u].password, salt);
-          data[u].avatar =
-            `https://api.dicebear.com/7.x/adventurer/svg?seed=${data[u].username}`;
+        for (let user = 0; user < data.length; user++) {
+          const salt = bcryptjs.genSaltSync();
+          data[user].password = bcryptjs.hashSync(data[user].password, salt);
+          data[user].avatar =
+            `https://api.dicebear.com/7.x/adventurer/svg?seed=${data[user].username}`;
         }
       }
       await prisma[name].createMany({
