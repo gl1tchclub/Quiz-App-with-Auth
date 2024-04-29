@@ -1,5 +1,5 @@
 /**
- * @file Seeds data for the admin users and inserts it into the User table
+ * @file Seeds data for the admin users and inserts it into the Category table
  * @author Elizabeth Minty
  */
 const name = "category";
