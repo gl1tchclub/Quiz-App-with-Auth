@@ -7,14 +7,16 @@ const createQuiz = async (req, res) => {
     const { id } = req.user;
     const user = await prisma.user.findUnique({ where: { id: id } });
 
+    // Only admins can create quiz
     if (user.role == "BASIC_USER") {
       return res.status(403).json({
         msg: "Not authorized to create a quiz",
       });
     }
 
-    const { name, categoryId, difficulty, startDate, endDate } = req.body;
+    const { name, categoryId, type, difficulty, startDate, endDate } = req.body;
 
+    // Check if quiz has already been made
     let quiz = await prisma.user.findUnique({
       where: { name: name },
     });
@@ -28,18 +30,22 @@ const createQuiz = async (req, res) => {
         .status(400)
         .json({ msg: `Please fill out all fields` })
 
-    let res = await fetch(`https://opentdb.com/api.php?amount=10&category=${categoryId}&difficulty=${difficulty}`);
+    let res = await fetch(`https://opentdb.com/api.php?amount=10&category=${categoryId}&difficulty=${difficulty}&type=${type}`);
     let quizData = await res.json().results;
+
+    // Insert quiz data
     quiz = await prisma.quiz.create({
         data: {
             categoryId: categoryId,
             name: name,
-            type: quizData[0].type,
+            type: type,
             difficulty: difficulty,
             startDate: startDate,
             endDate: endDate,
         }
     })
+
+    // Insert question data with associated quiz ID
     const quizId = quiz.id;
     quizData.forEach(async (q) => await prisma.question.create({ 
       quizId: quizId,
