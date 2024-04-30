@@ -1,4 +1,3 @@
-import axios from "axios";
 import bcryptjs from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
@@ -14,12 +13,11 @@ const seedBasicUsers = async (req, res) => {
 
     let { name, data } = await import("../../prisma/data/03-basicSeed");
     data.data.forEach((user) => {
-        user.password = bcryptjs.hashSync(user.password, bcryptjs.genSaltSync());
-        user.avatar =
-            `https://api.dicebear.com/7.x/adventurer/svg?seed=${user.username}`;
-    })
+      user.password = bcryptjs.hashSync(user.password, bcryptjs.genSaltSync());
+      user.avatar = `https://api.dicebear.com/7.x/adventurer/svg?seed=${user.username}`;
+    });
     await prisma.user.createMany({
-        data: data.data,
+      data: data.data,
     });
   } catch (err) {
     return res.status(500).json({
@@ -27,3 +25,5 @@ const seedBasicUsers = async (req, res) => {
     });
   }
 };
+
+export { seedBasicUsers };
