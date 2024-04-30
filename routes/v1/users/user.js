@@ -17,6 +17,4 @@ router.put("/:uuid", (req, res) => resources.updateUser(req, res));
 //DELETE
 router.delete("/:uuid", (req, res) => resources.deleteUser(req, res));
 
-// /users/seed/basic
-
 export default router;

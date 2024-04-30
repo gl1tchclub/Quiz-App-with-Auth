@@ -2,43 +2,6 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-//admin
-const seedBasicUser = async (req, res) => {
-  try {
-    const { id } = req.user;
-
-    const user = await prisma.user.findUnique({ where: { id: id } });
-
-    /**
-     * If the authenticated user is not an admin, they can
-     * not create a new record
-     */
-    if (user.role == "BASIC_USER") {
-      return res.status(403).json({
-        msg: "Not authorized to access this route",
-      });
-    }
-
-    // fetch to github gist
-
-    // res => createMany
-    // await register({
-    //   data: { email, firstName, lastName, password, username, role },
-    // });
-
-    const newUsers = await prisma.user.findMany();
-
-    return res.status(201).json({
-      msg: "User successfully created",
-      data: newUsers,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      msg: err.message,
-    });
-  }
-};
-
 // With authorized access only, fetch a data for all users
 const getUsers = async (req, res) => {
   try {
@@ -140,7 +103,7 @@ const updateUser = async (req, res) => {
           where: { id: req.params.uuid },
           data: { ...req.body },
         });
-        return res.json({
+        return res.status(200).json({
           msg: `${putUser.username}'s information successfully updated`,
           data: user,
         });
@@ -205,4 +168,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-export { seedBasicUser, getUsers, getUser, deleteUser, updateUser };
+export { getUsers, getUser, deleteUser, updateUser };

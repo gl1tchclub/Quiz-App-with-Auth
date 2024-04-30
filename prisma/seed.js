@@ -4,10 +4,16 @@ import bcryptjs from "bcryptjs";
 const seeds = ["./data/01-adminSeed.js", "./data/02-categorySeed.js"];
 const prisma = new PrismaClient();
 
+/**
+ * Seed any data from the data directory
+ */
 const main = async () => {
   try {
+    // Import data and seed each object
     for (let i = 0; i < seeds.length; i++) {
       let { name, data } = await import(seeds[i]);
+
+      // Change values for admin user properties
       if (name == "user") {
         data.forEach((user) => {
           user.password = bcryptjs.hashSync(
