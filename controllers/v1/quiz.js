@@ -32,31 +32,37 @@ const createQuiz = async (req, res) => {
     let res = await fetch(
       `https://opentdb.com/api.php?amount=10&category=${categoryId}&difficulty=${difficulty}&type=${type}`,
     );
-    let quizData = await res.json().results;
+    let json = await res.json();
+
+    if (json.response_code > 0) return res.status(403).json({ msg: "Failed to fetch"});
 
     // Insert quiz data
     quiz = await prisma.quiz.create({
       data: {
-        categoryId: categoryId,
-        name: name,
-        type: type,
-        difficulty: difficulty,
-        startDate: startDate,
-        endDate: endDate,
+        categoryId,
+        name,
+        type,
+        difficulty,
+        startDate,
+        endDate,
       },
     });
 
     // Insert question data with associated quiz ID
-    const quizId = quiz.id;
-    quizData.forEach(
+    let questions = json.results.forEach(
       async (q) =>
         await prisma.question.create({
-          quizId: quizId,
+          quizId: quiz.id,
           question: q.question,
           correctAnswer: q.correct_answer,
           incorrectAnswers: q.incorrect_answers,
         }),
     );
+
+    return res.status(201).json({
+      msg: "Quiz successfully created",
+      data: quiz,
+    });
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
