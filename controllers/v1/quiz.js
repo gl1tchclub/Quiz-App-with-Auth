@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const createQuiz = async (req, res) => {
+const create = async (req, res) => {
   try {
     const { id } = req.user;
     const user = await prisma.user.findUnique({ where: { id: id } });
@@ -69,3 +69,21 @@ const createQuiz = async (req, res) => {
     });
   }
 };
+
+// Update a quiz when user participates (update av score, who's participated)
+const update = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const user = await prisma.user.findUnique({ where: { id: id } });
+
+    // add ID to userparticipatequiz
+    // update userquestionanswer
+    // calc average quiz score
+    // add score to list of scores (userquizscore)
+
+  } catch (err) {
+    return res.status(500).json({
+      msg: err.message,
+    });
+  }
+}
