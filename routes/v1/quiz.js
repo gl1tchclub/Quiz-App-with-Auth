@@ -7,8 +7,10 @@ const router = express.Router();
 
 //POST
 router.post("/", (req, res) => resources.createQuiz(req, res));
-router.post("/", (req, res) => resources.createQuizScore(req, res));
-router.post("/", (req, res) => resources.createQuizParticipate(req, res));
+router.post("/", (req, res) => resources.updateScore(req, res));
+router.post("/", (req, res) => resources.createParticipate(req, res));
+router.post("/", (req, res) => resources.updateQuestionAnswer(req, res));
+
 
 //GET ALL
 router.get("/", (req, res) => resources.getQuizzes(req, res));
@@ -18,7 +20,6 @@ router.get("/:id", (req, res) => resources.getQuiz(req, res));
 
 //PUT
 router.put("/:uuid", (req, res) => resources.update(req, res));
-
 
 //DELETE
 router.delete("/:id", (req, res) => resources.delete(req, res));

@@ -34,7 +34,8 @@ const createQuiz = async (req, res) => {
     );
     let json = await res.json();
 
-    if (json.response_code > 0) return res.status(403).json({ msg: "Failed to fetch"});
+    if (json.response_code > 0)
+      return res.status(403).json({ msg: "Failed to fetch" });
 
     // Insert quiz data
     quiz = await prisma.quiz.create({
@@ -76,57 +77,74 @@ const createParticipate = async (req, res) => {
     const { id } = req.user;
     const user = await prisma.user.findUnique({ where: { id: id } });
 
-    if (user.role == "BASIC_USER") {
-      return res.status(403).json({
-        msg: "You've already participated in this quiz",
-      });
-    }
-    
+    // if (user.role == "BASIC_USER") {
+    //   return res.status(403).json({
+    //     msg: "You've already participated in this quiz",
+    //   });
+    // }
 
+    const { userId, quizId } = req.body;
+
+    const quiz = await prisma.quiz.findUnique({
+      where: { id: id },
+    });
+
+    if (!quizId)
+      return res.status(404).json({ msg: `No quiz found with ID ${quizId}` });
+
+    if (
+      quiz.userParticipateQuizzes.some((obj) => obj.userId === userId) &&
+      user.role == "BASIC_USER"
+    )
+      return res
+        .status(400)
+        .json({ msg: "You cannot participate in this quiz again" });
+    
+    const record = await prisma.userParticipateQuiz.create({
+      data: {
+        userId,
+        quizId,
+      }
+    })
     // add ID to userparticipatequiz
     // update userquestionanswer
     // calc average quiz score
     // add score to list of scores (userquizscore)
-
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
     });
   }
-}
+};
 
 const updateQuestionAnswer = async (req, res) => {
   try {
     const { id } = req.user;
     const user = await prisma.user.findUnique({ where: { id: id } });
 
-
     // add ID to userparticipatequiz
     // update userquestionanswer
     // calc average quiz score
     // add score to list of scores (userquizscore)
-
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
     });
   }
-}
+};
 
 const updateScore = async (req, res) => {
   try {
     const { id } = req.user;
     const user = await prisma.user.findUnique({ where: { id: id } });
 
-
     // add ID to userparticipatequiz
     // update userquestionanswer
     // calc average quiz score
     // add score to list of scores (userquizscore)
-
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
     });
   }
-}
+};
