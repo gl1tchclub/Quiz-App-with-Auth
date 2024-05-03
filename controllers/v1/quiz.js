@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const create = async (req, res) => {
+const createQuiz = async (req, res) => {
   try {
     const { id } = req.user;
     const user = await prisma.user.findUnique({ where: { id: id } });
@@ -71,10 +71,53 @@ const create = async (req, res) => {
 };
 
 // Update a quiz when user participates (update av score, who's participated)
-const update = async (req, res) => {
+const createParticipate = async (req, res) => {
   try {
     const { id } = req.user;
     const user = await prisma.user.findUnique({ where: { id: id } });
+
+    if (user.role == "BASIC_USER") {
+      return res.status(403).json({
+        msg: "You've already participated in this quiz",
+      });
+    }
+    
+
+    // add ID to userparticipatequiz
+    // update userquestionanswer
+    // calc average quiz score
+    // add score to list of scores (userquizscore)
+
+  } catch (err) {
+    return res.status(500).json({
+      msg: err.message,
+    });
+  }
+}
+
+const updateQuestionAnswer = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const user = await prisma.user.findUnique({ where: { id: id } });
+
+
+    // add ID to userparticipatequiz
+    // update userquestionanswer
+    // calc average quiz score
+    // add score to list of scores (userquizscore)
+
+  } catch (err) {
+    return res.status(500).json({
+      msg: err.message,
+    });
+  }
+}
+
+const updateScore = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const user = await prisma.user.findUnique({ where: { id: id } });
+
 
     // add ID to userparticipatequiz
     // update userquestionanswer

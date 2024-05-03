@@ -5,7 +5,7 @@ import * as resources from "../../../controllers/v1/seed.js";
 
 const router = express.Router();
 
-//GET ALL
+//POST
 router.post("/", (req, res) => resources.seedBasicUsers(req, res));
 
 export default router;

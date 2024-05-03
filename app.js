@@ -10,7 +10,9 @@ import compression from "compression";
 import authRouteMiddleware from "./middleware/authRoute.js";
 import authV1Routes from "./routes/v1/auth.js";
 import indexV1Routes from "./routes/v1/index.js";
-import userV1Routes from "./routes/v1/user.js";
+import userV1Routes from "./routes/v1/users/user.js";
+import quizV1Routes from "./routes/v1/quiz.js";
+import seedV1Routes from "./routes/v1/users/seed.js";
 //import rest of routes here
 
 const app = express();
@@ -59,12 +61,9 @@ app.use(compression());
 // Use the routes module
 app.use("/api/v1/auth", authV1Routes);
 app.use("/", indexV1Routes);
-
 app.use("/api/v1/users", authRouteMiddleware, userV1Routes); // Authenticated route
-//declare rest of app.use authenticated routes here
-//
-//
-//
+app.use("/api/v1/quizzes", quizV1Routes); // Don't need auth route?
+app.use("/api/v1/seedBasic", authRouteMiddleware, seedV1Routes); // Authenticated route
 
 // Sets 404 error message if request contains an invalid route and sends to next middleware function in the stack
 app.use((req, res, next) => {
