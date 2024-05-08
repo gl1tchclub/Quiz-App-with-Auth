@@ -185,3 +185,5 @@ const updateScore = async (req, res) => {
     });
   }
 };
+
+export { createParticipate, createQuestionAnswer, createQuiz, updateScore };
