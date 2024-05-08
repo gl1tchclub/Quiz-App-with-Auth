@@ -17,7 +17,7 @@ const createQuiz = async (req, res) => {
     const { name, categoryId, type, difficulty, startDate, endDate } = req.body;
 
     // Check if quiz has already been made
-    let quiz = await prisma.user.findUnique({
+    let quiz = await prisma.quiz.findUnique({
       where: { name: name },
     });
 
@@ -26,7 +26,7 @@ const createQuiz = async (req, res) => {
         .status(409)
         .json({ msg: `Quiz with name ${name} already exists` });
 
-    if (Object.keys(req.body).length < 5)
+    if (Object.keys(req.body).length < 6)
       return res.status(400).json({ msg: `Please fill out all fields` });
 
     let res = await fetch(
@@ -46,19 +46,32 @@ const createQuiz = async (req, res) => {
         difficulty,
         startDate,
         endDate,
+        questions: {
+          create: [
+            json.results.forEach(
+              async (q) =>
+                await prisma.question.create({
+                  quizId: quiz.id,
+                  question: q.question,
+                  correctAnswer: q.correct_answer,
+                  incorrectAnswers: q.incorrect_answers,
+                }),
+            ),
+          ],
+        },
       },
     });
 
     // Insert question data with associated quiz ID
-    let questions = json.results.forEach(
-      async (q) =>
-        await prisma.question.create({
-          quizId: quiz.id,
-          question: q.question,
-          correctAnswer: q.correct_answer,
-          incorrectAnswers: q.incorrect_answers,
-        }),
-    );
+    // let questions = json.results.forEach(
+    //   async (q) =>
+    //     await prisma.question.create({
+    //       quizId: quiz.id,
+    //       question: q.question,
+    //       correctAnswer: q.correct_answer,
+    //       incorrectAnswers: q.incorrect_answers,
+    //     }),
+    // );
 
     return res.status(201).json({
       msg: "Quiz successfully created",
