@@ -107,7 +107,7 @@ const createParticipate = async (req, res) => {
         .status(400)
         .json({ msg: "You cannot participate in this quiz again" });
     
-    const record = await prisma.userParticipateQuiz.create({
+    const participation = await prisma.userParticipateQuiz.create({
       data: {
         userId,
         quizId,
@@ -119,7 +119,7 @@ const createParticipate = async (req, res) => {
     // add score to list of scores (userquizscore)
     return res.status(201).json({
       msg: "Participation successfully registered",
-      data: record,
+      data: participation,
     });
   } catch (err) {
     return res.status(500).json({
@@ -130,8 +130,8 @@ const createParticipate = async (req, res) => {
 
 const createQuestionAnswer = async (req, res) => {
   try {
-    const { id } = req.user;
-    const user = await prisma.user.findUnique({ where: { id: id } });
+    // const { id } = req.user;
+    // const user = await prisma.user.findUnique({ where: { id: id } });
 
     const { userId, quizId, questionId, answer } = req.body;
 
@@ -142,9 +142,10 @@ const createQuestionAnswer = async (req, res) => {
     if (!quiz)
     return res.status(404).json({ msg: `No quiz found with ID ${quizId}` });
 
-    const questionObj = quiz.questions.find(q.id === questionId);
+    const questionObj = quiz.questions.find(q => q.id === questionId);
 
     if (!questionObj) return res.status(404).json({ msg: `No questions found with ID ${questionId}` })
+    
     const isCorrect = answer === questionObj.correctAnswer ? true : false;
 
     const userAnswer = await prisma.userQuestionAnswer.create({
@@ -155,14 +156,9 @@ const createQuestionAnswer = async (req, res) => {
         answer,
         isCorrect,
       }
-    })
+    });
 
-
-
-    // add ID to userparticipatequiz
-    // update userquestionanswer
-    // calc average quiz score
-    // add score to list of scores (userquizscore)
+    return res.status(201).json({ msg: "User answer successfully recorded", data: userAnswer });
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
