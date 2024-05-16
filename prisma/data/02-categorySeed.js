@@ -3,10 +3,12 @@
  * @author Elizabeth Minty
  */
 const name = "category";
-const data = async () => {
+const fetchData = async () => {
   let res = await fetch("https://opentdb.com/api_category.php");
   let json = await res.json();
   return json.trivia_categories;
 };
 
-export { name, data };
+const categoryData = await fetchData();
+
+export { name, categoryData };

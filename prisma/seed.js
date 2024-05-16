@@ -1,7 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import bcryptjs from "bcryptjs";
+import { categoryData } from "./data/02-categorySeed.js";
+import { seedData } from "./data/01-adminSeed.js";
 
-const seeds = ["./data/01-adminSeed.js", "./data/02-categorySeed.js"];
+let data = [];
+let name = "";
 const prisma = new PrismaClient();
 
 /**
@@ -10,18 +13,25 @@ const prisma = new PrismaClient();
 const main = async () => {
   try {
     // Import data and seed each object
-    for (let i = 0; i < seeds.length; i++) {
-      let { name, data } = await import(seeds[i]);
+    for (let i = 0; i < 2; i++) {
+      if (i == 1) {
+        data = categoryData;
+        name = "category";
+        console.log(data);
+      }
 
       // Change values for admin user properties
-      if (name == "user") {
-        data.forEach((user) => {
+      if (i == 0) {
+        seedData.forEach((user) => {
           user.password = bcryptjs.hashSync(
             user.password,
             bcryptjs.genSaltSync(),
-          );
-          user.avatar = `https://api.dicebear.com/7.x/adventurer/svg?seed=${user.username}`;
-        });
+            );
+            user.avatar = `https://api.dicebear.com/7.x/adventurer/svg?seed=${user.username}`;
+          });
+        data = seedData;
+        name = "user";
+        console.log(seedData)
       }
       await prisma[name].createMany({
         data: data,

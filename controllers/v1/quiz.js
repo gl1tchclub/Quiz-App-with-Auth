@@ -14,10 +14,10 @@ const createQuiz = async (req, res) => {
       });
     }
 
-    const { name, categoryId, type, difficulty, startDate, endDate } = req.body;
+    const { categoryId, name, type, difficulty, startDate, endDate } = req.body;
 
     // Check if quiz has already been made
-    let quiz = await prisma.quiz.findUnique({
+    let quiz = await prisma.quiz.findFirst({
       where: { name: name },
     });
 
@@ -51,10 +51,11 @@ const createQuiz = async (req, res) => {
             json.results.forEach(
               async (q) =>
                 await prisma.question.create({
-                  quizId: quiz.id,
-                  question: q.question,
-                  correctAnswer: q.correct_answer,
-                  incorrectAnswers: q.incorrect_answers,
+                  data: {
+                    question: q.question,
+                    correctAnswer: q.correct_answer,
+                    incorrectAnswers: q.incorrect_answers,
+                  },
                 }),
             ),
           ],

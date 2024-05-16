@@ -3,7 +3,7 @@
  * @author Elizabeth Minty
  */
 const name = "user";
-const data = [
+const seedData = [
   {
     email: "ddriuzzi0@moonfruit.com",
     firstName: "Deanna",
@@ -51,4 +51,4 @@ const data = [
   },
 ];
 
-export { name, data };
+export { name, seedData };

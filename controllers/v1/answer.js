@@ -69,12 +69,13 @@ const getAnswers = async (req, res) => {
     // const userAnswers = allAnswers.filter((ans) => allAnswers.userId === userId);
 
     // if (userAnswers.length === 0) return res.status(404).json({ msg: "No answers found" });
-    
 
-    if (allAnswers.length === 0) 
+    if (allAnswers.length === 0)
       return res.status(404).json({ msg: "No answers found" });
-    
-    return res.status(200).json({ msg: "Successfully fetched answers", data: answers });
+
+    return res
+      .status(200)
+      .json({ msg: "Successfully fetched answers", data: answers });
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
@@ -87,15 +88,20 @@ const updateAnswer = async (req, res) => {
     const { id } = req.params.id;
     const { userId } = req.user;
 
-    const existingAnswer = await prisma.userQuestionAnswer.findUnique({ where: { id: id } });
-    if (!existingAnswer) return res.status(404).json({ msg: "Answer does not exist" });
+    const existingAnswer = await prisma.userQuestionAnswer.findUnique({
+      where: { id: id },
+    });
+    if (!existingAnswer)
+      return res.status(404).json({ msg: "Answer does not exist" });
 
     const updatedAnswer = await prisma.userQuestionAnswer.update({
       where: { id: id },
       data: { ...req.body },
     });
-    
-    return res.status(200).json({ msg: "Successfully updated answer", data: updatedAnswer });
+
+    return res
+      .status(200)
+      .json({ msg: "Successfully updated answer", data: updatedAnswer });
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
