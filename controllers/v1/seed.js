@@ -1,6 +1,6 @@
 import bcryptjs from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
-import { data } from "../../prisma/data/03-basicSeed";
+import { data } from "../../prisma/data/03-basicSeed.js";
 const prisma = new PrismaClient();
 
 /**
@@ -37,7 +37,9 @@ const seedBasicUsers = async (req, res) => {
     await prisma.user.createMany({
       data: newUserDataArray,
     });
-    return res.status(201).json({ msg: "Basic Users Created", data: newUserDataArray })
+    return res
+      .status(201)
+      .json({ msg: "Basic Users Created", data: newUserDataArray });
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
@@ -45,4 +47,4 @@ const seedBasicUsers = async (req, res) => {
   }
 };
 
-export { seedBasicUsers };
+export default seedBasicUsers;

@@ -23,9 +23,24 @@ const register = async (req, res) => {
       confirm_password,
     } = req.body;
 
-    // Ensures user provides data for all rows (role optional)
-    if (Object.keys(req.body).length < 7 && role)
-      return res.status(400).json({ msg: "Please fill out all details" });
+    // Define an array of required fields
+    const requiredFields = [
+      "email",
+      "firstName",
+      "lastName",
+      "password",
+      "username",
+      "confirm_password"
+    ];
+
+    // Check if all required fields are provided
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+    if (missingFields.length > 0) {
+      return res.status(400).json({ error: `Missing required fields: ${missingFields.join(', ')}` });
+    }
+
+    if (!confirm_password)
+      return res.status(400).json({ msg: "Please confirm password" });
 
     // Ensure given details match required criteria
     if (!email.includes(username))

@@ -188,11 +188,9 @@ const createUserScore = async (req, res) => {
     // can only create user score when user has answered all 10 questions
     // check if status is correct here
     if (answers.length < 10)
-      return res
-        .status(400)
-        .json({
-          msg: "Cannot update score until all questions have been answered",
-        });
+      return res.status(400).json({
+        msg: "Cannot update score until all questions have been answered",
+      });
 
     // store the number of correct answers as score
     const score = answers.map((a) => a.isCorrect == true).length;
