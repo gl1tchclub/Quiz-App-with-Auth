@@ -6,14 +6,14 @@ const createQuiz = async (req, res) => {
   try {
     const { id } = req.user;
     const user = await prisma.user.findUnique({ where: { id: id } });
-
+    
     // Only admins can create quiz
     if (user.role == "BASIC_USER") {
       return res.status(403).json({
         msg: "Not authorized to create a quiz",
       });
     }
-
+    
     const { categoryId, name, type, difficulty, startDate, endDate } = req.body;
 
     // Check if quiz has already been made
@@ -29,10 +29,10 @@ const createQuiz = async (req, res) => {
     if (Object.keys(req.body).length < 6)
       return res.status(400).json({ msg: `Please fill out all fields` });
 
-    let res = await fetch(
+    let quizFetch = await fetch(
       `https://opentdb.com/api.php?amount=10&category=${categoryId}&difficulty=${difficulty}&type=${type}`,
     );
-    let json = await res.json();
+    let json = await quizFetch.json();
 
     if (json.response_code > 0)
       return res.status(403).json({ msg: "Failed to fetch" });
@@ -62,17 +62,6 @@ const createQuiz = async (req, res) => {
         },
       },
     });
-
-    // Insert question data with associated quiz ID
-    // let questions = json.results.forEach(
-    //   async (q) =>
-    //     await prisma.question.create({
-    //       quizId: quiz.id,
-    //       question: q.question,
-    //       correctAnswer: q.correct_answer,
-    //       incorrectAnswers: q.incorrect_answers,
-    //     }),
-    // );
 
     return res.status(201).json({
       msg: "Quiz successfully created",

@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 const getUsers = async (req, res) => {
   try {
     const { id } = req.user;
-
     const user = await prisma.user.findUnique({ where: { id: id } });
 
     if (user.role == "BASIC_USER") {

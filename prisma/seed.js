@@ -17,7 +17,6 @@ const main = async () => {
       if (i == 1) {
         data = categoryData;
         name = "category";
-        console.log(data);
       }
 
       // Change values for admin user properties
@@ -31,7 +30,6 @@ const main = async () => {
           });
         data = seedData;
         name = "user";
-        console.log(seedData)
       }
       await prisma[name].createMany({
         data: data,
