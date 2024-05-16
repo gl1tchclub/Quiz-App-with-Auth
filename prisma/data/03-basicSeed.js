@@ -1,5 +1,5 @@
 /**
- * @file Seeds data for the admin users and inserts it into the User table
+ * @file Holds fetch function that retrieves data for the basic users
  * @author Elizabeth Minty
  */
 import axios from "axios";

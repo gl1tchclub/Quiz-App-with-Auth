@@ -105,9 +105,11 @@ const login = async (req, res) => {
 
     const { email, password, username } = req.body;
 
+    // Check all fields are filled
     if (Object.keys(req.body).length < 2 || !password)
       return res.status(400).json({ msg: "Please fill out all details" });
 
+    // Check if given data is used already by another user
     const user = await prisma.user.findFirst({
       where: {
         OR: [{ email }, { username }],
