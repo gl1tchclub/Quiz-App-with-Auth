@@ -84,5 +84,4 @@ const createQuiz = async (req, res) => {
   }
 };
 
-
 export { createQuiz };
