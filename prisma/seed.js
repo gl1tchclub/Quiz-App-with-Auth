@@ -25,9 +25,9 @@ const main = async () => {
           user.password = bcryptjs.hashSync(
             user.password,
             bcryptjs.genSaltSync(),
-            );
-            user.avatar = `https://api.dicebear.com/7.x/adventurer/svg?seed=${user.username}`;
-          });
+          );
+          user.avatar = `https://api.dicebear.com/7.x/adventurer/svg?seed=${user.username}`;
+        });
         data = seedData;
         name = "user";
       }

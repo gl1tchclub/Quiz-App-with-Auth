@@ -6,14 +6,14 @@ const createQuiz = async (req, res) => {
   try {
     const { id } = req.user;
     const user = await prisma.user.findUnique({ where: { id: id } });
-    
+
     // Only admins can create quiz
     if (user.role == "BASIC_USER") {
       return res.status(403).json({
         msg: "Not authorized to create a quiz",
       });
     }
-    
+
     const { categoryId, name, type, difficulty, startDate, endDate } = req.body;
 
     // Check if quiz has already been made
