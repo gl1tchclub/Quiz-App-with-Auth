@@ -21,7 +21,7 @@ const getUsers = async (req, res) => {
       return res.status(404).json({ msg: "No users found" });
     }
 
-    return res.json({ data: users });
+    return res.status(200).json({ data: users });
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
