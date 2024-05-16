@@ -106,13 +106,13 @@ const createParticipate = async (req, res) => {
       return res
         .status(400)
         .json({ msg: "You cannot participate in this quiz again" });
-    
+
     const participation = await prisma.userParticipateQuiz.create({
       data: {
         userId,
         quizId,
-      }
-    })
+      },
+    });
     // add ID to userparticipatequiz
     // update userquestionanswer
     // calc average quiz score
@@ -138,12 +138,15 @@ const createQuestionAnswer = async (req, res) => {
     });
 
     if (!quiz)
-    return res.status(404).json({ msg: `No quiz found with ID ${quizId}` });
+      return res.status(404).json({ msg: `No quiz found with ID ${quizId}` });
 
-    const questionObj = quiz.questions.find(q => q.id === questionId);
+    const questionObj = quiz.questions.find((q) => q.id === questionId);
 
-    if (!questionObj) return res.status(404).json({ msg: `No questions found with ID ${questionId}` })
-    
+    if (!questionObj)
+      return res
+        .status(404)
+        .json({ msg: `No questions found with ID ${questionId}` });
+
     const isCorrect = answer === questionObj.correctAnswer ? true : false;
 
     const userAnswer = await prisma.userQuestionAnswer.create({
@@ -153,10 +156,12 @@ const createQuestionAnswer = async (req, res) => {
         questionId,
         answer,
         isCorrect,
-      }
+      },
     });
 
-    return res.status(201).json({ msg: "User answer successfully recorded", data: userAnswer });
+    return res
+      .status(201)
+      .json({ msg: "User answer successfully recorded", data: userAnswer });
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
@@ -175,27 +180,34 @@ const createUserScore = async (req, res) => {
     });
 
     if (!quiz)
-    return res.status(404).json({ msg: `No quiz found with ID ${quizId}` });
-    
+      return res.status(404).json({ msg: `No quiz found with ID ${quizId}` });
+
     // store all answers user has given for this quiz as an array to use further down
-    const answers = quiz.userQuestionAnswers.filter(a => a.userId === userId);
-  
-  // can only create user score when user has answered all 10 questions
+    const answers = quiz.userQuestionAnswers.filter((a) => a.userId === userId);
+
+    // can only create user score when user has answered all 10 questions
     // check if status is correct here
-    if (answers.length < 10) return res.status(400).json({ msg: "Cannot update score until all questions have been answered" })
-    
+    if (answers.length < 10)
+      return res
+        .status(400)
+        .json({
+          msg: "Cannot update score until all questions have been answered",
+        });
+
     // store the number of correct answers as score
-    const score = answers.map(a => a.isCorrect == true).length;
+    const score = answers.map((a) => a.isCorrect == true).length;
 
     const userScore = await prisma.userQuizScore.create({
       data: {
         id,
         quizId,
         score,
-      }
+      },
     });
 
-    return res.status(201).json({ msg: "User score successfully recorded", data: userScore });
+    return res
+      .status(201)
+      .json({ msg: "User score successfully recorded", data: userScore });
     // calc average quiz score
     // add score to list of scores (userquizscore)
   } catch (err) {

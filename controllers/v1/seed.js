@@ -1,5 +1,6 @@
 import bcryptjs from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
+import { data } from "../../prisma/data/03-basicSeed";
 const prisma = new PrismaClient();
 
 /**
@@ -17,15 +18,26 @@ const seedBasicUsers = async (req, res) => {
       });
     }
 
-    // Import data, change values of some user properties, and seed
-    let { data } = await import("../../prisma/data/03-basicSeed");
-    data.data.forEach((user) => {
-      user.password = bcryptjs.hashSync(user.password, bcryptjs.genSaltSync());
-      user.avatar = `https://api.dicebear.com/7.x/adventurer/svg?seed=${user.username}`;
+    let newUserDataArray = data().data;
+
+    // Check if users have already been seeded so that seeding only runs once.
+    const seededUser = await prisma.user.findUnique({
+      where: { username: newUserDataArray[0].username },
+    });
+    if (seededUser)
+      return res
+        .status(410)
+        .json({ msg: "Resource no longer available. Users already seeded" });
+
+    // Seed each new user with a hashed password and avatar
+    newUserDataArray.forEach((u) => {
+      u.password = bcryptjs.hashSync(u.password, bcryptjs.genSaltSync());
+      u.avatar = `https://api.dicebear.com/7.x/adventurer/svg?seed=${u.username}`;
     });
     await prisma.user.createMany({
-      data: data.data,
+      data: newUserDataArray,
     });
+    return res.status(201).json({ msg: "Basic Users Created", data: newUserDataArray })
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
