@@ -7,8 +7,7 @@ const data = async () => {
   const res = await axios(
     "https://gist.githubusercontent.com/Grayson-Orr/693f8678c4cdca98c03a2729f8352ec5/raw",
   );
-  const json = await res.json();
-  return json;
+  return res.data;
 };
 
 export { data };

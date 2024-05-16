@@ -18,7 +18,7 @@ const seedBasicUsers = async (req, res) => {
       });
     }
 
-    let newUserDataArray = data().data;
+    let newUserDataArray = await data();
 
     // Check if users have already been seeded so that seeding only runs once.
     const seededUser = await prisma.user.findUnique({
