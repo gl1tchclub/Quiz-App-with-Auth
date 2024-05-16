@@ -82,4 +82,25 @@ const getAnswers = async (req, res) => {
   }
 };
 
-export { createAnswer, getAnswers };
+const updateAnswer = async (req, res) => {
+  try {
+    const { id } = req.params.id;
+    const { userId } = req.user;
+
+    const existingAnswer = await prisma.userQuestionAnswer.findUnique({ where: { id: id } });
+    if (!existingAnswer) return res.status(404).json({ msg: "Answer does not exist" });
+
+    const updatedAnswer = await prisma.userQuestionAnswer.update({
+      where: { id: id },
+      data: { ...req.body },
+    });
+    
+    return res.status(200).json({ msg: "Successfully updated answer", data: updatedAnswer });
+  } catch (err) {
+    return res.status(500).json({
+      msg: err.message,
+    });
+  }
+};
+
+export { createAnswer, getAnswers, updateAnswer };

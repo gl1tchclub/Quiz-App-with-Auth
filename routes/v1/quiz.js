@@ -7,11 +7,9 @@ const router = express.Router();
 
 //POST
 router.post("/", (req, res) => resources.createQuiz(req, res));
-router.post("/", (req, res) => resources.createParticipate(req, res));
-router.post("/", (req, res) => resources.createQuestionAnswer(req, res));
 
 //PUT
-router.put("/", (req, res) => resources.updateScore(req, res));
+// router.put("/", (req, res) => resources.updateScore(req, res));
 
 //GET ALL
 // router.get("/", (req, res) => resources.getQuizzes(req, res));
