@@ -36,11 +36,9 @@ const register = async (req, res) => {
     // Check if all required fields are provided
     const missingFields = requiredFields.filter((field) => !req.body[field]);
     if (missingFields.length > 0) {
-      return res
-        .status(400)
-        .json({
-          error: `Missing required fields: ${missingFields.join(", ")}`,
-        });
+      return res.status(400).json({
+        error: `Missing required fields: ${missingFields.join(", ")}`,
+      });
     }
 
     // Ensure given details match required criteria
