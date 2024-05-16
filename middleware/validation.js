@@ -60,9 +60,9 @@ const validateRegister = (req, res, next) => {
       "any.only": "Confirm password does not match given password",
       "string.base": "Password must be a string",
     }),
-    // role: Joi.string().valid(...Object.values(Role)).messages({
-    //   "any.only": "Role must be either BASIC_USER or ADMIN_USER",
-    // }),
+    role: Joi.string().valid("ADMIN_USER", "BASIC_USER").messages({
+      "any.only": "Role must be either BASIC_USER or ADMIN_USER",
+    }),
   });
 
   const { error } = userSchema.validate(req.body);

@@ -39,9 +39,6 @@ const register = async (req, res) => {
       return res.status(400).json({ error: `Missing required fields: ${missingFields.join(', ')}` });
     }
 
-    if (!confirm_password)
-      return res.status(400).json({ msg: "Please confirm password" });
-
     // Ensure given details match required criteria
     if (!email.includes(username))
       return res.status(400).json({ msg: "Email must contain the username" });
@@ -107,6 +104,9 @@ const login = async (req, res) => {
     }
 
     const { email, password, username } = req.body;
+
+    if (Object.keys(req.body).length < 2 || !password)
+      return res.status(400).json({ msg: "Please fill out all details" });
 
     const user = await prisma.user.findFirst({
       where: {
