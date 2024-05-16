@@ -53,7 +53,7 @@ const createAnswer = async (req, res) => {
 const getAnswers = async (req, res) => {
   try {
     const { quizId } = req.params.quizId;
-    const { userId } = req.user;
+    // const { userId } = req.user;
 
     const quiz = await prisma.quiz.findUnique({
       where: { id: quizId },
@@ -66,12 +66,14 @@ const getAnswers = async (req, res) => {
     const allAnswers = quiz.userQuestionAnswers;
 
     // Get answers that associate with given user ID
-    const userAnswers = allAnswers.filter((ans) => allAnswers.userId === userId);
+    // const userAnswers = allAnswers.filter((ans) => allAnswers.userId === userId);
 
-    if (userAnswers.length === 0) {
+    // if (userAnswers.length === 0) return res.status(404).json({ msg: "No answers found" });
+    
+
+    if (allAnswers.length === 0) 
       return res.status(404).json({ msg: "No answers found" });
-    }
-
+    
     return res.status(200).json({ msg: "Successfully fetched answers", data: answers });
   } catch (err) {
     return res.status(500).json({
