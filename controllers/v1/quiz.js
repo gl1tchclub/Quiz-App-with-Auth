@@ -90,7 +90,27 @@ const getQuizzes = async (req, res) => {
   }
 };
 
+const getQuiz = async (req, res) => {
+  try {
+    quiz = await prisma.quiz.findUnique({
+      where: { id: req.params.id },
+    });
 
+    if (!quiz) {
+      return res
+        .status(404)
+        .json({ msg: `No quiz with the id: ${req.params.id} found` });
+    }
+
+    return res.json({
+      data: quiz,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      msg: err.message,
+    });
+  }
+};
 
 const deleteQuiz = async (req, res) => {
   try {
@@ -131,4 +151,4 @@ const deleteQuiz = async (req, res) => {
   }
 };
 
-export { createQuiz, deleteQuiz };
+export { createQuiz, getQuiz, getQuizzes, deleteQuiz };
