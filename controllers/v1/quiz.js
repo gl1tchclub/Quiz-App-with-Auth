@@ -82,7 +82,7 @@ const getQuizzes = async (req, res, include) => {
     const type = req.query.type;
     let quizzes;
     let options;
-    const currentDate = new Date().toISOString()
+    const currentDate = new Date().toISOString();
 
     // Filter current, past, and all quizzes
     switch (type) {
@@ -173,10 +173,10 @@ const getQuizScores = async (req, res) => {
       let sum = 0;
       quiz.userQuizScores.forEach((userScore) => {
         sum += userScore.score;
-      }) 
+      });
       return sum / quiz.userQuizScores.length;
-    }
-    
+    };
+
     // Store either array of scores or the average score for given quiz
     const scores = type === "all" ? quiz.userQuizScores : averageScore();
 
