@@ -8,19 +8,16 @@ const router = express.Router();
 //POST
 router.post("/", (req, res) => resources.createQuiz(req, res));
 
-//PUT
-// router.put("/", (req, res) => resources.updateScore(req, res));
-
 //GET ALL
-// router.get("/", (req, res) => resources.getQuizzes(req, res));
+router.get("/:id", (req, res) => resources.getQuizzes(req, res));
+
+//GET BY ID
+router.get("/:id", (req, res) => resources.getQuiz(req, res));
 
 //GET QUIZ SCORE DATA BY ID
-// router.get("/:id", (req, res) => resources.getQuiz(req, res));
-
-//PUT
-// router.put("/:uuid", (req, res) => resources.update(req, res));
+router.get("/:id", (req, res) => resources.getQuizScores(req, res));
 
 //DELETE
-// router.delete("/:id", (req, res) => resources.delete(req, res));
+router.delete("/:id", (req, res) => resources.deleteQuiz(req, res));
 
 export default router;

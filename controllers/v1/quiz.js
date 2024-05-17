@@ -84,10 +84,6 @@ const getQuizzes = async (req, res, include) => {
     let options;
     const currentDate = new Date().toISOString()
 
-    if (!type) {
-      return res.status(400).json({ msg: "Quiz type missing" });
-    }
-
     // Filter current, past, and all quizzes
     switch (type) {
       case "past":
@@ -161,15 +157,16 @@ const getQuizScores = async (req, res) => {
   try {
     const type = req.query.type;
 
-    quiz = await prisma.quiz.findUnique({
-      where: { id: req.params.id },
-    });
+    // quiz = await prisma.quiz.findUnique({
+    //   where: { id: req.params.id },
+    // });
 
-    if (!quiz) {
-      return res
-        .status(404)
-        .json({ msg: `No quiz with the id: ${req.params.id} found` });
-    }
+    // if (!quiz) {
+    //   return res
+    //     .status(404)
+    //     .json({ msg: `No quiz with the id: ${req.params.id} found` });
+    // }
+    const quiz = getQuiz(req, res);
 
     // Calculate average score function
     const averageScore = () => {
