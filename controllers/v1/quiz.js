@@ -74,9 +74,26 @@ const createQuiz = async (req, res) => {
   }
 };
 
-const getQuizzes = async (req, res) => {
+const getQuizzes = async (req, res, include) => {
   try {
-    const quizzes = await prisma.quiz.findMany();
+    // Pagination
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 25;
+
+    //Extract query parameters like filters
+    const filters = req.query.filters ? JSON.parse(req.query.filters) : {};
+    const orderBy = req.query.orderBy;
+    let currentDate = new Date();
+
+    const query = {
+      where: filters,
+      orderBy: orderBy ? JSON.parse(orderBy) : undefined,
+      include: include,
+      skip: pageSize * (page - 1),
+      take: pageSize,
+    }
+
+    const quizzes = await prisma.quiz.findMany(query);
 
     if (quizzes.length === 0) {
       return res.status(404).json({ msg: "No quizzes found" });
