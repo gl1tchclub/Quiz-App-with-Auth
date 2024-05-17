@@ -79,7 +79,36 @@ const getQuizzes = async (req, res, include) => {
     // Pagination
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.pageSize) || 25;
+    const type = req.query.type;
 
+    if (!type) {
+      return res.status(400).json({ msg: "Quiz type missing" });
+    }
+
+    let quizzes;
+
+    // Filter current, past, and all quizzes
+    switch (type) {
+      case "all":
+        quizzes = await prisma.quiz.findMany();
+        break;
+      case "past":
+        quizzes = await prisma.quiz.findMany({
+          where: { endDate: { lt: new Date().toISOString() } },
+        });
+        break;
+      case "current":
+        const currentDate = new Date().toISOString();
+        quizzes = await prisma.quiz.findMany({
+          where: {
+            startDate: { lte: currentDate },
+            endDate: { gte: currentDate },
+          },
+        });
+        break;
+      default:
+        return res.status(400).json({ msg: "Invalid quiz type." });
+    }
     //Extract query parameters like filters
     const filters = req.query.filters ? JSON.parse(req.query.filters) : {};
     const orderBy = req.query.orderBy;
@@ -91,9 +120,9 @@ const getQuizzes = async (req, res, include) => {
       include: include,
       skip: pageSize * (page - 1),
       take: pageSize,
-    }
+    };
 
-    const quizzes = await prisma.quiz.findMany(query);
+    // const quizzes = await prisma.quiz.findMany(query);
 
     if (quizzes.length === 0) {
       return res.status(404).json({ msg: "No quizzes found" });
