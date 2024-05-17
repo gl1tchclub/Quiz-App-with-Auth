@@ -101,6 +101,10 @@ const getQuizzes = async (req, res, include) => {
           endDate: { gte: currentDate },
         };
         break;
+      case "future":
+        options = {
+          startDate: { gte: currentDate },
+        };
       default:
         options = undefined;
     }
