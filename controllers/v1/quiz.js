@@ -74,6 +74,24 @@ const createQuiz = async (req, res) => {
   }
 };
 
+const getQuizzes = async (req, res) => {
+  try {
+    const quizzes = await prisma.quiz.findMany();
+
+    if (quizzes.length === 0) {
+      return res.status(404).json({ msg: "No quizzes found" });
+    }
+
+    return res.status(200).json({ data: quizzes });
+  } catch (err) {
+    return res.status(500).json({
+      msg: err.message,
+    });
+  }
+};
+
+
+
 const deleteQuiz = async (req, res) => {
   try {
     // Get logged in user's ID
