@@ -74,4 +74,43 @@ const createQuiz = async (req, res) => {
   }
 };
 
-export { createQuiz };
+const deleteQuiz = async (req, res) => {
+  try {
+    // Get logged in user's ID
+    const { id } = req.user;
+
+    const user = await prisma.user.findUnique({ where: { id: id } });
+
+    if (user.role == "BASIC_USER") {
+      return res.status(403).json({
+        msg: "Not authorized to access this route",
+      });
+    }
+
+    // Get user with ID to delete from parameters
+    const removeQuiz = await prisma.user.findUnique({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (!removeQuiz) {
+      return res
+        .status(404)
+        .json({ msg: `No quiz with the id: ${req.params.id} found` });
+    }
+    await prisma.quiz.delete({
+      where: { id: removeQuiz.id },
+    });
+
+    return res.json({
+      msg: `Quiz with the id: ${req.params.id} successfully deleted`,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      msg: err.message,
+    });
+  }
+};
+
+export { createQuiz, deleteQuiz };
