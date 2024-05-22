@@ -153,42 +153,7 @@ const getQuiz = async (req, res) => {
   }
 };
 
-const getQuizScores = async (req, res) => {
-  try {
-    const type = req.query.type;
 
-    // quiz = await prisma.quiz.findUnique({
-    //   where: { id: req.params.id },
-    // });
-
-    // if (!quiz) {
-    //   return res
-    //     .status(404)
-    //     .json({ msg: `No quiz with the id: ${req.params.id} found` });
-    // }
-    const quiz = getQuiz(req, res);
-
-    // Calculate average score function
-    const averageScore = () => {
-      let sum = 0;
-      quiz.userQuizScores.forEach((userScore) => {
-        sum += userScore.score;
-      });
-      return sum / quiz.userQuizScores.length;
-    };
-
-    // Store either array of scores or the average score for given quiz
-    const scores = type === "all" ? quiz.userQuizScores : averageScore();
-
-    return res.json({
-      data: scores,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      msg: err.message,
-    });
-  }
-};
 
 const deleteQuiz = async (req, res) => {
   try {
@@ -229,4 +194,4 @@ const deleteQuiz = async (req, res) => {
   }
 };
 
-export { createQuiz, getQuiz, getQuizzes, getQuizScores, deleteQuiz };
+export { createQuiz, getQuiz, getQuizzes, deleteQuiz };

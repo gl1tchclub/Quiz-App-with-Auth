@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { getQuiz } from "./quiz";
 
 const prisma = new PrismaClient();
 
@@ -47,3 +48,32 @@ const createUserScore = async (req, res) => {
     });
   }
 };
+
+// Gets scores or average score for any given quiz
+const getQuizScores = async (req, res) => {
+  try {
+    const quiz = getQuiz(req, res);
+    
+    // Calculate average score function
+    const averageScore = () => {
+      let sum = 0;
+      quiz.userQuizScores.forEach((userScore) => {
+        sum += userScore.score;
+      });
+      return sum / quiz.userQuizScores.length;
+    };
+
+    // Store either array of scores or the average score for given quiz
+    const scores = req.params.type === "average" ?  averageScore() : quiz.userQuizScores;
+
+    return res.json({
+      data: scores,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      msg: err.message,
+    });
+  }
+};
+
+export { createUserScore, getQuizScores };
