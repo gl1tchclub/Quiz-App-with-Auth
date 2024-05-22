@@ -31,7 +31,7 @@ const createParticipate = async (req, res) => {
         quizId,
       },
     });
-    
+
     return res.status(201).json({
       msg: "Participation successfully registered",
       data: participation,

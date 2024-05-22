@@ -153,8 +153,6 @@ const getQuiz = async (req, res) => {
   }
 };
 
-
-
 const deleteQuiz = async (req, res) => {
   try {
     // Get logged in user's ID

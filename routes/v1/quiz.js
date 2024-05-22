@@ -6,7 +6,7 @@ import * as score from "../../controllers/v1/score.js";
 
 const router = express.Router();
 
-        // QUIZ CRUD
+// QUIZ CRUD
 //POST
 router.post("/", (req, res) => resources.createQuiz(req, res));
 
@@ -22,7 +22,7 @@ router.get("/:id", (req, res) => resources.getQuizScores(req, res));
 //DELETE
 router.delete("/:id", (req, res) => resources.deleteQuiz(req, res));
 
-        // QUIZ SCORE CRUD
+// QUIZ SCORE CRUD
 router.post("/", (req, res) => score.createUserScore(req, res));
 
 router.get("/:id", (req, res) => score.getQuizScores(req, res));

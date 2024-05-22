@@ -53,7 +53,7 @@ const createUserScore = async (req, res) => {
 const getQuizScores = async (req, res) => {
   try {
     const quiz = getQuiz(req, res);
-    
+
     // Calculate average score function
     const averageScore = () => {
       let sum = 0;
@@ -64,7 +64,8 @@ const getQuizScores = async (req, res) => {
     };
 
     // Store either array of scores or the average score for given quiz
-    const scores = req.params.type === "average" ?  averageScore() : quiz.userQuizScores;
+    const scores =
+      req.params.type === "average" ? averageScore() : quiz.userQuizScores;
 
     return res.json({
       data: scores,
