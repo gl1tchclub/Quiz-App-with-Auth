@@ -3,6 +3,8 @@
 import express from "express";
 import * as resources from "../../controllers/v1/quiz.js";
 import * as score from "../../controllers/v1/score.js";
+import * as answer from "../../controllers/v1/answer.js";
+import * as participate from "../../controllers/v1/participate.js";
 
 const router = express.Router();
 
@@ -16,15 +18,20 @@ router.get("/:id", (req, res) => resources.getQuizzes(req, res));
 //GET BY ID
 router.get("/:id", (req, res) => resources.getQuiz(req, res));
 
-//GET QUIZ SCORE DATA BY ID
-router.get("/:id", (req, res) => resources.getQuizScores(req, res));
-
 //DELETE
 router.delete("/:id", (req, res) => resources.deleteQuiz(req, res));
 
-// QUIZ SCORE CRUD
-router.post("/", (req, res) => score.createUserScore(req, res));
+// SCORE CRUD
+router.post("/scores", (req, res) => score.createUserScore(req, res));
 
-router.get("/:id", (req, res) => score.getQuizScores(req, res));
+router.get("/scores/:type", (req, res) => score.getQuizScores(req, res));
+
+// PARTICIPATE CRUD
+router.post("/scores", (req, res) => score.createUserScore(req, res));
+
+// ANSWER CRUD
+router.post("/scores", (req, res) => score.createUserScore(req, res));
+
+router.get("/scores/:type", (req, res) => score.getQuizScores(req, res));
 
 export default router;

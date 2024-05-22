@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 const createUserScore = async (req, res) => {
   try {
     const { userId } = req.user;
-    const user = await prisma.user.findUnique({ where: { id: userId } });
     const { quizId } = req.body;
 
     const quiz = await prisma.quiz.findUnique({
@@ -31,7 +30,7 @@ const createUserScore = async (req, res) => {
 
     const userScore = await prisma.userQuizScore.create({
       data: {
-        id,
+        userId,
         quizId,
         score,
       },
@@ -40,8 +39,6 @@ const createUserScore = async (req, res) => {
     return res
       .status(201)
       .json({ msg: "User score successfully recorded", data: userScore });
-    // calc average quiz score
-    // add score to list of scores (userquizscore)
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
