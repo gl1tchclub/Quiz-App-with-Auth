@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { getQuiz } from "./quiz";
+import { getQuiz } from "./quiz.js";
 
 const prisma = new PrismaClient();
 

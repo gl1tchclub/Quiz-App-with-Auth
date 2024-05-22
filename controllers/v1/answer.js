@@ -4,11 +4,10 @@ const prisma = new PrismaClient();
 
 const createAnswer = async (req, res) => {
   try {
+    // Store user object
     const { userId } = req.user;
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-    if (!user) {
-      return res.status(404).json({ msg: `No user found with ID ${userId}` });
-    }
+
+    // Store data provided in req body
     const { quizId, questionId, answer } = req.body;
 
     const quiz = await prisma.quiz.findUnique({
@@ -52,30 +51,30 @@ const createAnswer = async (req, res) => {
 
 const getAnswers = async (req, res) => {
   try {
-    const { quizId } = req.params.quizId;
-    // const { userId } = req.user;
+    const { quizId } = req.body;
+    const { userId } = req.user;
 
     const quiz = await prisma.quiz.findUnique({
       where: { id: quizId },
+    });
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
     });
 
     // Ensure quiz exists
     if (!quiz)
       return res.status(404).json({ msg: `No quiz found with ID ${quizId}` });
 
-    const allAnswers = quiz.userQuestionAnswers;
+    const allAnswers = user.UserQuestionAnswer;
 
-    // Get answers that associate with given user ID
-    // const userAnswers = allAnswers.filter((ans) => allAnswers.userId === userId);
+    // Get answers that associate with given quiz ID
+    const userAnswers = allAnswers.filter((ans) => ans.quizId === quizId);
 
-    // if (userAnswers.length === 0) return res.status(404).json({ msg: "No answers found" });
-
-    if (allAnswers.length === 0)
-      return res.status(404).json({ msg: "No answers found" });
+    if (userAnswers.length === 0) return res.status(404).json({ msg: "No answers found" });
 
     return res
       .status(200)
-      .json({ msg: "Successfully fetched answers", data: answers });
+      .json({ msg: "Successfully fetched answers", data: userAnswers });
   } catch (err) {
     return res.status(500).json({
       msg: err.message,
@@ -83,6 +82,7 @@ const getAnswers = async (req, res) => {
   }
 };
 
+// Don't need?
 const updateAnswer = async (req, res) => {
   try {
     const { id } = req.params.id;
