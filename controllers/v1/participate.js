@@ -31,10 +31,7 @@ const createParticipate = async (req, res) => {
         quizId,
       },
     });
-    // add ID to userparticipatequiz
-    // update userquestionanswer
-    // calc average quiz score
-    // add score to list of scores (userquizscore)
+    
     return res.status(201).json({
       msg: "Participation successfully registered",
       data: participation,
@@ -45,3 +42,5 @@ const createParticipate = async (req, res) => {
     });
   }
 };
+
+export default createParticipate;
