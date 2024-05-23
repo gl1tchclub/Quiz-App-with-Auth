@@ -41,9 +41,7 @@ const Game = () => {
               : `Next Player: ${xIsNext ? "X" : "O"}`}
           </p>
         )}
-        <button
-          onClick={restartGame}
-        >
+        <button onClick={restartGame}>
           {gameStarted ? "Restart Game" : "Start Game"}
         </button>
       </div>
