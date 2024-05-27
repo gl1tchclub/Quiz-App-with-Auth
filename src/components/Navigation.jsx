@@ -10,7 +10,8 @@ import {
 } from "reactstrap";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import * as PageRoutes from "./PageRouter.jsx";
+import RegisterForm from "./RegisterForm";
+import LoginForm from "./LoginForm";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,18 +29,73 @@ const Navigation = () => {
               <NavLink href="/">Home</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/quizzes">Quizzes</NavLink>
+              <NavLink href="/register" element={<RegisterForm/>}>Register</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/users">Users</NavLink>
+              <NavLink href="/login">Login</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/user">User</NavLink>
+              <NavLink href="/quizzes">Quiz</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/users">User</NavLink>
             </NavItem>
           </Nav>
         </Collapse>
       </Navbar>
-      <PageRoutes />
+      <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <div
+                  style={{
+                    display: "flex",
+                    height: "80vh",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <h1 style={{ margin: "100px" }}>
+                    Welcome to the Quiz App
+                  </h1>
+                  <h3>Click to get started</h3>
+                </div>
+              </>
+            }
+          ></Route>
+          <Route
+            path="/quizzes"
+            element={
+              <>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  Quizzes
+                </div>
+              </>
+            }
+          />
+          <Route
+            path="/users"
+            element={
+              <>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  Users
+                </div>
+              </>
+            }
+          />
+          <Route
+            path="/user"
+            element={
+              <>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  User
+                </div>
+              </>
+            }
+          />
+        </Routes>
     </Router>
   );
 };
