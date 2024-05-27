@@ -7,35 +7,43 @@ const createAnswer = async (req, res) => {
     // Store user object
     const { userId } = req.user;
 
-    // Store data provided in req body
-    const { quizId, questionId, answer } = req.body;
+    const answers = req.body.answers;
 
-    const quiz = await prisma.quiz.findUnique({
-      where: { id: quizId },
+    const record = await prisma.quiz.findUnique({
+      where: { id: answers[0].quizId },
+      include: {
+        questions: true,
+      },
     });
 
     // Ensure quiz exists
-    if (!quiz)
+    if (!record)
       return res.status(404).json({ msg: `No quiz found with ID ${quizId}` });
 
-    const question = quiz.questions.find((q) => q.id === questionId);
+    let score = 0;
+    let isCorrect = false;
+    const comparedAnswers = answers.map((answer, index) => {
+      if (answer === record.questions[index].correctAnswer) {
+        score++;
+        isCorrect = true;
+      } else isCorrect = false;
 
-    // Check that question exists in given quiz
-    if (!question)
-      return res
-        .status(404)
-        .json({ msg: `No question found with ID ${questionId} in this quiz` });
+      return {
+        userId: req.user.id,
+        questionId: record.questions[index].id,
+        quizId: record.questions[index].quizId,
+        answer: answer,
+        isCorrect: isCorrect,
+      };
+    });
 
-    // Set isCorrect by comparing given answer to correct answer
-    const isCorrect = answer === question.correctAnswer ? true : false;
-
-    const userAnswer = await prisma.userQuestionAnswer.create({
+    await prisma.userQuestionAnswer.createMany({
+      data: comparedAnswers,
+    });
+    await prisma.userParticipateQuiz.create({
       data: {
-        userId,
-        quizId,
-        questionId,
-        answer,
-        isCorrect,
+        userId: req.user.id,
+        quizId: record.id,
       },
     });
 
@@ -70,7 +78,8 @@ const getAnswers = async (req, res) => {
     // Get answers that associate with given quiz ID
     const userAnswers = allAnswers.filter((ans) => ans.quizId === quizId);
 
-    if (userAnswers.length === 0) return res.status(404).json({ msg: "No answers found" });
+    if (userAnswers.length === 0)
+      return res.status(404).json({ msg: "No answers found" });
 
     return res
       .status(200)
