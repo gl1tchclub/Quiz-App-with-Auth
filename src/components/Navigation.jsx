@@ -10,8 +10,8 @@ import {
 } from "reactstrap";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import RegisterForm from "./RegisterForm";
-import LoginForm from "./LoginForm";
+import RegisterForm from "./forms/RegisterForm";
+import LoginForm from "./forms/LoginForm";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
