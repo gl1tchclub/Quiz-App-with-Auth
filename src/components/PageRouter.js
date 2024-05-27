@@ -1,11 +1,9 @@
-import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Routes, Route } from "react-router-dom";
 // import components to go in pages here
 
 
-const Router = () => {
+const PageRoutes = () => {
     return (
-      <Router>
         <Routes>
           <Route
             path="/"
@@ -77,6 +75,6 @@ const Router = () => {
             }
           />
         </Routes>
-      </Router>
     );
   };
+  export default PageRoutes;

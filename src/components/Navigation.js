@@ -10,15 +10,16 @@ import {
 } from "reactstrap";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import * as PageRoutes from "./PageRouter.js";
 
 const Navigation = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-    const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
 
-    const toggle = () => setIsOpen(!isOpen);
-
-    return (
-        <Navbar color="warning" light expand="md">
+  return (
+    <Router>
+      <Navbar color="warning" light expand="md">
         <NavbarBrand href="/">ARC Global Championship</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
@@ -41,7 +42,9 @@ const Navigation = () => {
           </Nav>
         </Collapse>
       </Navbar>
-    )
-}
+      <PageRoutes />
+    </Router>
+  );
+};
 
 export default Navigation;
