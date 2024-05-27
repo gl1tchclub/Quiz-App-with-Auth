@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import * as PageRoutes from "./PageRouter.js";
+import * as PageRoutes from "./PageRouter.jsx";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +20,7 @@ const Navigation = () => {
   return (
     <Router>
       <Navbar color="warning" light expand="md">
-        <NavbarBrand href="/">ARC Global Championship</NavbarBrand>
+        <NavbarBrand href="/">Quiz App</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ms-auto" navbar>
@@ -28,16 +28,13 @@ const Navigation = () => {
               <NavLink href="/">Home</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/colosseums">Colosseums</NavLink>
+              <NavLink href="/quizzes">Quizzes</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/events">Events</NavLink>
+              <NavLink href="/users">Users</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/participants">Participants</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="/animals">Animals</NavLink>
+              <NavLink href="/user">User</NavLink>
             </NavItem>
           </Nav>
         </Collapse>

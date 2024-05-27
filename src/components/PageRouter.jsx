@@ -19,58 +19,40 @@ const PageRoutes = () => {
                   }}
                 >
                   <h1 style={{ margin: "100px" }}>
-                    Welcome to the ARC Global Championship
+                    Welcome to the Quiz App
                   </h1>
-                  <h3>Seed the database to get started</h3>
+                  <h3>Click to get started</h3>
                 </div>
               </>
             }
           ></Route>
           <Route
-            path="/colosseums"
+            path="/quizzes"
             element={
               <>
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                  <CreateColosseumForm />
-                  <UpdateColosseumForm />
+                  Quizzes
                 </div>
-                <ColosseumsTable />
               </>
             }
           />
           <Route
-            path="/events"
+            path="/users"
             element={
               <>
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                  <CreateEventForm />
-                  <UpdateEventForm />
+                  Users
                 </div>
-                <EventsTable />
               </>
             }
           />
           <Route
-            path="/participants"
+            path="/user"
             element={
               <>
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                  <CreateParticipantForm />
-                  <UpdateParticipantForm />
+                  User
                 </div>
-                <ParticipantsTable />
-              </>
-            }
-          />
-          <Route
-            path="/animals"
-            element={
-              <>
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  <CreateAnimalForm />
-                  <UpdateAnimalForm />
-                </div>
-                <AnimalsTable />
               </>
             }
           />
