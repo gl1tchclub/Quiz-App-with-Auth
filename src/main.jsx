@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-// import './index.css'
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import './index.css'
 
 export const queryClient = new QueryClient();
 
@@ -11,6 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 <React.StrictMode>
   <QueryClientProvider client={queryClient}>
     <App />
+    <ReactQueryDevtools initialIsOpen={false} />
   </QueryClientProvider>
 </React.StrictMode>,
 )

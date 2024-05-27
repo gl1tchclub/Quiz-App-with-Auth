@@ -29,7 +29,7 @@
     "redux": "^5.0.1"
   },
   "devDependencies": {
-    "@tanstack/react-query-devtools": "^5.37.1",
+    "@tanstack/react-query-devtools": "^5.39.0",
     "@testing-library/dom": "^10.1.0",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",
