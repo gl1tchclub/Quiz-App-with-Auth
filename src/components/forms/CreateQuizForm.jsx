@@ -1,5 +1,5 @@
 const CreateQuiz = () => {
-    const quizForm = useForm();
+    const createQuizForm = useForm();
     const { mutate: postQuizMutation, data: quizData } = useMutation({
         mutationFn: (user) =>
           fetch("http://localhost:3000/api/v1/auth/quiz", {
@@ -13,7 +13,7 @@ const CreateQuiz = () => {
             }),
           }).then((res) => {
             if (res.status === 200) {
-              quizForm.reset((formValues) => ({
+                createQuizForm.reset((formValues) => ({
                 ...formValues,
                 email: "",
                 password: "",
@@ -22,32 +22,32 @@ const CreateQuiz = () => {
             return res.json();
           }),
         onSuccess: (data) => {
-          localStorage.setItem("token", data.token);
+        //   localStorage.setItem("token", data.token);
         //   queryClient.invalidateQueries("userData");
         },
       });
     
-      const handleQuizSubmit = (values) => postQuizMutation(values);
+      const handleCreateQuizSubmit = (values) => postQuizMutation(values);
     
       return (
         <>
           <Navigation/>
           <h2>Quiz</h2>
-          <form onSubmit={quizForm.handleSubmit(handleQuizSubmit)}>
+          <form onSubmit={createQuizForm.handleSubmit(handleCreateQuizSubmit)}>
             {/* change to radio buttons */}
             <label htmlFor="quiz-question">Email</label>
             <input
               type="text"
               id="quiz-email"
               name="email"
-              {...quizForm.quiz("email")}
+              {...createQuizForm.quiz("email")}
             />
             <label htmlFor="quiz-answer">Password</label>
             <input
               type="radio"
               id="quiz-answer"
               name="answer"
-              {...quizForm.quiz("answer")}
+              {...createQuizForm.quiz("answer")}
             />
             <button type="submit">Submit</button>
           </form>
