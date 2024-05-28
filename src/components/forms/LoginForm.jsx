@@ -28,7 +28,7 @@ const Login = () => {
           }),
         onSuccess: (data) => {
           localStorage.setItem("token", data.token);
-          queryClient.invalidateQueries("userData");
+        //   queryClient.invalidateQueries("userData");
         },
       });
     
@@ -46,47 +46,12 @@ const Login = () => {
               name="email"
               {...loginForm.login("email")}
             />
-            <label htmlFor="login-firstname">First Name</label>
-            <input
-              type="text"
-              id="login-firstname"
-              name="firstname"
-              {...loginForm.login("firstname")}
-            />
-            <label htmlFor="login-lastname">Last Name</label>
-            <input
-              type="text"
-              id="login-lastname"
-              name="lastname"
-              {...loginForm.login("lastname")}
-            />
             <label htmlFor="login-password">Password</label>
             <input
               type="password"
               id="login-password"
               name="password"
               {...loginForm.login("password")}
-            />
-            <label htmlFor="login-username">Username</label>
-            <input
-              type="text"
-              id="login-username"
-              name="username"
-              {...loginForm.login("username")}
-            />
-            <label htmlFor="login-role">Role</label>
-            <input
-              type="text"
-              id="role"
-              name="role"
-              {...loginForm.login("role")}
-            />
-            <label htmlFor="login-confirm-password">Confirm Password</label>
-            <input
-              type="password"
-              id="confirm_password"
-              name="confirm_password"
-              {...loginForm.login("confirm_password")}
             />
             <button type="submit">Submit</button>
           </form>
