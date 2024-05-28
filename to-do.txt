@@ -1,0 +1,23 @@
+admin user:
+- paragraph/div for personal info
+- form for update
+- table for get all users except themselves
+- update basic user (button next to user info) NOT on admin
+- delete basic user button
+
+
+Quiz:
+- get all quizzes user has not participated in
+- click quiz, display all questions and answers as radio buttons
+- submit button at bottom (onSubmit - send array of answers)
+
+
+options:
+- in get all quizzes loop thru req.user.userParticipateQuizzes[] and don't display the quizzes with ids in this array
+use filter function
+
+
+Frontend quiz form:
+- add question form file
+- import question form into quiz form
+- use in return statement

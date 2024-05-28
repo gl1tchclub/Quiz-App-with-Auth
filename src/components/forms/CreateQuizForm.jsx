@@ -2,7 +2,7 @@ const CreateQuiz = () => {
     const createQuizForm = useForm();
     const { mutate: postQuizMutation, data: quizData } = useMutation({
         mutationFn: (user) =>
-          fetch("http://localhost:3000/api/v1/auth/quiz", {
+          fetch("http://localhost:3000/api/v1/quiz", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
