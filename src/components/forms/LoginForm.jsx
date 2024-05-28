@@ -28,7 +28,7 @@ const Login = () => {
           }),
         onSuccess: (data) => {
           localStorage.setItem("token", data.token);
-          queryClient.invalidateQueries("institutionData");
+          queryClient.invalidateQueries("userData");
         },
       });
     
