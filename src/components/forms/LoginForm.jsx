@@ -53,14 +53,13 @@ const Login = () => {
               name="password"
               {...loginForm.login("password")}
             />
-            <button type="submit">Submit</button>
+            <button type="submit">Login</button>
           </form>
           <p>{loginData?.msg}</p>
     
           <button
             onClick={() => {
               localStorage.removeItem("token");
-              // queryClient.invalidateQueries("institutionData");
             }}
           >
             Logout

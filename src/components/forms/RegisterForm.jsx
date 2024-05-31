@@ -1,9 +1,11 @@
 import { queryClient } from "../../main";
-
 import { useForm } from "react-hook-form";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { Button, Form, FormGroup, Input, UncontrolledAlert } from "reactstrap";
 
-const { mutate: postRegisterMutation, data: registerData } = useMutation({
+const Register = () => {
+  const registerForm = useForm();
+  const { mutate: postRegisterMutation, data: registerData } = useMutation({
     mutationFn: (user) =>
       fetch("http://localhost:3000/api/v1/auth/register", {
         method: "POST",
@@ -16,7 +18,6 @@ const { mutate: postRegisterMutation, data: registerData } = useMutation({
           lastName: user.lastName,
           password: user.password,
           username: user.username,
-          role: user.role,
           confirm_password: user.confirm_password,
         }),
       }).then((res) => {
@@ -28,7 +29,6 @@ const { mutate: postRegisterMutation, data: registerData } = useMutation({
             lastName: "",
             password: "",
             username: "",
-            role: "",
             confirm_password: "",
           }));
         }
@@ -40,7 +40,6 @@ const { mutate: postRegisterMutation, data: registerData } = useMutation({
 
   return (
     <>
-      <Navigation/>
       <h2>Register</h2>
       <form onSubmit={registerForm.handleSubmit(handleRegisterSubmit)}>
         <label htmlFor="register-email">Email</label>
@@ -78,13 +77,6 @@ const { mutate: postRegisterMutation, data: registerData } = useMutation({
           name="username"
           {...registerForm.register("username")}
         />
-        <label htmlFor="register-role">Role</label>
-        <input
-          type="text"
-          id="role"
-          name="role"
-          {...registerForm.register("role")}
-        />
         <label htmlFor="register-confirm-password">Confirm Password</label>
         <input
           type="password"
@@ -92,17 +84,12 @@ const { mutate: postRegisterMutation, data: registerData } = useMutation({
           name="confirm_password"
           {...registerForm.register("confirm_password")}
         />
-        <button type="submit">Submit</button>
+        <Button type="submit" style={{ marginBottom: "1rem", width: "100%" }}>
+          Register
+        </Button>
       </form>
       <p>{registerData?.msg}</p>
-
-      <button
-        onClick={() => {
-          localStorage.removeItem("token");
-          // queryClient.invalidateQueries("institutionData");
-        }}
-      >
-        Logout
-      </button>
     </>
   );
+};
+export default Register;
