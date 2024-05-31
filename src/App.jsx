@@ -7,7 +7,11 @@ import Score from "./components/Score";
 
 
 const App = () => {
-  <Navigation/>
+  return (
+    <>
+      <Navigation/>
+    </>
+  );
 };
 
 export default App;

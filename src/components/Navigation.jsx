@@ -67,6 +67,25 @@ const Navigation = () => {
           }
         ></Route>
         <Route
+          path="/welcome"
+          element={
+            <>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <RegisterForm />
+                {/* <LoginForm /> */}
+              </div>
+            </>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <>
+              <div style={{ display: "flex", justifyContent: "center" }}></div>
+            </>
+          }
+        />
+        <Route
           path="/quizzes"
           element={
             <>
