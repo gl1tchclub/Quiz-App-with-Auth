@@ -13,7 +13,7 @@ const router = express.Router();
 router.post("/", (req, res) => resources.createQuiz(req, res));
 
 //GET ALL
-router.get("/:id", (req, res) => resources.getQuizzes(req, res));
+router.get("/", (req, res) => resources.getQuizzes(req, res));
 
 //GET BY ID
 router.get("/:id", (req, res) => resources.getQuiz(req, res));
