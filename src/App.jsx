@@ -7,10 +7,7 @@ import Score from "./components/Score";
 
 
 const App = () => {
-  const registerForm = useForm();
-  const loginForm = useForm();
-
-  
+  <Navigation/>
 };
 
 export default App;

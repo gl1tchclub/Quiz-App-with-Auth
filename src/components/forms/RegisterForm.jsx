@@ -54,14 +54,14 @@ const Register = () => {
           type="text"
           id="register-firstname"
           name="firstname"
-          {...registerForm.register("firstname")}
+          {...registerForm.register("firstName")}
         />
         <label htmlFor="register-lastname">Last Name</label>
         <input
           type="text"
           id="register-lastname"
           name="lastname"
-          {...registerForm.register("lastname")}
+          {...registerForm.register("lastName")}
         />
         <label htmlFor="register-password">Password</label>
         <input
@@ -77,7 +77,7 @@ const Register = () => {
           name="username"
           {...registerForm.register("username")}
         />
-        <label htmlFor="register-confirm-password">Confirm Password</label>
+        <label htmlFor="register-confirm_password">Confirm Password</label>
         <input
           type="password"
           id="confirm_password"

@@ -8,13 +8,6 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
-// import {
-//   CDBFooter,
-//   CDBFooterLink,
-//   CDBBtn,
-//   CDBIcon,
-//   CDBContainer,
-// } from "cdbreact";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RegisterForm from "./forms/RegisterForm";
 import LoginForm from "./forms/LoginForm";
