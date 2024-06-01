@@ -7,11 +7,11 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Button,
 } from "reactstrap";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RegisterForm from "./forms/RegisterForm";
 import LoginForm from "./forms/LoginForm";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Navigation = () => {
@@ -30,7 +30,7 @@ const Navigation = () => {
               <NavLink href="/">Home</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/welcome">Register/Login</NavLink>
+              <NavLink href="/welcome">Register Login</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/quizzes">Quiz</NavLink>
@@ -56,9 +56,11 @@ const Navigation = () => {
                 }}
               >
                 <h1 style={{ margin: "100px" }}>Welcome to the Quiz App</h1>
-                <Link to="/welcome">
-                  <Button>Click to get started</Button>
+                  <Button asChild variant="outline">
+                <Link to="/welcome" style={{color: "black"}}>
+                    Click to get started
                 </Link>
+                    </Button>
               </div>
             </>
           }

@@ -2,6 +2,7 @@ import { queryClient } from "../../main";
 import { useForm } from "react-hook-form";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+// import { Form } from "@/components/ui/form";
 import { Form, FormGroup, Input, UncontrolledAlert } from "reactstrap";
 
 const Register = () => {
@@ -113,6 +114,7 @@ const Register = () => {
             <Button
               type="submit"
               style={{ marginBottom: "1rem", width: "20%" }}
+              variant="outline"
             >
               Register
             </Button>
