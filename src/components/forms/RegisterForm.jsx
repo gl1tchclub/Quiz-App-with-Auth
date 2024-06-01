@@ -51,56 +51,71 @@ const Register = () => {
           }}
         >
           <h1 style={{ margin: "20px 0" }}>Register</h1>
-          <form onSubmit={registerForm.handleSubmit(handleRegisterSubmit)} style={{ display: "flexbox" }}>
-            <label htmlFor="register-email" style={{ margin: "20px 0",  }}>Email:</label>
-            <input
-              type="text"
-              id="register-email"
-              name="email"
-              {...registerForm.register("email")}
-            />
-            <label htmlFor="register-firstname">First Name</label>
-            <input
-              type="text"
-              id="register-firstname"
-              name="firstname"
-              {...registerForm.register("firstName")}
-            />
-            <label htmlFor="register-lastname">Last Name</label>
-            <input
-              type="text"
-              id="register-lastname"
-              name="lastname"
-              {...registerForm.register("lastName")}
-            />
-            <label htmlFor="register-password">Password</label>
-            <input
-              type="password"
-              id="register-password"
-              name="password"
-              {...registerForm.register("password")}
-            />
-            <label htmlFor="register-username">Username</label>
-            <input
-              type="text"
-              id="register-username"
-              name="username"
-              {...registerForm.register("username")}
-            />
-            <label htmlFor="register-confirm_password">Confirm Password</label>
-            <input
-              type="password"
-              id="confirm_password"
-              name="confirm_password"
-              {...registerForm.register("confirm_password")}
-            />
+          <Form
+            onSubmit={registerForm.handleSubmit(handleRegisterSubmit)}
+            style={{ display: "flexbox" }}
+          >
+            <FormGroup>
+              <input
+                type="text"
+                id="register-email"
+                name="email"
+                placeholder="Email"
+                {...registerForm.register("email")}
+              />
+            </FormGroup>
+            <FormGroup>
+              <input
+                type="text"
+                id="register-firstname"
+                name="firstname"
+                placeholder="First Name"
+                {...registerForm.register("firstName")}
+              />
+            </FormGroup>
+            <FormGroup>
+              <input
+                type="text"
+                id="register-lastname"
+                name="lastname"
+                placeholder="Last Name"
+                {...registerForm.register("lastName")}
+              />
+            </FormGroup>
+            <FormGroup>
+              <input
+                type="password"
+                id="register-password"
+                name="password"
+                placeholder="Password"
+                {...registerForm.register("password")}
+              />
+            </FormGroup>
+            <FormGroup>
+              <input
+                type="text"
+                id="register-username"
+                name="username"
+                placeholder="Username"
+                {...registerForm.register("username")}
+              />
+            </FormGroup>
+            <FormGroup>
+              <input
+                type="password"
+                id="confirm_password"
+                name="confirm_password"
+                placeholder="Confirm Password"
+                {...registerForm.register("confirm_password")}
+              />
+            </FormGroup>
             <Button
               type="submit"
               style={{ marginBottom: "1rem", width: "100%" }}
             >
               Register
             </Button>
-          </form>
+          </Form>
           <p>{registerData?.msg}</p>
         </div>
       </div>

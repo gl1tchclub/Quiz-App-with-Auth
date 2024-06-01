@@ -7,10 +7,12 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Button,
 } from "reactstrap";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RegisterForm from "./forms/RegisterForm";
 import LoginForm from "./forms/LoginForm";
+import { Link } from "react-router-dom";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +21,7 @@ const Navigation = () => {
 
   return (
     <Router>
-      <Navbar color="warning" light expand="md">
+      <Navbar color="warning" light expand="md" style={{ width: "100%" }}>
         <NavbarBrand href="/">Quiz App</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
@@ -61,7 +63,9 @@ const Navigation = () => {
                 }}
               >
                 <h1 style={{ margin: "100px" }}>Welcome to the Quiz App</h1>
-                <h3>Click to get started</h3>
+                <Link to="/welcome">
+                  <Button>Click to get started</Button>
+                </Link>
               </div>
             </>
           }
