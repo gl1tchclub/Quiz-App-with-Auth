@@ -30,14 +30,7 @@ const Navigation = () => {
               <NavLink href="/">Home</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/register" element={<RegisterForm />}>
-                Register
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="/login" element={<LoginForm />}>
-                Login
-              </NavLink>
+              <NavLink href="/welcome">Register/Login</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/quizzes">Quiz</NavLink>

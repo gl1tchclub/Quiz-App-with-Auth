@@ -111,7 +111,7 @@ const Register = () => {
             </FormGroup>
             <Button
               type="submit"
-              style={{ marginBottom: "1rem", width: "100%" }}
+              style={{ marginBottom: "1rem", width: "20%" }}
             >
               Register
             </Button>
