@@ -1,7 +1,8 @@
 import { queryClient } from "../../main";
 import { useForm } from "react-hook-form";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Button, Form, FormGroup, Input, UncontrolledAlert } from "reactstrap";
+import { Button } from "@/components/ui/button";
+import { Form, FormGroup, Input, UncontrolledAlert } from "reactstrap";
 
 const Register = () => {
   const registerForm = useForm();
