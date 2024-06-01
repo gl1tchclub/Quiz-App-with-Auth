@@ -9,10 +9,12 @@ import {
   NavLink,
 } from "reactstrap";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import RegisterForm from "./forms/RegisterForm";
-import LoginForm from "./forms/LoginForm";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+
+import Test from "./forms/TestForm";
+import RegisterForm from "./forms/RegisterForm";
+import LoginForm from "./forms/LoginForm";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -81,6 +83,16 @@ const Navigation = () => {
           element={
             <>
               <div style={{ display: "flex", justifyContent: "center" }}></div>
+            </>
+          }
+        />
+        <Route
+          path="/test"
+          element={
+            <>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+              <Test/>
+              </div>
             </>
           }
         />
