@@ -22,7 +22,6 @@ const Navigation = () => {
 
   return (
     <Router>
-      
       <Navbar color="warning" light expand="md" style={{ width: "100%" }}>
         <NavbarBrand href="/">Quiz App</NavbarBrand>
         <NavbarToggler onClick={toggle} />
@@ -43,7 +42,7 @@ const Navigation = () => {
           </Nav>
         </Collapse>
       </Navbar>
-      <section class="container mx-auto">
+      <section class="container mx-auto h-screen">
       <div class=" flex items-center justify-center">
       <Routes>
         <Route

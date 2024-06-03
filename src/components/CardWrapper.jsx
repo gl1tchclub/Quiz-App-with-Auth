@@ -11,7 +11,7 @@ import { Children } from "react";
 
 const CardWrapper = (props) => {
   return (
-    <Card className="xl:w-1/2 md:w-1/2 shadow-md flex-col">
+    <Card className="shadow-md flex-col">
       <CardHeader className="w-full flex flex-col items-center justify-center">
         <CardTitle className="text-4xl font-semibold">{props.title}</CardTitle>
         <CardDescription className="text-muted-foreground text-md">

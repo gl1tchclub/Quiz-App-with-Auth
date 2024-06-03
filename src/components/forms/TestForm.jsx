@@ -52,15 +52,15 @@ const Test = () => {
   const handleTestSubmit = (values) => postTestMutation(values);
   return (
     <>
-      <CardWrapper
-        hrefLabel="test-register"
-        title="Test"
-        href="/login"
-        buttonLabel="Already have an account? Login here"
-        variant="link"
-      >
-        
-      </CardWrapper>
+      <div className="flex items-center justify-center">
+        <CardWrapper
+          hrefLabel="test-register"
+          title="Test"
+          href="/login"
+          buttonLabel="Already have an account? Login here"
+          variant="link"
+        ></CardWrapper>
+      </div>
       <p>{testData?.msg}</p>
     </>
   );
