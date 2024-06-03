@@ -15,8 +15,8 @@ import { Input } from "@/components/ui/input";
 import CardWrapper from "../CardWrapper";
 
 const RegisterForm = () => {
-  const testForm = useForm();
-  const { mutate: postTestMutation, data: testData } = useMutation({
+  const registerForm = useForm();
+  const { mutate: postRegisterMutation, data: registerData } = useMutation({
     mutationFn: (user) =>
       fetch("http://localhost:3000/api/v1/auth/register", {
         method: "POST",
@@ -33,7 +33,7 @@ const RegisterForm = () => {
         }),
       }).then((res) => {
         if (res.status === 201) {
-          testForm.reset((formValues) => ({
+          registerForm.reset((formValues) => ({
             ...formValues,
             email: "",
             firstName: "",
@@ -47,10 +47,10 @@ const RegisterForm = () => {
       }),
   });
 
-  const handleTestSubmit = (values) => postTestMutation(values);
+  const handleRegisterSubmit = (values) => postRegisterMutation(values);
   return (
     <>
-      <div className="h-dvh flex items-center justify-center">
+      <div className="h-dvh w-1/3 flex items-center justify-center">
         <CardWrapper
           variant="link"
           title="Register"
@@ -58,10 +58,96 @@ const RegisterForm = () => {
           hrefLabel="login"
           href="/login"
         >
-          
+          <Form {...registerForm}>
+            <form
+              onSubmit={registerForm.handleSubmit(handleRegisterSubmit)}
+              className="space-y-6"
+            >
+              <div className="space-y-4">
+                <FormField
+                  control={registerForm.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input {...field} type="email" placeholder=". . . . . ." />
+                      </FormControl>
+                      <FormMessage/>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={registerForm.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>First Name</FormLabel>
+                      <FormControl>
+                        <Input {...field} type="firstName" placeholder=". . . . . ." />
+                      </FormControl>
+                      <FormMessage/>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={registerForm.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Last Name</FormLabel>
+                      <FormControl>
+                        <Input {...field} type="lastName" placeholder=". . . . . ." />
+                      </FormControl>
+                      <FormMessage/>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={registerForm.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input {...field} type="password" placeholder="**********" />
+                      </FormControl>
+                      <FormMessage/>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={registerForm.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Username</FormLabel>
+                      <FormControl>
+                        <Input {...field} type="username" placeholder=". . . . . ." />
+                      </FormControl>
+                      <FormMessage/>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={registerForm.control}
+                  name="confirm_password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <FormControl>
+                        <Input {...field} type="confirm_password" placeholder="**********" />
+                      </FormControl>
+                      <FormMessage/>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </form>
+          </Form>
         </CardWrapper>
       </div>
-      <p>{testData?.msg}</p>
+      <p>{registerData?.msg}</p>
     </>
   );
 };
