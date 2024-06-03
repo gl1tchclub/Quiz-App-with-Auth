@@ -9,12 +9,11 @@ import {
   NavLink,
 } from "reactstrap";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 
 import Test from "./forms/TestForm";
 import RegisterForm from "./forms/RegisterForm";
 import LoginForm from "./forms/LoginForm";
+import CardWrapper from "./CardWrapper";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,6 +22,7 @@ const Navigation = () => {
 
   return (
     <Router>
+      
       <Navbar color="warning" light expand="md" style={{ width: "100%" }}>
         <NavbarBrand href="/">Quiz App</NavbarBrand>
         <NavbarToggler onClick={toggle} />
@@ -43,28 +43,19 @@ const Navigation = () => {
           </Nav>
         </Collapse>
       </Navbar>
+      <section class="container mx-auto">
+      <div class=" flex items-center justify-center">
       <Routes>
         <Route
           path="/"
           element={
-            <>
-              <div
-                style={{
-                  display: "flex",
-                  height: "80vh",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                }}
-              >
-                <h1 style={{ margin: "100px" }}>Welcome to the Quiz App</h1>
-                <Button variant="outline" label="hello">
-                  <Link to="/welcome" style={{ color: "black", textDecoration: "none" }}>
-                    Click to get started
-                  </Link>
-                </Button>
-              </div>
-            </>
+            <CardWrapper
+              title="Welcome to the Quiz App"
+              variant="outline"
+              href="/welcome"
+              label="Made by Mintep1"
+              buttonLabel="Click to get started!"
+            ></CardWrapper>
           }
         ></Route>
         <Route
@@ -127,6 +118,8 @@ const Navigation = () => {
           }
         />
       </Routes>
+      </div>
+      </section>
     </Router>
   );
 };

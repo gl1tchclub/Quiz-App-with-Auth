@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 
 const LinkButton = (props) => {
     return (
-        <Button variant={props.buttonVariant} className="font-normal w-full" size='sm' asChild>
+        <Button variant={props.variant} className="font-normal w-full" size='sm' asChild>
           <Link
-            to={props.buttonHref}
+            to={props.href}
             style={{ color: "black", textDecoration: "none" }}
-            label={props.buttonLabel}
+            label={props.hrefLabel}
           >
             {props.buttonLabel}
           </Link>

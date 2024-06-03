@@ -53,11 +53,11 @@ const Test = () => {
   return (
     <>
       <CardWrapper
-        label="test-register"
+        hrefLabel="test-register"
         title="Test"
-        buttonHref="/login"
+        href="/login"
         buttonLabel="Already have an account? Login here"
-        buttonVariant="link"
+        variant="link"
       >
         
       </CardWrapper>
