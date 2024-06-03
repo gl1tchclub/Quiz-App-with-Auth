@@ -58,11 +58,11 @@ const Navigation = () => {
                 }}
               >
                 <h1 style={{ margin: "100px" }}>Welcome to the Quiz App</h1>
-                  <Button asChild variant="outline">
-                <Link to="/welcome" style={{color: "black"}}>
+                <Button variant="outline">
+                  <Link to="/welcome" style={{ color: "black", textDecoration: "none" }}>
                     Click to get started
-                </Link>
-                    </Button>
+                  </Link>
+                </Button>
               </div>
             </>
           }
@@ -91,7 +91,7 @@ const Navigation = () => {
           element={
             <>
               <div style={{ display: "flex", justifyContent: "center" }}>
-              <Test/>
+                <Test />
               </div>
             </>
           }
