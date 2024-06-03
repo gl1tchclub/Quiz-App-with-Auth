@@ -10,7 +10,7 @@ import LinkButton from "./LinkButton";
 
 const CardWrapper = (props) => {
   return (
-    <Card className="shadow-md flex-col">
+    <Card className="w-full shadow-md flex-col">
       <CardHeader className="w-full flex flex-col items-center justify-center">
         <CardTitle className="text-4xl font-semibold">{props.title}</CardTitle>
         <CardDescription className="text-muted-foreground text-md">
@@ -18,7 +18,7 @@ const CardWrapper = (props) => {
         </CardDescription>
       </CardHeader>
       <CardContent>{props.children}</CardContent>
-      <CardFooter>
+      <CardFooter className="max-w-1/2 justify-center">
         <LinkButton
           href={props.href}
           variant={props.variant}
