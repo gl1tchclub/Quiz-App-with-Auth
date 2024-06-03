@@ -15,27 +15,31 @@ const Navbar = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <ReactNavBar className="bg-gray-800 text-gray-300 py-6" light expand="md" style={{ width: "100%" }}>
-      <NavbarBrand className="text-2xl font-bold text-white" href="/">Quiz App</NavbarBrand>
+    <ReactNavBar
+      className="bg-pink-300 text-pink-500 py-6"
+      light
+      expand="md"
+      style={{ width: "100%" }}
+    >
+      <NavbarBrand className="text-2xl font-bold" href="/">
+        <h3 className="text-pink-500">Quiz App</h3>
+      </NavbarBrand>
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
         <Nav className="ml-auto" navbar>
           <div className="font-medium inline-flex">
-          <NavItem >
-            <NavLink className="text-white" href="/register">Register</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink className="text-white" href="/">Home</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink className="text-white" href="/oldreg">Old</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink className="text-white" href="/quizzes">Quiz</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink className="text-white" href="/users">User</NavLink>
-          </NavItem>
+            <NavItem>
+              <NavLink href="/register"><div className="text-pink-500 hover:text-white">Register</div></NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/"><div className="text-pink-500 hover:text-white">Home</div></NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/quizzes"><div className="text-pink-500 hover:text-white">Quizzes</div></NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/users"><div className="text-pink-500 hover:text-white">User</div></NavLink>
+            </NavItem>
           </div>
         </Nav>
       </Collapse>

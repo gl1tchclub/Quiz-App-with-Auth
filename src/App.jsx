@@ -15,7 +15,7 @@ import Navbar from "./components/Nav";
 import Footer from "./components/Footer";
 
 // Forms
-import RegisterForm from "./components/forms/TestForm";
+import RegisterForm from "./pages/Register";
 
 // Pages
 import HomePage from "./pages/Home";
