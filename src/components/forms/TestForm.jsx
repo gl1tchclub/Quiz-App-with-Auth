@@ -55,8 +55,9 @@ const Test = () => {
       <CardWrapper
         label="test-register"
         title="Test"
-        backButtonHref="/login"
-        backButtonLabel="Already have an account? Login here"
+        buttonHref="/login"
+        buttonLabel="Already have an account? Login here"
+        buttonVariant="link"
       >
         
       </CardWrapper>

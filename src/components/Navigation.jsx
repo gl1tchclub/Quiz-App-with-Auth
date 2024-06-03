@@ -58,7 +58,7 @@ const Navigation = () => {
                 }}
               >
                 <h1 style={{ margin: "100px" }}>Welcome to the Quiz App</h1>
-                <Button variant="outline">
+                <Button variant="outline" label="hello">
                   <Link to="/welcome" style={{ color: "black", textDecoration: "none" }}>
                     Click to get started
                   </Link>

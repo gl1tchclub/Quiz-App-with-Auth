@@ -6,10 +6,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import LinkButton from "./LinkButton";
 import { Children } from "react";
-import PropTypes from "prop-types";
 
 const CardWrapper = (props) => {
   return (
@@ -20,15 +18,7 @@ const CardWrapper = (props) => {
       </CardHeader>
       <CardContent>{props.children}</CardContent>
       <CardFooter>
-        <Button variant="outline">
-          <Link
-            to={props.backButtonHref}
-            style={{ color: "black", textDecoration: "none" }}
-            label={props.backButtonLabel}
-          >
-            {props.backButtonLabel}
-          </Link>
-        </Button>
+        <LinkButton/>
       </CardFooter>
     </Card>
   );
