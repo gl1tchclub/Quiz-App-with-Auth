@@ -8,9 +8,8 @@ import {
 } from "react-router-dom";
 import Navbar from "./Nav";
 import Test from "./forms/TestForm";
-import RegisterForm from "./forms/RegisterForm";
+import RegisterForm from "./forms/OldRegisterForm";
 import LoginForm from "./forms/LoginForm";
-
 
 import HomePage from "../pages/Home";
 
@@ -23,7 +22,7 @@ const Navigation = () => {
           <Routes>
             <Route path="/" element={<HomePage />}></Route>
             <Route
-              path="/register"
+              path="/oldreg"
               element={
                 <>
                   <div style={{ display: "flex", justifyContent: "center" }}>
@@ -44,12 +43,10 @@ const Navigation = () => {
               }
             />
             <Route
-              path="/test"
+              path="/register"
               element={
                 <>
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <Test />
-                  </div>
+                  <Test />
                 </>
               }
             />

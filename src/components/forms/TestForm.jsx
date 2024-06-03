@@ -54,12 +54,14 @@ const Test = () => {
     <>
       <div className="h-dvh flex items-center justify-center">
         <CardWrapper
-          hrefLabel="test-register"
-          title="Test"
-          href="/login"
-          buttonLabel="Already have an account? Login here"
           variant="link"
-        ></CardWrapper>
+          title="Register"
+          buttonLabel="Already have an account? Login here"
+          hrefLabel="login"
+          href="/login"
+        >
+          
+        </CardWrapper>
       </div>
       <p>{testData?.msg}</p>
     </>

@@ -21,13 +21,13 @@ const Navbar = () => {
       <Collapse isOpen={isOpen} navbar>
         <Nav className="ml-auto" navbar>
           <NavItem>
-            <NavLink href="/test">Test</NavLink>
+            <NavLink href="/register">Register</NavLink>
           </NavItem>
           <NavItem>
             <NavLink href="/">Home</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/register">Register Login</NavLink>
+            <NavLink href="/oldreg">Old</NavLink>
           </NavItem>
           <NavItem>
             <NavLink href="/quizzes">Quiz</NavLink>
