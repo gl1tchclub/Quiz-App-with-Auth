@@ -15,26 +15,28 @@ const Navbar = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <ReactNavBar color="light" light expand="md" style={{ width: "100%" }}>
-      <NavbarBrand href="/">Quiz App</NavbarBrand>
+    <ReactNavBar className="bg-gray-800 text-gray-300 py-6" light expand="md" style={{ width: "100%" }}>
+      <NavbarBrand className="text-2xl font-bold text-white" href="/">Quiz App</NavbarBrand>
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
         <Nav className="ml-auto" navbar>
-          <NavItem>
-            <NavLink href="/register">Register</NavLink>
+          <div className="font-medium inline-flex">
+          <NavItem >
+            <NavLink className="text-white" href="/register">Register</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/">Home</NavLink>
+            <NavLink className="text-white" href="/">Home</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/oldreg">Old</NavLink>
+            <NavLink className="text-white" href="/oldreg">Old</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/quizzes">Quiz</NavLink>
+            <NavLink className="text-white" href="/quizzes">Quiz</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/users">User</NavLink>
+            <NavLink className="text-white" href="/users">User</NavLink>
           </NavItem>
+          </div>
         </Nav>
       </Collapse>
     </ReactNavBar>

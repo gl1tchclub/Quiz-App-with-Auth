@@ -1,16 +1,21 @@
+// Packages
 import { useState } from "react";
-
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   useLocation,
 } from "react-router-dom";
+
+// Components
 import Navbar from "./Nav";
+
+// Forms
 import Test from "./forms/TestForm";
 import RegisterForm from "./forms/OldRegisterForm";
 import LoginForm from "./forms/LoginForm";
 
+// Pages
 import HomePage from "../pages/Home";
 
 const Navigation = () => {

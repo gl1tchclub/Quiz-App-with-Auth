@@ -16,7 +16,7 @@ import CardWrapper from "../CardWrapper";
 // import { Form } from "@/components/ui/form";
 // import { Form, FormGroup, Input, UncontrolledAlert } from "reactstrap";
 
-const Test = () => {
+const RegisterForm = () => {
   const testForm = useForm();
   const { mutate: postTestMutation, data: testData } = useMutation({
     mutationFn: (user) =>
@@ -67,4 +67,4 @@ const Test = () => {
     </>
   );
 };
-export default Test;
+export default RegisterForm;
