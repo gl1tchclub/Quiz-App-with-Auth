@@ -35,39 +35,133 @@ const Login = () => {
 
   return (
     <>
-      <div style={{ display: "block", margin: "40px 70px", width: "30%" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-            width: "100%",
-            textAlign: "center",
-          }}
+      <div className="h-dvh w-1/3 flex items-center justify-center">
+        <CardWrapper
+          variant="link"
+          title="Register"
+          buttonLabel="Already have an account? Login here"
+          hrefLabel="login"
+          href="/login"
         >
-          <h1 style={{ margin: "20px 0" }}>Login</h1>
-          <form onSubmit={loginForm.handleSubmit(handleLoginSubmit)}>
-            <label htmlFor="login-email">Email</label>
-            <input
-              type="text"
-              id="login-email"
-              name="email"
-              {...loginForm.login("email")}
-            />
-            <label htmlFor="login-password">Password</label>
-            <input
-              type="password"
-              id="login-password"
-              name="password"
-              {...loginForm.login("password")}
-            />
-            <button type="submit">Login</button>
-          </form>
-          <p>{loginData?.msg}</p>
-        </div>
+          <Form {...registerForm}>
+            <form
+              onSubmit={registerForm.handleSubmit(handleRegisterSubmit)}
+              className="space-y-6 justify-center"
+            >
+              <div className="space-y-4">
+                <FormField
+                  control={registerForm.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="email"
+                          placeholder=". . . . . ."
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={registerForm.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>First Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="firstName"
+                          placeholder=". . . . . ."
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={registerForm.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Last Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="lastName"
+                          placeholder=". . . . . ."
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={registerForm.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="password"
+                          placeholder="**********"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={registerForm.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Username</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="username"
+                          placeholder=". . . . . ."
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={registerForm.control}
+                  name="confirm_password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="confirm_password"
+                          placeholder="**********"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <Button type="submit" className="w-full bg-pink-500 hover:bg-pink-300 hover:text-pink-600">
+                Register
+              </Button>
+            </form>
+          </Form>
+        </CardWrapper>
+        <p>{registerData?.msg}</p>
       </div>
     </>
   );
 };
 
-export default Login;
+export default LoginForm;
