@@ -1,7 +1,6 @@
 import { queryClient } from "../../main";
 import { useForm } from "react-hook-form";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
 import {
   Form,
   FormControl,
@@ -12,13 +11,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import CardWrapper from "../CardWrapper";
 
 const RegisterForm = () => {
   const registerForm = useForm();
   const { mutate: postRegisterMutation, data: registerData } = useMutation({
     mutationFn: (user) =>
-      fetch("http://localhost:3000/api/v1/auth/register", {
+      fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,6 +48,7 @@ const RegisterForm = () => {
   });
 
   const handleRegisterSubmit = (values) => postRegisterMutation(values);
+
   return (
     <>
       <div className="h-dvh w-1/3 flex items-center justify-center">
@@ -61,7 +62,7 @@ const RegisterForm = () => {
           <Form {...registerForm}>
             <form
               onSubmit={registerForm.handleSubmit(handleRegisterSubmit)}
-              className="space-y-6"
+              className="space-y-6 justify-center"
             >
               <div className="space-y-4">
                 <FormField
@@ -71,9 +72,13 @@ const RegisterForm = () => {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input {...field} type="email" placeholder=". . . . . ." />
+                        <Input
+                          {...field}
+                          type="email"
+                          placeholder=". . . . . ."
+                        />
                       </FormControl>
-                      <FormMessage/>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -84,9 +89,13 @@ const RegisterForm = () => {
                     <FormItem>
                       <FormLabel>First Name</FormLabel>
                       <FormControl>
-                        <Input {...field} type="firstName" placeholder=". . . . . ." />
+                        <Input
+                          {...field}
+                          type="firstName"
+                          placeholder=". . . . . ."
+                        />
                       </FormControl>
-                      <FormMessage/>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -97,9 +106,13 @@ const RegisterForm = () => {
                     <FormItem>
                       <FormLabel>Last Name</FormLabel>
                       <FormControl>
-                        <Input {...field} type="lastName" placeholder=". . . . . ." />
+                        <Input
+                          {...field}
+                          type="lastName"
+                          placeholder=". . . . . ."
+                        />
                       </FormControl>
-                      <FormMessage/>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -110,9 +123,13 @@ const RegisterForm = () => {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input {...field} type="password" placeholder="**********" />
+                        <Input
+                          {...field}
+                          type="password"
+                          placeholder="**********"
+                        />
                       </FormControl>
-                      <FormMessage/>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -123,9 +140,13 @@ const RegisterForm = () => {
                     <FormItem>
                       <FormLabel>Username</FormLabel>
                       <FormControl>
-                        <Input {...field} type="username" placeholder=". . . . . ." />
+                        <Input
+                          {...field}
+                          type="username"
+                          placeholder=". . . . . ."
+                        />
                       </FormControl>
-                      <FormMessage/>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -136,18 +157,25 @@ const RegisterForm = () => {
                     <FormItem>
                       <FormLabel>Confirm Password</FormLabel>
                       <FormControl>
-                        <Input {...field} type="confirm_password" placeholder="**********" />
+                        <Input
+                          {...field}
+                          type="confirm_password"
+                          placeholder="**********"
+                        />
                       </FormControl>
-                      <FormMessage/>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
+              <Button type="submit" className="w-full bg-pink-500 hover:bg-pink-300 hover:text-pink-600">
+                Register
+              </Button>
             </form>
           </Form>
         </CardWrapper>
+        <p>{registerData?.msg}</p>
       </div>
-      <p>{registerData?.msg}</p>
     </>
   );
 };
