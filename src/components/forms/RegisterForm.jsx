@@ -13,8 +13,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CardWrapper from "../CardWrapper";
-// import { Form } from "@/components/ui/form";
-// import { Form, FormGroup, Input, UncontrolledAlert } from "reactstrap";
 
 const RegisterForm = () => {
   const testForm = useForm();

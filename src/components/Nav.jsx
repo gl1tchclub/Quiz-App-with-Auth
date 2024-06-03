@@ -29,16 +29,24 @@ const Navbar = () => {
         <Nav className="ml-auto" navbar>
           <div className="font-medium inline-flex">
             <NavItem>
-              <NavLink href="/register"><div className="text-pink-500 hover:text-white">Register</div></NavLink>
+              <NavLink href="/register">
+                <div className="text-pink-500 hover:text-white">Register</div>
+              </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/"><div className="text-pink-500 hover:text-white">Home</div></NavLink>
+              <NavLink href="/">
+                <div className="text-pink-500 hover:text-white">Home</div>
+              </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/quizzes"><div className="text-pink-500 hover:text-white">Quizzes</div></NavLink>
+              <NavLink href="/quizzes">
+                <div className="text-pink-500 hover:text-white">Quizzes</div>
+              </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/users"><div className="text-pink-500 hover:text-white">User</div></NavLink>
+              <NavLink href="/users">
+                <div className="text-pink-500 hover:text-white">User</div>
+              </NavLink>
             </NavItem>
           </div>
         </Nav>

@@ -19,6 +19,7 @@ import RegisterForm from "./pages/Register";
 
 // Pages
 import HomePage from "./pages/Home";
+import RegisterPage from "./pages/Register";
 
 
 const App = () => {
@@ -44,7 +45,7 @@ const App = () => {
                   path="/register"
                   element={
                     <>
-                      <RegisterForm />
+                      <RegisterPage />
                     </>
                   }
                 />
@@ -56,18 +57,6 @@ const App = () => {
                         style={{ display: "flex", justifyContent: "center" }}
                       >
                         Quizzes
-                      </div>
-                    </>
-                  }
-                />
-                <Route
-                  path="/users"
-                  element={
-                    <>
-                      <div
-                        style={{ display: "flex", justifyContent: "center" }}
-                      >
-                        Users
                       </div>
                     </>
                   }

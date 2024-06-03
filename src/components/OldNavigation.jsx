@@ -11,7 +11,7 @@ import {
 import Navbar from "./Nav";
 
 // Forms
-import Test from "./forms/TestForm";
+import Test from "./forms/RegisterForm";
 import RegisterForm from "./forms/OldRegisterForm";
 import LoginForm from "./forms/LoginForm";
 
