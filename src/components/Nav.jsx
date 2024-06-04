@@ -34,6 +34,11 @@ const Navbar = () => {
               </NavLink>
             </NavItem>
             <NavItem>
+              <NavLink href="/login">
+                <div className="text-pink-500 hover:text-white">Login</div>
+              </NavLink>
+            </NavItem>
+            <NavItem>
               <NavLink href="/">
                 <div className="text-pink-500 hover:text-white">Home</div>
               </NavLink>
