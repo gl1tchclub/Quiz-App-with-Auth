@@ -168,7 +168,12 @@ const RegisterForm = () => {
                   )}
                 />
               </div>
-              <p className="text-red w-full">{registerData?.error}</p>
+              {registerData?.error || registerData?.msg ? (
+                <p className="text-red-500 text-sm">
+                  {registerData?.error || registerData?.msg}
+                </p>
+              ) : null}
+
               <Button
                 type="submit"
                 className="w-full bg-pink-500 hover:bg-pink-300 hover:text-pink-600"
