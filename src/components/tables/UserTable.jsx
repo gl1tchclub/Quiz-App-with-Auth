@@ -33,9 +33,9 @@ const UserTable = () => {
     fetchNextPage,
   } = useInfiniteQuery({
     queryKey: ["userData"],
-    queryFn: ({ pageParam = 1 }) =>
+    queryFn: ({ page = 1 }) =>
       fetch(
-        `https://two4-mintep1-app-dev.onrender.com/api/v1/users?page=${pageParam}&amount=5`
+        `https://two4-mintep1-app-dev.onrender.com/api/v1/users?page=${page}&pageSize=5`
       ).then((res) => res.json()),
     getNextPageParam: (prevData) => prevData.nextPage,
   });
@@ -52,10 +52,10 @@ const UserTable = () => {
         <>
           {userData.pages[0].msg ? (
             <AlertComponent
-              var="destructive"
               type="error"
               title="Error"
               desc={userData.pages[0].msg}
+              style="border-2 border-pink-700 w-1/3 bg-transparent shadow-xl mt-10 text-pink-800 [&>svg]:text-pink-800 [&>svg]:size-7"
             />
           ) : (
             <Table>

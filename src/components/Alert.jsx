@@ -4,7 +4,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function AlertComponent(props) {
   return (
-    <Alert variant={props.var}>
+    <Alert className={props.style}>
       {props.type == "error" ? (
         <ExclamationTriangleIcon className="h-4 w-4" />
       ) : (
