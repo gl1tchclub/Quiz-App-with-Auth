@@ -40,7 +40,6 @@ const UserTable = () => {
   //       ).then((res) => res.json()),
   //     getNextPageParam: (prevData) => prevData.nextPage,
   //   });
-  let message = userData?.error ? userData.error : "Fetch Failed";
 
   return (
     <>

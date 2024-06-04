@@ -1,9 +1,12 @@
 import LogoutButton from "../components/buttons/LogoutButton";
 import AllUsersTable from "../components/tables/AllUsersTable";
+import UserTable from "../components/tables/UserTable";
 import AlertComponent from "../components/Alert";
+import { useLocation } from "react-router";
+import { useAuth } from "../components/contexts/AuthContext";
 
 const UserPage = () => {
-  const user = localStorage.getItem("token") || null;
+  const user = useAuth();
   return (
     <>
       {user ? (
@@ -21,5 +24,22 @@ const UserPage = () => {
     </>
   );
 };
+
+const Layout = ({ children }) => {
+  const location = useLocation();
+
+  if (user) {
+
+  }
+  //Define paths navbar should be displayed on i.e. not login or register
+  const navPaths = ["/", "/quizzes", "/users", "/user", "/info"];
+
+  return (
+    <div className="flex flex-col min-h-screen bg-pink-100">
+      {navPaths.includes(location.pathname) && <Navbar />}
+      <div className="flex-grow">{children}</div>
+    </div>
+  );
+}
 
 export default UserPage;
