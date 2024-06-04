@@ -2,12 +2,16 @@ import LogoutButton from "../components/buttons/LogoutButton";
 import UserTable from "../components/tables/UserTable";
 
 const UserPage = () => {
-  console.log(localStorage.getItem("token"));
+  let user = localStorage.getItem("token") || null;
   return (
     <>
       {/* <LogoutButton /> */}
-      {localStorage.getItem("token") ? <LogoutButton /> : null}
-      <UserTable/>
+      {user ? (
+        <div>
+          <LogoutButton /> <UserTable />
+        </div>
+      ) : null}
+      <UserTable />
     </>
   );
 };
