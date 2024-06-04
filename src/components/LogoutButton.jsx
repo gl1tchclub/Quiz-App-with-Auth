@@ -1,15 +1,13 @@
-import { queryClient } from "./main";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { Button, UncontrolledAlert } from "reactstrap";
+import { Button } from "@/components/ui/button";
 
 const Logout = () => {
-  //handleLogout needed?
   return (
     <Button
-      color="danger"
+      className="bg-pink-500 hover:bg-pink-300 hover:text-pink-600"
       onClick={() => {
         localStorage.removeItem("token");
       }}
+      href="/login"
     >
       Logout
     </Button>

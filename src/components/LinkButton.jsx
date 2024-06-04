@@ -6,7 +6,7 @@ const LinkButton = (props) => {
         <Button variant={props.variant} className="font-normal w-1/3" size='sm' asChild>
           <Link
             to={props.href}
-            style={{ color: "black", textDecoration: "none" }}
+            style={{ textDecoration: "none" }}
             label={props.hrefLabel}
           >
             {props.buttonLabel}

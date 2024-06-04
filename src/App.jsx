@@ -15,6 +15,7 @@ import HomePage from "./pages/Home";
 import RegisterPage from "./pages/Register";
 import LoginPage from "./pages/Login";
 import ApiInfoPage from "./pages/ApiPage";
+import UserPage from "./pages/User";
 
 const App = () => {
   return (
@@ -29,7 +30,7 @@ const App = () => {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/info" element={<ApiInfoPage />} />
                 <Route path="/quizzes" element={<></>} />
-                <Route path="/user" element={<></>} />
+                <Route path="/user" element={<UserPage />} />
               </Routes>
             </div>
           {/* </section> */}
