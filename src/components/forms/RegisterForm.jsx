@@ -159,7 +159,7 @@ const RegisterForm = () => {
                       <FormControl>
                         <Input
                           {...field}
-                          type="confirm_password"
+                          type="password"
                           placeholder="**********"
                         />
                       </FormControl>
@@ -168,13 +168,16 @@ const RegisterForm = () => {
                   )}
                 />
               </div>
-              <Button type="submit" className="w-full bg-pink-500 hover:bg-pink-300 hover:text-pink-600">
+              <p className="text-red w-full">{registerData?.error}</p>
+              <Button
+                type="submit"
+                className="w-full bg-pink-500 hover:bg-pink-300 hover:text-pink-600"
+              >
                 Register
               </Button>
             </form>
           </Form>
         </CardWrapper>
-        <p>{registerData?.msg}</p>
       </div>
     </>
   );
