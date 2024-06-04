@@ -3,93 +3,41 @@
 import "./index.css";
 
 // Packages
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Components
-import Navbar from "./components/Nav";
+
 import Footer from "./components/Footer";
+import Layout from "./components/Layout";
 
 // Pages
 import HomePage from "./pages/Home";
 import RegisterPage from "./pages/Register";
-
+import LoginPage from "./pages/Login";
+import ApiInfoPage from "./pages/ApiPage";
 
 const App = () => {
   return (
     <>
       <Router>
         <Layout>
-          <section className="container mx-auto h-screen">
-            <div className=" flex items-center justify-center">
+          {/* <section className="mx-auto h-screen"> */}
+            <div className="flex items-center justify-center">
               <Routes>
-                <Route path="/" element={<HomePage />}></Route>
-                <Route
-                  path="/login"
-                  element={
-                    <>
-                      <div
-                        style={{ display: "flex", justifyContent: "center" }}
-                      ></div>
-                    </>
-                  }
-                />
-                <Route
-                  path="/register"
-                  element={
-                    <>
-                      <RegisterPage />
-                    </>
-                  }
-                />
-                <Route
-                  path="/quizzes"
-                  element={
-                    <>
-                      <div
-                        style={{ display: "flex", justifyContent: "center" }}
-                      >
-                        Quizzes
-                      </div>
-                    </>
-                  }
-                />
-                <Route
-                  path="/user"
-                  element={
-                    <>
-                      <div
-                        style={{ display: "flex", justifyContent: "center" }}
-                      >
-                        User
-                      </div>
-                    </>
-                  }
-                />
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/info" element={<ApiInfoPage />} />
+                <Route path="/quizzes" element={<></>} />
+                <Route path="/user" element={<></>} />
               </Routes>
             </div>
-          </section>
-          <Footer />
+          {/* </section> */}
         </Layout>
+        <Footer />
       </Router>
     </>
   );
 };
-const Layout = ({ children }) => {
-  const location = useLocation();
 
-  //Define paths navbar should be displayed on i.e. not login or register
-  const navPaths = ["/", "/quizzes", "/users", "/user"];
-
-  return (
-    <>
-      {navPaths.includes(location.pathname) && <Navbar />}
-      <div className="content">{children}</div>
-    </>
-  );
-};
 export default App;

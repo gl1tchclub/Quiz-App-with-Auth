@@ -16,13 +16,12 @@ const Navbar = () => {
 
   return (
     <ReactNavBar
-      className="bg-pink-300 text-pink-500 py-6"
-      light
+      className="bg-pink-300 py-6"
       expand="md"
       style={{ width: "100%" }}
     >
-      <NavbarBrand className="text-2xl font-bold" href="/">
-        <h3 className="text-pink-500">Quiz App</h3>
+      <NavbarBrand href="/">
+        <h3 className="text-pink-500 font-bold">Quiz App</h3>
       </NavbarBrand>
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>

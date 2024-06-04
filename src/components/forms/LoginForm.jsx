@@ -1,7 +1,20 @@
 import { queryClient } from "../../main";
-
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
+
+// Components
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import CardWrapper from "../CardWrapper";
 
 const LoginForm = () => {
   const loginForm = useForm();
@@ -28,6 +41,7 @@ const LoginForm = () => {
       }),
     onSuccess: (data) => {
       localStorage.setItem("token", data.token);
+      console.log(data.token);
     },
   });
 
@@ -42,6 +56,8 @@ const LoginForm = () => {
           buttonLabel="Don't have an account? Register here"
           hrefLabel="register"
           href="/register"
+          style="w-full shadow-md flex-col"
+          button="true"
         >
           <Form {...loginForm}>
             <form

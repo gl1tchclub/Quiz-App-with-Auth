@@ -9,6 +9,7 @@ const HomePage = () => {
       href="/register"
       label="Made by Mintep1"
       buttonLabel="Click to get started!"
+      button="true"
     ></CardWrapper>
     </div>
   );

@@ -58,6 +58,8 @@ const RegisterForm = () => {
           buttonLabel="Already have an account? Login here"
           hrefLabel="login"
           href="/login"
+          style="w-full shadow-md flex-col"
+          button="true"
         >
           <Form {...registerForm}>
             <form
