@@ -6,6 +6,8 @@ const prisma = new PrismaClient();
 const getUsers = async (req, res) => {
   try {
     const { id } = req.user;
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 25;
     const user = await prisma.user.findUnique({ where: { id: id } });
 
     if (user.role == "BASIC_USER") {
@@ -14,7 +16,12 @@ const getUsers = async (req, res) => {
       });
     }
 
-    const users = await prisma.user.findMany();
+    const query = {
+      skip: pageSize * (page - 1),
+      take: pageSize,
+    };
+
+    const users = await prisma.user.findMany(query);
 
     if (users.length === 0) {
       return res.status(404).json({ msg: "No users found" });
