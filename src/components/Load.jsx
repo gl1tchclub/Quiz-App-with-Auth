@@ -5,7 +5,7 @@ export default function Loading() {
   const [progress, setProgress] = useState(13);
 
   useEffect(() => {
-    const timer = setTimeout(() => setProgress(66), 500);
+    const timer = setTimeout(() => setProgress(66), 1000);
     return () => clearTimeout(timer);
   }, []);
 
