@@ -8,9 +8,9 @@ const seedData = [
     email: "ddriuzzi0@moonfruit.com",
     firstName: "Deanna",
     lastName: "Driuzzi",
+    username: "ddriuzzi0",
     password: "easyp@ssw0rd",
     avatar: "",
-    username: "ddriuzzi0",
     role: "ADMIN_USER",
   },
   {

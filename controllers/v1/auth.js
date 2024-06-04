@@ -17,8 +17,8 @@ const register = async (req, res) => {
       email,
       firstName,
       lastName,
-      password,
       username,
+      password,
       role,
       confirm_password,
     } = req.body;
@@ -28,8 +28,8 @@ const register = async (req, res) => {
       "email",
       "firstName",
       "lastName",
-      "password",
       "username",
+      "password",
       "confirm_password",
     ];
 
@@ -72,8 +72,8 @@ const register = async (req, res) => {
         firstName,
         lastName,
         password: hashedPassword,
-        avatar,
         username,
+        avatar,
         role,
       },
     });

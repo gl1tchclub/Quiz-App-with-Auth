@@ -27,7 +27,9 @@ router.post("/scores", (req, res) => score.createUserScore(req, res));
 router.get("/scores/:type", (req, res) => score.getQuizScores(req, res));
 
 // PARTICIPATE CRUD
-router.post("/participation", (req, res) => participate.createParticipate(req, res));
+router.post("/participation", (req, res) =>
+  participate.createParticipate(req, res),
+);
 
 // ANSWER CRUD
 router.post("/userAnswers", (req, res) => answer.createAnswer(req, res));

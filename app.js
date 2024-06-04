@@ -50,7 +50,7 @@ const setContentSecurityPolicy = helmet({
 app.use(urlencoded({ extended: false }));
 app.use(json());
 // app.use(limiter);
-// app.use(cacheRouteMiddleware);
+app.use(cacheRouteMiddleware);
 app.use(cors());
 app.use(setXPoweredBy);
 app.use(setXContentTypeOptions);
