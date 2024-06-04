@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import LinkButton from "./LinkButton";
+import LinkButton from "./buttons/LinkButton";
 
 const CardWrapper = (props) => {
   return (

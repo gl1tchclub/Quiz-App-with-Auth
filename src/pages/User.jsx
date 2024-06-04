@@ -1,13 +1,13 @@
-import LogoutButton from "../components/LogoutButton";
+import LogoutButton from "../components/buttons/LogoutButton";
 
 const UserPage = () => {
   console.log(localStorage.getItem("token"));
   return (
     <>
-      <LogoutButton />
+      {/* <LogoutButton /> */}
+      {localStorage.getItem("token") ? <LogoutButton /> : null}
     </>
   );
-  // {localStorage.getItem("token") ? <Logout /> : null}
 };
 
 export default UserPage;
