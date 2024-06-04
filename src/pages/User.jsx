@@ -2,7 +2,7 @@ import LogoutButton from "../components/buttons/LogoutButton";
 import UserTable from "../components/tables/UserTable";
 
 const UserPage = () => {
-  let user = localStorage.getItem("token") || null;
+  const user = localStorage.getItem("token") || null;
   return (
     <>
       {/* <LogoutButton /> */}
