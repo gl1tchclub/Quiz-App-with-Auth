@@ -1,5 +1,6 @@
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { queryClient } from "../../main";
+import { useAuth } from "../contexts/AuthContext";
 
 // Components
 import {
@@ -16,14 +17,31 @@ import Loading from "../Load";
 import AlertComponent from "../Alert";
 
 const UserTable = () => {
+  const { user } = useAuth();
+  console.log(user);
+
+  if (!user) {
+    return (
+      <AlertComponent
+        type="error"
+        title="Error"
+        desc="Unauthorized. Please log in"
+        style="border-2 border-pink-700 w-1/3 bg-transparent shadow-xl mt-10 text-pink-800 [&>svg]:text-pink-800 [&>svg]:size-7"
+      />
+    );
+  }
+  
   const { isLoading, data: userData } = useQuery({
     queryKey: ["userData"],
     queryFn: () =>
-      fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/users", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }).then((res) => res.json()),
+      fetch(
+        `https://two4-mintep1-app-dev.onrender.com/api/v1/users/${user.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      ).then((res) => res.json()),
   });
 
   //   const {

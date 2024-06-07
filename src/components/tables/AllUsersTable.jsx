@@ -1,5 +1,6 @@
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { queryClient } from "../../main";
+import { useAuth } from "../contexts/AuthContext";
 
 // Components
 import {
@@ -24,6 +25,11 @@ const AllUsersTable = () => {
         },
       }).then((res) => res.json()),
   });
+
+  const { user } = useAuth();
+  console.log(user);
+
+  if (!user) return <div>Loading...</div>;
 
   //   const {
   //     isLoading,

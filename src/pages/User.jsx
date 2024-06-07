@@ -6,12 +6,15 @@ import { useLocation } from "react-router";
 import { useAuth } from "../components/contexts/AuthContext";
 
 const UserPage = () => {
-  const user = useAuth();
+  const { user } = useAuth();
+  console.log(user);
+
   return (
     <>
       {user ? (
         <div>
           <LogoutButton /> 
+          <UserTable />
           <AllUsersTable />
         </div>
       ) : 
