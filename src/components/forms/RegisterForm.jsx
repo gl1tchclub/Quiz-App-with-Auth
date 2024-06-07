@@ -48,8 +48,8 @@ const RegisterForm = () => {
       }),
       onSuccess: (data) => {
         localStorage.setItem("token", data.token);
-        localStorage.setItem("userData", data);
-        console.log(JSON.parse(localStorage.getItem("userData")));
+        localStorage.setItem("userData", data.data);
+        console.log(data.data);
         // if (data.token) navigate("/user");
       },
   });
