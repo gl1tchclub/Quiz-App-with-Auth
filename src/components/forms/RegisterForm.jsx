@@ -48,8 +48,9 @@ const RegisterForm = () => {
       }),
       onSuccess: (data) => {
         localStorage.setItem("token", data.token);
-        console.log(data.token);
-        if (data.token) navigate("/user");
+        localStorage.setItem("userData", data);
+        console.log(JSON.parse(localStorage.getItem("userData")));
+        // if (data.token) navigate("/user");
       },
   });
 

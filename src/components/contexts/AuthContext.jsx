@@ -3,33 +3,47 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 // Create a context for authentication
 const AuthContext = createContext();
 
-const useAuth = () => {
+export function useAuth() {
   return useContext(AuthContext);
-};
+}
 
-const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   useEffect(() => {
-    try {
-      // Fetch user data from backend or authentication service
-      const fetchUser = async () => {
-        // Replace with your actual API call
-        const response = await fetch(
-          "https://two4-mintep1-app-dev.onrender.com/api/v1/users"
-        );
-        const userData = await response.json();
-        setUser(userData);
-      };
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const response = await fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/users/me", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (response.ok) {
+            const userData = await response.json();
+            setUser(userData);
+          } else {
+            setError("Failed to fetch user data");
+          }
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      fetchUser();
-    } catch (error) {
-
-    }
-  }, [user]);
+    fetchUser();
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, loading, error }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
-export { useAuth, AuthProvider };
+
+// export { useAuth, AuthProvider };

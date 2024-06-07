@@ -43,8 +43,10 @@ const LoginForm = () => {
       }),
       onSuccess: (data) => {
         localStorage.setItem("token", data.token);
-        console.log(data.token);
-        if (data.token) navigate("/user");
+        // console.log(data.token);
+        localStorage.setItem("userData", data);
+        // if (data.token) navigate("/user");
+        console.log(JSON.parse(localStorage.getItem("userData")));
       },
     });
 
