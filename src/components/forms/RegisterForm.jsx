@@ -12,9 +12,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CardWrapper from "../CardWrapper";
+import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
   const registerForm = useForm();
+  const navigate = useNavigate();
   const { mutate: postRegisterMutation, data: registerData } = useMutation({
     mutationFn: (user) =>
       fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/auth/register", {
@@ -44,6 +46,11 @@ const RegisterForm = () => {
         }
         return res.json();
       }),
+      onSuccess: (data) => {
+        localStorage.setItem("token", data.token);
+        console.log(data.token);
+        if (data.token) navigate("/user");
+      },
   });
 
   const handleRegisterSubmit = (values) => postRegisterMutation(values);

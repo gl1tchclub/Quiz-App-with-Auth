@@ -3,11 +3,11 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 // Create a context for authentication
 const AuthContext = createContext();
 
-export const useAuth = () => {
+const useAuth = () => {
   return useContext(AuthContext);
 };
 
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -28,3 +28,4 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+export { useAuth, AuthProvider }

@@ -1,6 +1,7 @@
 import { queryClient } from "../../main";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 // Components
 import {
@@ -18,6 +19,7 @@ import CardWrapper from "../CardWrapper";
 
 const LoginForm = () => {
   const loginForm = useForm();
+  const navigate = useNavigate();
   const { mutate: postLoginMutation, data: loginData } = useMutation({
     mutationFn: (user) =>
       fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/auth/login", {
@@ -39,11 +41,12 @@ const LoginForm = () => {
         }
         return res.json();
       }),
-    onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
-      console.log(data.token);
-    },
-  });
+      onSuccess: (data) => {
+        localStorage.setItem("token", data.token);
+        console.log(data.token);
+        if (data.token) navigate("/user");
+      },
+    });
 
   const handleLoginSubmit = (values) => postLoginMutation(values);
 
