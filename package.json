@@ -37,10 +37,10 @@
     "prettier": "^3.2.5",
     "prettier-plugin-prisma": "^5.0.0",
     "pretty-quick": "^4.0.0",
-    "prisma": "^5.14.0",
+    "prisma": "^5.15.0",
     "uuid": "^9.0.1"
   },
   "dependencies": {
-    "@prisma/client": "^5.14.0"
+    "@prisma/client": "^5.15.0"
   }
 }
