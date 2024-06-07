@@ -15,8 +15,8 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (token) {
+        const userData = localStorage.getItem("userData");
+        if (userData) {
           const response = await fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/users/me", {
             headers: {
               Authorization: `Bearer ${token}`,
