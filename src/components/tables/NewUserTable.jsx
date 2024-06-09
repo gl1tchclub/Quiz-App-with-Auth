@@ -1,5 +1,6 @@
 // src/components/UserTable.jsx
 import React from "react";
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 
 // Components
 import {
@@ -15,7 +16,9 @@ import { Button } from "@/components/ui/button";
 import Loading from "../Load";
 import AlertComponent from "../Alert";
 
-const NewUserTable = ({ user }) => {
+const NewUserTable = () => {
+  const user = JSON.parse(localStorage.getItem("userData"));
+
   if (!user) {
     return (
       <AlertComponent
@@ -27,9 +30,22 @@ const NewUserTable = ({ user }) => {
     );
   }
 
+  const { isLoading, data: userData } = useQuery({
+    queryKey: ["userData"],
+    queryFn: () =>
+      fetch(
+        `https://two4-mintep1-app-dev.onrender.com/api/v1/users/${user.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      ).then((res) => res.json()),
+  });
+
   return (
     <>
-      {/* {isLoading ? (
+      {isLoading ? (
         <Loading />
       ) : (
         <>
@@ -40,7 +56,7 @@ const NewUserTable = ({ user }) => {
               desc={message}
               style="border-2 border-pink-700 w-1/3 bg-transparent shadow-xl mt-10 text-pink-800 [&>svg]:text-pink-800 [&>svg]:size-7"
             />
-          ) : ( */}
+          ) : (
             <Table>
               <TableHeader>
                 <TableRow>
@@ -53,16 +69,16 @@ const NewUserTable = ({ user }) => {
               </TableHeader>
               <TableBody>
                 {Object.keys(user).map((key) => (
-                  <TableRow key={key}>
-                    <TableCell>{key}</TableCell>
+                  <TableRow key={user}>
+                    <TableCell>{user.id}</TableCell>
                     <TableCell>{user[key]}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
-          {/* )}
+           )}
         </>
-      )} */}
+      )} 
 
       {/* {hasNextPage && (
       <Button onClick={() => fetchNextPage()}>

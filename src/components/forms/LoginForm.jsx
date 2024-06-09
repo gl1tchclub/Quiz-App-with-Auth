@@ -18,7 +18,6 @@ import { Button } from "@/components/ui/button";
 import CardWrapper from "../CardWrapper";
 
 const LoginForm = () => {
-  let test;
   const loginForm = useForm();
   const navigate = useNavigate();
   const { mutate: postLoginMutation, data: loginData } = useMutation({
@@ -44,12 +43,11 @@ const LoginForm = () => {
       }),
       onSuccess: (data) => {
         localStorage.setItem("token", data.token);
-        // console.log(data.token);
-        localStorage.setItem("userData", data.data);
-        // if (data.token) navigate("/user");
+        localStorage.setItem("userData", JSON.stringify(data.data));
+        console.log(JSON.parse(localStorage.getItem("userData")));
+        if (data.token) navigate("/user");
       },
     });
-    console.log(test);
 
   const handleLoginSubmit = (values) => postLoginMutation(values);
 

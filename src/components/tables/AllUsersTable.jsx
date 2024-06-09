@@ -1,6 +1,5 @@
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { queryClient } from "../../main";
-import { useAuth } from "../contexts/AuthContext";
 
 // Components
 import {
@@ -21,12 +20,11 @@ const AllUsersTable = () => {
     queryFn: () =>
       fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/users", {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${JSON.parse.toString(localStorage.getItem("token"))}`,
         },
       }).then((res) => res.json()),
   });
 
-  const { user } = useAuth();
   console.log(user);
 
   if (!user) return <div>Loading...</div>;
