@@ -106,12 +106,14 @@ const NewUserTable = () => {
   } catch (error) {
     console.log(error);
     return (
+      <div className="w-60">
       <AlertComponent
         type="error"
         title="Error"
         desc={userData?.error ? userData?.error : "Unauthorized. Please log in"}
-        style="border-2 border-pink-700 w-1/3 bg-transparent shadow-xl mt-10 text-pink-800 [&>svg]:text-pink-800 [&>svg]:size-7"
+        style="border-2 border-pink-700 w-full bg-transparent shadow-xl mt-10 text-pink-800 [&>svg]:text-pink-800 [&>svg]:size-7"
       />
+      </div>
     );
   }
 };
