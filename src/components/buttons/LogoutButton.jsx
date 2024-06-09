@@ -1,13 +1,16 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const Logout = () => {
+  const navigate = useNavigate();
   return (
     <Button
       className="bg-pink-500 hover:bg-pink-300 hover:text-pink-600"
       onClick={() => {
         localStorage.removeItem("token");
+        localStorage.removeItem("userData");
+        navigate("/");
       }}
-      href="/login"
     >
       Logout
     </Button>

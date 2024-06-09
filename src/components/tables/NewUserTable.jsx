@@ -2,6 +2,7 @@
 import React from "react";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import UpdateForm from "../forms/UpdateUserForm";
+import Logout from "../buttons/LogoutButton";
 
 // Components
 import {
@@ -54,15 +55,14 @@ const NewUserTable = () => {
         ) : (
           <CardWrapper
             title="Dashboard"
-            box="w-3/4 mx-auto bg-pink-300 shadow-lg rounded-lg p-6"
+            box="w-3/4 mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mt-20"
             button="true"
             buttonLabel="Update Info"
             // variant="outline"
             href="/user/update"
             label="Your user information"
-            decor="bg-pink-700 text-white font-bold py-2 px-4 rounded hover:bg-pink-800 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+            buttonStyle="bg-pink-700 text-pink-100 font-bold py-2 px-4 rounded hover:bg-pink-800"
           >
-            <div></div>
             <section className="text-pink-700 bg-pink-200 rounded-lg p-6 shadow-md">
               <Table className="hover:none">
                 <TableHeader className="text-lg text-pink-700 ">
@@ -98,6 +98,7 @@ const NewUserTable = () => {
                 </TableBody>
               </Table>
             </section>
+            <Logout />
           </CardWrapper>
         )}
       </>

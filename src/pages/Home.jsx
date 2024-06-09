@@ -10,6 +10,7 @@ const HomePage = () => {
       label="Made by Mintep1"
       buttonLabel="Click to get started!"
       button="true"
+      buttonStyle="bg-pink-700 text-white font-bold py-2 px-4 rounded hover:bg-pink-800"
     ></CardWrapper>
     </div>
   );

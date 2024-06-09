@@ -26,7 +26,6 @@ const UserPage = () => {
   return (
     <>
       <div>
-        <LogoutButton />
         <NewUserTable />
         {/* <AllUsersTable /> */}
       </div>
