@@ -10,7 +10,7 @@ import LinkButton from "./buttons/LinkButton";
 
 const CardWrapper = (props) => {
   return (
-    <Card className={props.style}>
+    <Card className={props.box}>
       <CardHeader className="w-full flex flex-col items-center justify-center">
         <CardTitle className="text-4xl font-bold text-pink-500">{props.title}</CardTitle>
         <CardDescription className="text-muted-foreground text-md">
@@ -25,6 +25,7 @@ const CardWrapper = (props) => {
             variant={props.variant}
             label={props.hrefLabel}
             buttonLabel={props.buttonLabel}
+            buttonStyle={props.buttonStyle}
           />
         ) : null}
       </CardFooter>

@@ -59,8 +59,9 @@ const LoginForm = () => {
           buttonLabel="Don't have an account? Register here"
           hrefLabel="register"
           href="/register"
-          style="w-full shadow-md flex-col"
+          box="w-full shadow-md flex-col"
           button="true"
+          buttonStyle="font-normal w-1/3"
         >
           <Form {...loginForm}>
             <form

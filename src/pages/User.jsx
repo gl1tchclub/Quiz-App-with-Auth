@@ -27,7 +27,7 @@ const UserPage = () => {
     <>
       <div>
         <LogoutButton />
-        <NewUserTable/>
+        <NewUserTable />
         {/* <AllUsersTable /> */}
       </div>
     </>

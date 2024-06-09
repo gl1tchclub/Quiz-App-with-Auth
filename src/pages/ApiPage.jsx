@@ -59,7 +59,7 @@ const ApiInfoPage = () => {
     <div className="w-full py-10">
       <CardWrapper
         title="API Information"
-        style="w-1/2 mx-auto bg-pink-300 shadow-lg rounded-lg p-6"
+        box="w-1/2 mx-auto bg-pink-300 shadow-lg rounded-lg p-6"
       >
         {apiInfo.map((api, index) => (
           <div key={index} className="mb-8">

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const LinkButton = (props) => {
     return (
-        <Button variant={props.variant} className="font-normal w-1/3" size='sm' asChild>
+        <Button variant={props.variant} className={props.buttonStyle} size='sm' asChild>
           <Link
             to={props.href}
             style={{ textDecoration: "none" }}
