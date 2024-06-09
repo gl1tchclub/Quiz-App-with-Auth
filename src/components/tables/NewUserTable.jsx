@@ -1,6 +1,7 @@
 // src/components/UserTable.jsx
 import React from "react";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
+import UpdateForm from "../forms/UpdateUserForm";
 
 // Components
 import {
@@ -57,28 +58,31 @@ const NewUserTable = () => {
               style="border-2 border-pink-700 w-1/3 bg-transparent shadow-xl mt-10 text-pink-800 [&>svg]:text-pink-800 [&>svg]:size-7"
             />
           ) : (
+            <section className="text-pink-500 bg-pink-200 rounded-lg">
             <Table>
-              <TableHeader>
+              <TableHeader className="text-lg text-pink-600 ">
                 <TableRow>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Username</TableHead>
-                  <TableHead>First Name</TableHead>
-                  <TableHead>Last Name</TableHead>
-                  <TableHead>Role</TableHead>
+                  <TableHead className="text-inherit">ID</TableHead>
+                  <TableHead className="text-inherit">Username</TableHead>
+                  <TableHead className="text-inherit">First Name</TableHead>
+                  <TableHead className="text-inherit">Last Name</TableHead>
+                  <TableHead className="text-inherit">Role</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
-                {Object.keys(user).map((key) => (
-                  <TableRow key={user}>
-                    <TableCell>{user.id}</TableCell>
-                    <TableCell>{user[key]}</TableCell>
-                  </TableRow>
-                ))}
+              <TableBody >
+                <TableRow>
+                  <TableCell>{user.id}</TableCell>
+                  <TableCell>{user.username}</TableCell>
+                  <TableCell>{user.firstName}</TableCell>
+                  <TableCell>{user.lastName}</TableCell>
+                  <TableCell>{user.role}</TableCell>
+                </TableRow>
               </TableBody>
             </Table>
-           )}
+            </section>
+          )}
         </>
-      )} 
+      )}
 
       {/* {hasNextPage && (
       <Button onClick={() => fetchNextPage()}>

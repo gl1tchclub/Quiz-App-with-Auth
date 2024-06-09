@@ -14,12 +14,12 @@ import { Button } from "@/components/ui/button";
 import CardWrapper from "../CardWrapper";
 import { useNavigate } from "react-router-dom";
 
-const UpdateForm = () => {
+const UpdateForm = (props) => {
   const updateForm = useForm();
   const navigate = useNavigate();
-  const { mutate: postRegisterMutation, data: registerData } = useMutation({
+  const { mutate: postUpdateMutation, data: updateData } = useMutation({
     mutationFn: (user) =>
-      fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/auth/register", {
+      fetch(`https://two4-mintep1-app-dev.onrender.com/api/v1/user/${props.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,7 +34,7 @@ const UpdateForm = () => {
         }),
       }).then((res) => {
         if (res.status === 201) {
-          registerForm.reset((formValues) => ({
+          updateForm.reset((formValues) => ({
             ...formValues,
             email: "",
             firstName: "",
