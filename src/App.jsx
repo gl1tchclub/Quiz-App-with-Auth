@@ -16,6 +16,7 @@ import RegisterPage from "./pages/Register";
 import LoginPage from "./pages/Login";
 import ApiInfoPage from "./pages/ApiPage";
 import UserPage from "./pages/User";
+import UpdatePage from "./pages/UpdateUser";
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
                 <Route path="/info" element={<ApiInfoPage />} />
                 <Route path="/quizzes" element={<></>} />
                 <Route path="/user" element={<UserPage />} />
+                <Route path="/user/update" element={<UpdatePage />} />
               </Routes>
             </div>
           {/* </section> */}
