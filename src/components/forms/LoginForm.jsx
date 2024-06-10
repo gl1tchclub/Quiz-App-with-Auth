@@ -14,11 +14,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import CardWrapper from "../CardWrapper";
+import { useState } from "react";
 
 const LoginForm = () => {
   const loginForm = useForm();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  
   const { mutate: postLoginMutation, data: loginData } = useMutation({
     mutationFn: (user) =>
       fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/auth/login", {
@@ -40,15 +44,20 @@ const LoginForm = () => {
         }
         return res.json();
       }),
-      onSuccess: (data) => {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("userData", JSON.stringify(data.data));
-        console.log(JSON.parse(localStorage.getItem("userData")));
-        if (data.token) navigate("/user");
-      },
-    });
+    onSuccess: (data) => {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userData", JSON.stringify(data.data));
+      console.log(JSON.parse(localStorage.getItem("userData")));
+      if (data.token) navigate("/user");
+    },
+  });
 
-  const handleLoginSubmit = (values) => postLoginMutation(values);
+  const handleLoginSubmit = (values) => {
+    setIsLoading(true);
+    postLoginMutation(values);
+  }
+
+  const load = () => {};
 
   return (
     <>
@@ -109,9 +118,11 @@ const LoginForm = () => {
                   {loginData?.error || loginData?.msg}
                 </p>
               ) : null}
-              <Button type="submit" className="w-full bg-pink-500 hover:bg-pink-300 hover:text-pink-600">
-                Login
-              </Button>
+              <Button
+                type="submit"
+                className="w-full bg-pink-500 hover:bg-pink-300 hover:text-pink-600"
+                onClick={() => disabled}
+              ></Button>
             </form>
           </Form>
         </CardWrapper>
