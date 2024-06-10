@@ -14,15 +14,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ReloadIcon } from "@radix-ui/react-icons";
 import CardWrapper from "../CardWrapper";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 
 const LoginForm = () => {
   const loginForm = useForm();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  
+  const [isDisabled, setIsDisabled] = useState(false);
+
   const { mutate: postLoginMutation, data: loginData } = useMutation({
     mutationFn: (user) =>
       fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/auth/login", {
@@ -52,12 +53,8 @@ const LoginForm = () => {
     },
   });
 
-  const handleLoginSubmit = (values) => {
-    setIsLoading(true);
+  const handleLoginSubmit = (values) => 
     postLoginMutation(values);
-  }
-
-  const load = () => {};
 
   return (
     <>
@@ -120,9 +117,26 @@ const LoginForm = () => {
               ) : null}
               <Button
                 type="submit"
+                disabled={isDisabled}
                 className="w-full bg-pink-500 hover:bg-pink-300 hover:text-pink-600"
-                onClick={() => disabled}
-              ></Button>
+                onClick={() => {
+                  setIsLoading(true);
+                  setIsDisabled(true);
+                  setTimeout(() => {
+                    setIsLoading(false);
+                    setIsDisabled(false);
+                  }, 1000);
+                }}
+              >
+                {isLoading ? (
+                  <>
+                    <ReloadIcon className="mr-2 h-6 w-6 animate-spin" />
+                    <p className="mt-3 text-lg">Please wait</p>
+                  </>
+                ) : (
+                  <p className="mt-3 text-lg">Login</p>
+                )}
+              </Button>
             </form>
           </Form>
         </CardWrapper>

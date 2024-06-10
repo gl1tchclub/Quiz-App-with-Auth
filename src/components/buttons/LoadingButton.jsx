@@ -1,18 +1,16 @@
-import React, { useState } from "react";
-import { ReloadIcon } from "@radix-ui/react-icons";
+import React from "react";
+
 import { Button } from "@/components/ui/button";
 
-const LoadingButton = ({ isLoading, onClick, children }) => {
+const LoadingButton = (props) => {
   return (
-    <Button onClick={onClick} disabled={isLoading}>
-      {isLoading ? (
-        <Button disabled>
-          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-          Please wait
-        </Button>
-      ) : (
-        children
-      )}
+    <Button
+      onClick={props.onClick}
+      disabled={props.isLoading}
+      type={props.type}
+      className={props.className}
+    >
+      
     </Button>
   );
 };
