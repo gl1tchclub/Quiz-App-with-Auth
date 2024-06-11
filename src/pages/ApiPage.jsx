@@ -58,7 +58,7 @@ const ApiInfoPage = () => {
       >
         {apiInfo.map((api, index) => (
           <div key={index} className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800">{api.name}</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 underline">{api.name}</h2>
             <div className="mt-2">
               <span className="text-gray-700 font-medium">HTTP Method:</span>{" "}
               <span className="text-pink-600 font-medium">{api.method}</span>
