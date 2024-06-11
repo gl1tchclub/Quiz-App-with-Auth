@@ -4,30 +4,23 @@ import { useLocation } from "react-router";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import NewUserTable from "../components/tables/NewUserTable";
-import Loading from "../components/Load";
+import UserTable from "../components/tables/UserTable";
+import AllUsersTable from "../components/tables/AllUsersTable";
 
 const UserPage = () => {
-  // if (error) {
-  //   return (
-  //     <AlertComponent
-  //       type="error"
-  //       title="Error"
-  //       desc={error? error.message : "Unauthorized. Please log in"}
-  //       style="border-2 border-pink-700 w-1/3 bg-transparent shadow-xl mt-10 text-pink-800 [&>svg]:text-pink-800 [&>svg]:size-7"
-  //     />
-  //   );
-  // }
-
-  // if (isLoading) {
-  //   return <Loading />;
-  // }
+  const role = localStorage.getItem("userData").role;
 
   return (
     <>
       <div className="w-3/4 flex justify-center">
-        <NewUserTable />
-        {/* <AllUsersTable /> */}
+        {role === "ADMIN_USER" ? (
+          <>
+            <UserTable />
+            <AllUsersTable />
+          </>
+        ) : (
+          <UserTable />
+        )}
       </div>
     </>
   );
