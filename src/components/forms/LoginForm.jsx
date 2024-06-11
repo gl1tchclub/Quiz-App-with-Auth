@@ -119,23 +119,23 @@ const LoginForm = () => {
                 type="submit"
                 disabled={isDisabled}
                 className="w-full bg-pink-500 hover:bg-pink-300 hover:text-pink-600"
-                onClick={() => {
-                  setIsLoading(true);
-                  setIsDisabled(true);
-                  setTimeout(() => {
-                    setIsLoading(false);
-                    setIsDisabled(false);
-                  }, 1000);
-                }}
+                // onClick={() => {
+                //   setIsLoading(true);
+                //   setIsDisabled(true);
+                //   setTimeout(() => {
+                //     setIsLoading(false);
+                //     setIsDisabled(false);
+                //   }, 1000);
+                // }}
               >
-                {isLoading ? (
+                {/* {isLoading ? (
                   <>
                     <ReloadIcon className="mr-2 h-6 w-6 animate-spin" />
                     <p className="mt-3 text-lg">Please wait</p>
                   </>
-                ) : (
+                ) : ( */}
                   <p className="mt-3 text-lg">Login</p>
-                )}
+                {/* )} */}
               </Button>
             </form>
           </Form>

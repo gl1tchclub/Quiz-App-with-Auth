@@ -46,12 +46,13 @@ const RegisterForm = () => {
         }
         return res.json();
       }),
-      onSuccess: (data) => {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("userData", JSON.stringify(data.data));
-        console.log(JSON.parse(localStorage.getItem("userData")));
-        if (data.token) navigate("/user");
-      },
+    onSuccess: (data) => {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userData", JSON.stringify(data.data));
+      console.log(JSON.parse(localStorage.getItem("userData")));
+      console.log(registerData?.msg);
+      if (data.token) navigate("/user");
+    },
   });
 
   const handleRegisterSubmit = (values) => postRegisterMutation(values);
