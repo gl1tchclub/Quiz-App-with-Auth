@@ -17,6 +17,7 @@ import LoginPage from "./pages/Login";
 import ApiInfoPage from "./pages/ApiPage";
 import UserPage from "./pages/User";
 import UpdatePage from "./pages/UpdateUser";
+import LogoutPage from "./pages/Logout";
 
 const App = () => {
   return (
@@ -36,7 +37,7 @@ const App = () => {
                 <Route path="/quizzes" element={<></>} />
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/user/update" element={<UpdatePage />} />
-                <Route path="/logout" element={<UserPage />} />
+                <Route path="/logout" element={<LogoutPage />} />
               </Routes>
             </div>
           {/* </section> */}

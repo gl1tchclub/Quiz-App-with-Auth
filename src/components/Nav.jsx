@@ -64,6 +64,11 @@ const userComponents = [
     href: "/register",
     description: "Create a Quiz App account",
   },
+  {
+    title: "Log Out",
+    href: "/logout",
+    description: "Log out from this account",
+  },
 ];
 
 export function NavigationMenuDemo() {
