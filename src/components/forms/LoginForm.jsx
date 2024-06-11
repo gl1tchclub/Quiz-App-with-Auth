@@ -22,7 +22,6 @@ const LoginForm = () => {
   const loginForm = useForm();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
 
   const { mutate: postLoginMutation, data: loginData } = useMutation({
     mutationFn: (user) =>
@@ -46,14 +45,28 @@ const LoginForm = () => {
         return res.json();
       }),
     onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("userData", JSON.stringify(data.data));
-      console.log(JSON.parse(localStorage.getItem("userData")));
-      if (data.token) navigate("/user");
+      // console.log(data);
+      if (!data.error) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userData", JSON.stringify(data.data));
+        console.log(JSON.parse(localStorage.getItem("userData")));
+        if (data.token) {
+          setTimeout(() => {
+            navigate("/user");
+          }, 1500);
+        }
+      }
     },
   });
 
-  const handleLoginSubmit = (values) => postLoginMutation(values);
+  const handleLoginSubmit = (values) => {
+    setIsLoading(true);
+    postLoginMutation(values, {
+      onSettled: () => {
+        setIsLoading(false);
+      },
+    });
+  };
 
   return (
     <>
@@ -109,32 +122,24 @@ const LoginForm = () => {
                   )}
                 />
               </div>
-              {loginData ? (
+              {loginData?.error ? (
                 <p className="text-red-500 text-sm">{loginData.error}</p>
               ) : (
-                <p className="text-green-500 text-sm">{data.msg}</p>
+                <p className="text-green-500 text-sm">{loginData?.msg}</p>
               )}
               <Button
                 type="submit"
-                disabled={isDisabled}
+                disabled={isLoading}
                 className="w-full bg-pink-500 hover:bg-pink-300 hover:text-pink-600"
-                // onClick={() => {
-                //   setIsLoading(true);
-                //   setIsDisabled(true);
-                //   setTimeout(() => {
-                //     setIsLoading(false);
-                //     setIsDisabled(false);
-                //   }, 1000);
-                // }}
               >
-                {/* {isLoading ? (
+                {isLoading ? (
                   <>
                     <ReloadIcon className="mr-2 h-6 w-6 animate-spin" />
                     <p className="mt-3 text-lg">Please wait</p>
                   </>
-                ) : ( */}
-                <p className="mt-3 text-lg">Login</p>
-                {/* )} */}
+                ) : (
+                  <p className="mt-3 text-lg">Login</p>
+                )}
               </Button>
             </form>
           </Form>
