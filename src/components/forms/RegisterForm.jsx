@@ -14,10 +14,13 @@ import { Button } from "@/components/ui/button";
 import CardWrapper from "../CardWrapper";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 const RegisterForm = () => {
   const registerForm = useForm();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   const { mutate: postRegisterMutation, data: registerData } = useMutation({
     mutationFn: (user) =>
       fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/auth/register", {
@@ -53,12 +56,23 @@ const RegisterForm = () => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userData", JSON.stringify(data.data));
         // console.log(JSON.parse(localStorage.getItem("userData")));
-        if (data.token) navigate("/user");
+        if (data.token) {
+          setTimeout(() => {
+            navigate("/user");
+          }, 1500);
+        }
       }
     },
   });
 
-  const handleRegisterSubmit = (values) => postRegisterMutation(values);
+  const handleRegisterSubmit = (values) => {
+    setIsLoading(true);
+    postRegisterMutation(values, {
+      onSettled: () => {
+        setIsLoading(false);
+      },
+    });
+  };
 
   return (
     <>
@@ -189,9 +203,17 @@ const RegisterForm = () => {
               )}
               <Button
                 type="submit"
+                disabled={isLoading}
                 className="w-full bg-pink-500 hover:bg-pink-300 hover:text-pink-600"
               >
-                Register
+                {isLoading ? (
+                  <>
+                    <ReloadIcon className="mr-2 h-6 w-6 animate-spin" />
+                    <p className="mt-3 text-lg">Registering...</p>
+                  </>
+                ) : (
+                  <p className="mt-3 text-lg">Register</p>
+                )}
               </Button>
             </form>
           </Form>

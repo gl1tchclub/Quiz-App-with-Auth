@@ -49,7 +49,7 @@ const LoginForm = () => {
       if (!data.error) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userData", JSON.stringify(data.data));
-        console.log(JSON.parse(localStorage.getItem("userData")));
+        // console.log(JSON.parse(localStorage.getItem("userData")));
         if (data.token) {
           setTimeout(() => {
             navigate("/user");
@@ -135,7 +135,7 @@ const LoginForm = () => {
                 {isLoading ? (
                   <>
                     <ReloadIcon className="mr-2 h-6 w-6 animate-spin" />
-                    <p className="mt-3 text-lg">Please wait</p>
+                    <p className="mt-3 text-lg">Logging in...</p>
                   </>
                 ) : (
                   <p className="mt-3 text-lg">Login</p>
