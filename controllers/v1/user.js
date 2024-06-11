@@ -12,7 +12,7 @@ const getUsers = async (req, res) => {
 
     if (user.role == "BASIC_USER") {
       return res.status(403).json({
-        msg: "Not authorized to access this route",
+        error: "Not authorized to access this route",
       });
     }
 
@@ -24,13 +24,15 @@ const getUsers = async (req, res) => {
     const users = await prisma.user.findMany(query);
 
     if (users.length === 0) {
-      return res.status(404).json({ msg: "No users found" });
+      return res.status(404).json({ error: "No users found" });
     }
 
-    return res.status(200).json({ data: users });
+    return res
+      .status(200)
+      .json({ msg: "Successfully retrieved users", data: users });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
@@ -47,13 +49,14 @@ const getUser = async (req, res) => {
       // if uuid sent by basic user is their own ID, send the res
       if (req.params.uuid === id) {
         return res.json({
+          msg: `Successfully retrieved user ${id}`,
           data: user,
         });
       }
       // send error msg if not their own ID
       else {
         return res.status(403).json({
-          msg: `Not authorized to access other user data`,
+          error: `Not authorized to access other user data`,
         });
       }
     }
@@ -67,16 +70,17 @@ const getUser = async (req, res) => {
       if (!findUser) {
         return res
           .status(404)
-          .json({ msg: `No User with the id: ${req.params.uuid} found` });
+          .json({ error: `No User with the id: ${req.params.uuid} found` });
       }
     }
 
     return res.json({
+      msg: `Successfully retrieved user ${id}`,
       data: findUser,
     });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
@@ -87,7 +91,7 @@ const updateUser = async (req, res) => {
     const contentType = req.headers["content-type"];
     if (!contentType || contentType !== "application/json") {
       return res.status(400).json({
-        msg: "Invalid Content-Type. Expected application/json.",
+        error: "Invalid Content-Type. Expected application/json.",
       });
     }
 
@@ -115,17 +119,17 @@ const updateUser = async (req, res) => {
         });
       } else {
         return res.status(403).json({
-          msg: `Not authorized to update this user`,
+          error: `Not authorized to update this user`,
         });
       }
     }
 
     return res
       .status(404)
-      .json({ msg: `No user with the id: ${req.params.uuid} found` });
+      .json({ error: `No user with the id: ${req.params.uuid} found` });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
@@ -140,7 +144,7 @@ const deleteUser = async (req, res) => {
 
     if (user.role == "BASIC_USER") {
       return res.status(403).json({
-        msg: "Not authorized to access this route",
+        error: "Not authorized to access this route",
       });
     }
 
@@ -154,7 +158,7 @@ const deleteUser = async (req, res) => {
     if (removeUser) {
       // Can't delete own account nor remove an admin user
       if (user.id === removeUser.id || removeUser.role === "ADMIN_USER") {
-        return res.status(403).json({ msg: `Cannot delete user` });
+        return res.status(403).json({ error: `Cannot delete user` });
       }
       await prisma.user.delete({
         where: { id: removeUser.id },
@@ -166,10 +170,10 @@ const deleteUser = async (req, res) => {
     }
     return res
       .status(404)
-      .json({ msg: `No user with the id: ${req.params.uuid} found` });
+      .json({ error: `No user with the id: ${req.params.uuid} found` });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
