@@ -14,7 +14,7 @@ const seedBasicUsers = async (req, res) => {
     const user = await prisma.user.findUnique({ where: { id: id } });
     if (user.role == "BASIC_USER") {
       return res.status(403).json({
-        msg: "Not authorized to access this route",
+        error: "Not authorized to access this route",
       });
     }
 
@@ -27,7 +27,7 @@ const seedBasicUsers = async (req, res) => {
     if (seededUser)
       return res
         .status(410)
-        .json({ msg: "Resource no longer available. Users already seeded" });
+        .json({ error: "Resource no longer available. Users already seeded" });
 
     // Seed each new user with a hashed password and avatar
     newUserDataArray.forEach((u) => {
@@ -42,7 +42,7 @@ const seedBasicUsers = async (req, res) => {
       .json({ msg: "Basic Users Created", data: newUserDataArray });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
