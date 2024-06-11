@@ -9,7 +9,7 @@ const register = async (req, res) => {
     const contentType = req.headers["content-type"];
     if (!contentType || contentType !== "application/json") {
       return res.status(400).json({
-        msg: "Invalid Content-Type. Expected application/json",
+        error: "Invalid Content-Type. Expected application/json",
       });
     }
 
@@ -43,7 +43,7 @@ const register = async (req, res) => {
 
     // Ensure given details match required criteria
     if (!email.includes(username))
-      return res.status(400).json({ msg: "Email must contain the username" });
+      return res.status(400).json({ error: "Email must contain the username" });
 
     let user = await prisma.user.findFirst({
       where: {
@@ -51,7 +51,7 @@ const register = async (req, res) => {
       },
     });
 
-    if (user) return res.status(409).json({ msg: "User already exists" });
+    if (user) return res.status(409).json({ error: "User already exists" });
     /**
      * A salt is random bits added to a password before it is hashed. Salts
      * create unique passwords even if two users have the same passwords
@@ -91,7 +91,7 @@ const register = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
@@ -101,7 +101,7 @@ const login = async (req, res) => {
     const contentType = req.headers["content-type"];
     if (!contentType || contentType !== "application/json") {
       return res.status(400).json({
-        msg: "Invalid Content-Type. Expected application/json",
+        error: "Invalid Content-Type. Expected application/json",
       });
     }
 
@@ -109,7 +109,7 @@ const login = async (req, res) => {
 
     // Check all fields are filled
     if (Object.keys(req.body).length < 2 || !password)
-      return res.status(400).json({ msg: "Please fill out all details" });
+      return res.status(400).json({ error: "Please fill out all details" });
 
     // Check if given data is used already by another user
     const user = await prisma.user.findFirst({
@@ -119,7 +119,7 @@ const login = async (req, res) => {
     });
 
     if (!user)
-      return res.status(401).json({ msg: "Invalid email or username" });
+      return res.status(401).json({ error: "Invalid email or username" });
 
     /**
      * Compare the given string, i.e., Pazzw0rd123, with the given
@@ -128,7 +128,7 @@ const login = async (req, res) => {
     const isPasswordCorrect = await bcryptjs.compare(password, user.password);
 
     if (!isPasswordCorrect)
-      return res.status(401).json({ msg: "Invalid password" });
+      return res.status(401).json({ error: "Invalid password" });
 
     const { JWT_SECRET, JWT_LIFETIME } = process.env;
 
@@ -155,7 +155,7 @@ const login = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
