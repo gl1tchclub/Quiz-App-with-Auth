@@ -32,8 +32,9 @@ const RegisterForm = () => {
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
-          password: user.password,
           username: user.username,
+          password: user.password,
+          role: user.role || "BASIC_USER",
           confirm_password: user.confirm_password,
         }),
       }).then((res) => {
@@ -43,24 +44,22 @@ const RegisterForm = () => {
             email: "",
             firstName: "",
             lastName: "",
-            password: "",
             username: "",
+            password: "",
+            role: "",
             confirm_password: "",
           }));
         }
         return res.json();
       }),
     onSuccess: (data) => {
-      // console.log(data);
       if (!data.error) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userData", JSON.stringify(data.data));
         // console.log(JSON.parse(localStorage.getItem("userData")));
-        if (data.token) {
-          setTimeout(() => {
-            navigate("/user");
-          }, 1500);
-        }
+        setTimeout(() => {
+          navigate("/login");
+        }, 1500);
       }
     },
   });
@@ -146,6 +145,23 @@ const RegisterForm = () => {
                 />
                 <FormField
                   control={registerForm.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Username</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="username"
+                          placeholder=". . . . . ."
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={registerForm.control}
                   name="password"
                   render={({ field }) => (
                     <FormItem>
@@ -163,15 +179,15 @@ const RegisterForm = () => {
                 />
                 <FormField
                   control={registerForm.control}
-                  name="username"
+                  name="role"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Username</FormLabel>
+                      <FormLabel>Role</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
-                          type="username"
-                          placeholder=". . . . . ."
+                          type="role"
+                          placeholder="ADMIN_USER or BASIC_USER. . ."
                         />
                       </FormControl>
                       <FormMessage />
