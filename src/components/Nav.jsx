@@ -68,56 +68,56 @@ const userComponents = [
 
 export function NavigationMenuDemo() {
   return (
-    <nav>
-    <NavigationMenu className="bg-pink-400 text-pink-500 p-4 flex justify-between items-center rounded-lg w-full">
+    <nav className="bg-pink-400 text-pink-500 p-4 flex justify-between items-center rounded-b-lg">
       <div className="text-2xl font-bold text-pink-700">Quiz App</div>
-      <NavigationMenuList className="flex space-x-4">
-        <NavigationMenuItem>
-          <NavigationMenuTrigger className="hover:text-white">
-            Quiz
-          </NavigationMenuTrigger>
-          <NavigationMenuContent className="bg-white text-black p-2 rounded shadow-lg">
-            <ul className="grid gap-3 p-4 md:grid-cols-2 lg:w-[600px]">
-              {quizComponents.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {component.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger className="hover:text-pink-800">
-            User
-          </NavigationMenuTrigger>
-          <NavigationMenuContent className="bg-pink-300 text-black p-2 rounded shadow-lg">
-            <ul className="grid gap-3 p-4 md:grid-cols-2 lg:w-[600px]">
-              {userComponents.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {component.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink
-            href="/info"
-            className={`${navigationMenuTriggerStyle()} text-pink-500 hover:text-pink-800 no-underline`}
-          >
-            API Documentation
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+      <NavigationMenu className="justify-center align-center">
+        <NavigationMenuList className="flex space-x-4">
+          <NavigationMenuItem>
+            <NavigationMenuTrigger className="hover:text-black">
+              Quiz
+            </NavigationMenuTrigger>
+            <NavigationMenuContent className="bg-pink-100 text-black p-2 rounded shadow-lg">
+              <ul className="grid gap-3 md:grid-cols-2 lg:w-[600px]">
+                {quizComponents.map((component) => (
+                  <ListItem
+                    key={component.title}
+                    title={component.title}
+                    href={component.href}
+                  >
+                    {component.description}
+                  </ListItem>
+                ))}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger className="hover:text-black">
+              User
+            </NavigationMenuTrigger>
+            <NavigationMenuContent className="bg-pink-100 text-black p-2 rounded shadow-lg">
+              <ul className="grid gap-3 md:grid-cols-2 lg:w-[600px]">
+                {userComponents.map((component) => (
+                  <ListItem
+                    key={component.title}
+                    title={component.title}
+                    href={component.href}
+                  >
+                    {component.description}
+                  </ListItem>
+                ))}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              href="/info"
+              className={`${navigationMenuTriggerStyle()} text-pink-500 hover:text-black hover:bg-pink-300 no-underline`}
+            >
+              API Documentation
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
     </nav>
   );
 }
