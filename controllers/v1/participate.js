@@ -15,7 +15,7 @@ const createParticipate = async (req, res) => {
     });
 
     if (!quiz)
-      return res.status(404).json({ msg: `No quiz found with ID ${quizId}` });
+      return res.status(404).json({ error: `No quiz found with ID ${quizId}` });
 
     if (
       quiz.userParticipateQuizzes.some((obj) => obj.userId === userId) &&
@@ -23,7 +23,7 @@ const createParticipate = async (req, res) => {
     )
       return res
         .status(400)
-        .json({ msg: "You cannot participate in this quiz again" });
+        .json({ error: "You cannot participate in this quiz again" });
 
     const participation = await prisma.userParticipateQuiz.create({
       data: {
@@ -38,7 +38,7 @@ const createParticipate = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
