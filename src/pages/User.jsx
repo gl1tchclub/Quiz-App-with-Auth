@@ -13,14 +13,15 @@ const UserPage = () => {
   return (
     <>
       <div className="w-3/4 flex justify-center">
-        {role === "ADMIN_USER" ? (
+        <AllUsersTable/>
+        {/* {role === "ADMIN_USER" ? (
           <>
             <UserTable />
             <AllUsersTable />
           </>
         ) : (
           <UserTable />
-        )}
+        )} */}
       </div>
     </>
   );

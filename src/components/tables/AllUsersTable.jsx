@@ -15,69 +15,53 @@ import { Button } from "@/components/ui/button";
 import Loading from "../Load";
 
 const AllUsersTable = () => {
-  const { isLoading, data: userData } = useQuery({
-    queryKey: ["userData"],
+  const user = JSON.parse(localStorage.getItem("userData"));
+  const token = localStorage.getItem("token");
+
+  const { isLoading, data: users } = useQuery({
+    queryKey: ["users"],
     queryFn: () =>
       fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/users", {
         headers: {
-          Authorization: `Bearer ${JSON.parse.toString(localStorage.getItem("token"))}`,
+          Authorization: `Bearer ${token}`,
         },
-      }).then((res) => res.json()),
+      }).then((res) => {console.log(res.json()); return res.json()}),
+    onSuccess: (data) => {
+      console.log(data);
+      // queryClient.invalidateQueries("users");
+    },
   });
 
   console.log(user);
-
-  if (!user) return <div>Loading...</div>;
-
-  //   const {
-  //     isLoading,
-  //     data: userData,
-  //     isFetchingNextPage,
-  //     hasNextPage,
-  //     fetchNextPage,
-  //   } = useInfiniteQuery({
-  //     queryKey: ["userData"],
-  //     queryFn: ({ page = 1 }) =>
-  //       fetch(
-  //         `https://two4-mintep1-app-dev.onrender.com/api/v1/users?page=${page}&pageSize=5`
-  //       ).then((res) => res.json()),
-  //     getNextPageParam: (prevData) => prevData.nextPage,
-  //   });
 
   return (
     <>
       {isLoading ? (
         <Loading />
       ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Username</TableHead>
-                  <TableHead>First Name</TableHead>
-                  <TableHead>Last Name</TableHead>
-                  <TableHead>Role</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {userData.map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell>{user.id}</TableCell>
-                    <TableCell>{user.username}</TableCell>
-                    <TableCell>{user.firstName}</TableCell>
-                    <TableCell>{user.lastName}</TableCell>
-                    <TableCell>{user.role}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-
-      {/* //  {hasNextPage && (
-      //   <Button onClick={() => fetchNextPage()}>
-      //     {isFetchingNextPage ? <Loading /> : "Load More"}
-      //   </Button>
-      // )}  */}
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID</TableHead>
+              <TableHead>Username</TableHead>
+              <TableHead>First Name</TableHead>
+              <TableHead>Last Name</TableHead>
+              <TableHead>Role</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {users.data.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell>{user.id}</TableCell>
+                <TableCell>{user.username}</TableCell>
+                <TableCell>{user.firstName}</TableCell>
+                <TableCell>{user.lastName}</TableCell>
+                <TableCell>{user.role}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </>
   );
 };

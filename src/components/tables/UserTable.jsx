@@ -33,24 +33,13 @@ const UserTable = () => {
     );
   }
 
-  const { isLoading, data: userData } = useQuery({
-    queryKey: ["userData"],
-    queryFn: () =>
-      fetch(
-        `https://two4-mintep1-app-dev.onrender.com/api/v1/users/${user.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      ).then((res) => res.json()),
-  });
+// create isLoading func
 
   return (
     <>
-      {isLoading ? (
+      {/* {isLoading ? (
         <Loading />
-      ) : (
+      ) : ( */}
         <CardWrapper
           title="Dashboard"
           box="w-3/4 mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mt-20"
@@ -92,7 +81,7 @@ const UserTable = () => {
             </Table>
           </section>
         </CardWrapper>
-      )}
+      {/* )} */}
     </>
   );
 };
