@@ -20,7 +20,6 @@ const apiInfo = [
       "firstName": "string",
       "lastName": "string,
       "username": "string",
-      "password": "string",
       "role": "string",
       "avatar": "string"
       "createdAt": "string"
@@ -35,7 +34,8 @@ const apiInfo = [
       "password": "string"
 }`,
     responseBody: `{
-      "token": "string"
+      "token": "string",
+      "data": "string"
 }`,
   },
   {
