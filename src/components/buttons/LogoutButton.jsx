@@ -20,11 +20,11 @@ const LogoutButton = () => {
   };
 
   return (
-    <Button className="bg-pink-500 hover:bg-pink-200 hover:text-pink-600">
+    <Button className="bg-pink-500 hover:bg-pink-200 hover:text-pink-600" onClick={handleLogout}>
       {isLoading ? (
         <>
           <ReloadIcon className="mr-2 h-6 w-6 animate-spin" />
-          <p className="mt-3 text-lg">Loggin out...</p>
+          <p className="mt-3 text-lg">Logging out...</p>
         </>
       ) : (
         <p className="mt-3 text-lg">Log Out</p>
