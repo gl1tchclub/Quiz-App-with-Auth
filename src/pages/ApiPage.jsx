@@ -39,18 +39,13 @@ const apiInfo = [
 }`,
   },
   {
-    name: "Home",
-    method: "",
-    url: "/",
-    requestBody: `{}`,
-    responseBody: `{}`,
-  },
-  {
-    name: "Quizzes",
-    method: "GET",
+    name: "Create Quiz - Admin Only",
+    method: "POST",
     url: "/api/v1/quizzes",
     requestBody: `{}`,
-    responseBody: `{}`,
+    responseBody: `{
+      "token": "string"
+}`,
   },
 ];
 
