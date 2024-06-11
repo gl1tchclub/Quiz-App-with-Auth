@@ -13,7 +13,7 @@ const createUserScore = async (req, res) => {
     });
 
     if (!quiz)
-      return res.status(404).json({ msg: `No quiz found with ID ${quizId}` });
+      return res.status(404).json({ error: `No quiz found with ID ${quizId}` });
 
     // store all answers user has given for this quiz as an array to use further down
     const answers = quiz.userQuestionAnswers.filter((a) => a.userId === userId);
@@ -22,7 +22,7 @@ const createUserScore = async (req, res) => {
     // check if status is correct here
     if (answers.length < 10)
       return res.status(400).json({
-        msg: "Cannot update score until all questions have been answered",
+        error: "Cannot update score until all questions have been answered",
       });
 
     // store the number of correct answers as score
@@ -41,7 +41,7 @@ const createUserScore = async (req, res) => {
       .json({ msg: "User score successfully recorded", data: userScore });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
@@ -65,11 +65,12 @@ const getQuizScores = async (req, res) => {
       req.params.type === "average" ? averageScore() : quiz.userQuizScores;
 
     return res.json({
+      msg: "Successfully retrieved scores",
       data: scores,
     });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
