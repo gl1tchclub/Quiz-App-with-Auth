@@ -60,7 +60,7 @@ app.use(compression());
 
 // Use the routes module
 app.use("/api/v1/auth", authV1Routes);
-app.use("/", indexV1Routes);
+app.use("/api/v1/", indexV1Routes);
 app.use("/api/v1/users", authRouteMiddleware, userV1Routes); // Authenticated route
 app.use("/api/v1/quizzes", authRouteMiddleware, quizV1Routes); // Don't need auth route?
 app.use("/api/v1/seedBasic", authRouteMiddleware, seedV1Routes); // Authenticated route
