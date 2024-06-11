@@ -10,7 +10,7 @@ const createQuiz = async (req, res) => {
     // Only admins can create quiz
     if (user.role == "BASIC_USER") {
       return res.status(403).json({
-        msg: "Not authorized to create a quiz",
+        error: "Not authorized to create a quiz",
       });
     }
 
@@ -24,10 +24,10 @@ const createQuiz = async (req, res) => {
     if (quiz)
       return res
         .status(409)
-        .json({ msg: `Quiz with name ${name} already exists` });
+        .json({ error: `Quiz with name ${name} already exists` });
 
     if (Object.keys(req.body).length < 6)
-      return res.status(400).json({ msg: `Please fill out all fields` });
+      return res.status(400).json({ error: `Please fill out all fields` });
 
     let quizFetch = await fetch(
       `https://opentdb.com/api.php?amount=10&category=${categoryId}&difficulty=${difficulty}&type=${type}`,
@@ -35,7 +35,7 @@ const createQuiz = async (req, res) => {
     let json = await quizFetch.json();
 
     if (json.response_code > 0)
-      return res.status(403).json({ msg: "Failed to fetch" });
+      return res.status(403).json({ error: "Failed to fetch" });
 
     // Insert quiz data
     quiz = await prisma.quiz.create({
@@ -69,7 +69,7 @@ const createQuiz = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
@@ -120,13 +120,15 @@ const getQuizzes = async (req, res, include) => {
     quizzes = await prisma.quiz.findMany(query);
 
     if (quizzes.length === 0) {
-      return res.status(404).json({ msg: "No quizzes found" });
+      return res.status(404).json({ error: "No quizzes found" });
     }
 
-    return res.status(200).json({ data: quizzes });
+    return res
+      .status(200)
+      .json({ msg: "Successfully retrieved quizzes", data: quizzes });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
@@ -140,15 +142,16 @@ const getQuiz = async (req, res) => {
     if (!quiz) {
       return res
         .status(404)
-        .json({ msg: `No quiz with the id: ${req.params.id} found` });
+        .json({ error: `No quiz with the id: ${req.params.id} found` });
     }
 
     return res.json({
+      msg: `Successfully retrieved quiz: ${req.params.id}`,
       data: quiz,
     });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
@@ -162,7 +165,7 @@ const deleteQuiz = async (req, res) => {
 
     if (user.role == "BASIC_USER") {
       return res.status(403).json({
-        msg: "Not authorized to access this route",
+        error: "Not authorized to access this route",
       });
     }
 
@@ -176,7 +179,7 @@ const deleteQuiz = async (req, res) => {
     if (!removeQuiz) {
       return res
         .status(404)
-        .json({ msg: `No quiz with the id: ${req.params.id} found` });
+        .json({ error: `No quiz with the id: ${req.params.id} found` });
     }
     await prisma.quiz.delete({
       where: { id: removeQuiz.id },
@@ -187,7 +190,7 @@ const deleteQuiz = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
