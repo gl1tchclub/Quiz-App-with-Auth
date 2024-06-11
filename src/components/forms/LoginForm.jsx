@@ -53,8 +53,7 @@ const LoginForm = () => {
     },
   });
 
-  const handleLoginSubmit = (values) => 
-    postLoginMutation(values);
+  const handleLoginSubmit = (values) => postLoginMutation(values);
 
   return (
     <>
@@ -110,11 +109,11 @@ const LoginForm = () => {
                   )}
                 />
               </div>
-              {loginData?.error || loginData?.msg ? (
-                <p className="text-red-500 text-sm">
-                  {loginData?.error || loginData?.msg}
-                </p>
-              ) : null}
+              {loginData ? (
+                <p className="text-red-500 text-sm">{loginData.error}</p>
+              ) : (
+                <p className="text-green-500 text-sm">{data.msg}</p>
+              )}
               <Button
                 type="submit"
                 disabled={isDisabled}
@@ -134,7 +133,7 @@ const LoginForm = () => {
                     <p className="mt-3 text-lg">Please wait</p>
                   </>
                 ) : ( */}
-                  <p className="mt-3 text-lg">Login</p>
+                <p className="mt-3 text-lg">Login</p>
                 {/* )} */}
               </Button>
             </form>

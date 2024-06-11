@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CardWrapper from "../CardWrapper";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
@@ -47,11 +48,13 @@ const RegisterForm = () => {
         return res.json();
       }),
     onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("userData", JSON.stringify(data.data));
-      console.log(JSON.parse(localStorage.getItem("userData")));
-      console.log(registerData?.msg);
-      if (data.token) navigate("/user");
+      // console.log(data);
+      if (!data.error) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userData", JSON.stringify(data.data));
+        // console.log(JSON.parse(localStorage.getItem("userData")));
+        if (data.token) navigate("/user");
+      }
     },
   });
 
@@ -179,12 +182,11 @@ const RegisterForm = () => {
                   )}
                 />
               </div>
-              {registerData?.error || registerData?.msg ? (
-                <p className="text-red-500 text-sm">
-                  {registerData?.error || registerData?.msg}
-                </p>
-              ) : null}
-
+              {registerData?.error ? (
+                <p className="text-red-500 text-sm">{registerData.error}</p>
+              ) : (
+                <p className="text-green-500 text-sm">{registerData?.msg}</p>
+              )}
               <Button
                 type="submit"
                 className="w-full bg-pink-500 hover:bg-pink-300 hover:text-pink-600"
