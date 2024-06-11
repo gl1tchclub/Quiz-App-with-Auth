@@ -73,11 +73,11 @@ export function NavigationMenuDemo() {
       <NavigationMenu className="justify-center align-center">
         <NavigationMenuList className="flex space-x-4">
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="hover:text-black">
+            <NavigationMenuTrigger className="hover:text-black hover:bg-pink-300">
               Quiz
             </NavigationMenuTrigger>
             <NavigationMenuContent className="bg-pink-100 text-black p-2 rounded shadow-lg">
-              <ul className="grid gap-3 md:grid-cols-2 lg:w-[600px]">
+              <ul className="grid gap-3 md:grid-cols-1 lg:w-[300px] p-0">
                 {quizComponents.map((component) => (
                   <ListItem
                     key={component.title}
@@ -91,11 +91,11 @@ export function NavigationMenuDemo() {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="hover:text-black">
+            <NavigationMenuTrigger className="hover:text-black hover:bg-pink-300">
               User
             </NavigationMenuTrigger>
             <NavigationMenuContent className="bg-pink-100 text-black p-2 rounded shadow-lg">
-              <ul className="grid gap-3 md:grid-cols-2 lg:w-[600px]">
+              <ul className="grid gap-3 md:grid-cols-1 lg:w-[300px] p-0">
                 {userComponents.map((component) => (
                   <ListItem
                     key={component.title}
@@ -129,7 +129,7 @@ const ListItem = React.forwardRef(
         <NavigationMenuLink asChild>
           <a
             ref={ref}
-            className={`block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground ${className}`}
+            className={`text-pink-500 block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-pink-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground ${className}`}
             {...props}
           >
             <div className="text-sm font-medium leading-none">{title}</div>
