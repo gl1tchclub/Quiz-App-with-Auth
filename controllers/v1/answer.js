@@ -18,7 +18,7 @@ const createAnswer = async (req, res) => {
 
     // Ensure quiz exists
     if (!record)
-      return res.status(404).json({ msg: `No quiz found with ID ${quizId}` });
+      return res.status(404).json({ error: `No quiz found with ID ${quizId}` });
 
     let score = 0;
     let isCorrect = false;
@@ -52,7 +52,7 @@ const createAnswer = async (req, res) => {
       .json({ msg: "User answer successfully recorded", data: userAnswer });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
@@ -71,7 +71,7 @@ const getAnswers = async (req, res) => {
 
     // Ensure quiz exists
     if (!quiz)
-      return res.status(404).json({ msg: `No quiz found with ID ${quizId}` });
+      return res.status(404).json({ error: `No quiz found with ID ${quizId}` });
 
     const allAnswers = user.UserQuestionAnswer;
 
@@ -79,14 +79,14 @@ const getAnswers = async (req, res) => {
     const userAnswers = allAnswers.filter((ans) => ans.quizId === quizId);
 
     if (userAnswers.length === 0)
-      return res.status(404).json({ msg: "No answers found" });
+      return res.status(404).json({ error: "No answers found" });
 
     return res
       .status(200)
       .json({ msg: "Successfully fetched answers", data: userAnswers });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
@@ -101,7 +101,7 @@ const updateAnswer = async (req, res) => {
       where: { id: id },
     });
     if (!existingAnswer)
-      return res.status(404).json({ msg: "Answer does not exist" });
+      return res.status(404).json({ error: "Answer does not exist" });
 
     const updatedAnswer = await prisma.userQuestionAnswer.update({
       where: { id: id },
@@ -113,7 +113,7 @@ const updateAnswer = async (req, res) => {
       .json({ msg: "Successfully updated answer", data: updatedAnswer });
   } catch (err) {
     return res.status(500).json({
-      msg: err.message,
+      error: err.message,
     });
   }
 };
