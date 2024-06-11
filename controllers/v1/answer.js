@@ -100,6 +100,7 @@ const updateAnswer = async (req, res) => {
     const existingAnswer = await prisma.userQuestionAnswer.findUnique({
       where: { id: id },
     });
+    
     if (!existingAnswer)
       return res.status(404).json({ error: "Answer does not exist" });
 

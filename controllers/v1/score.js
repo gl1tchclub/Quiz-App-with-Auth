@@ -49,6 +49,7 @@ const createUserScore = async (req, res) => {
 // Gets scores or average score for any given quiz
 const getQuizScores = async (req, res) => {
   try {
+    const {  } = req.body;
     const quiz = getQuiz(req, res);
 
     // Calculate average score function
