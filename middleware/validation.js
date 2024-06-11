@@ -69,7 +69,7 @@ const validateRegister = (req, res, next) => {
 
   if (error) {
     return res.status(400).json({
-      msg: error.details[0].message,
+      error: error.details[0].message,
     });
   }
 
