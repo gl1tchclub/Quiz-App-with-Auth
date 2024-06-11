@@ -5,7 +5,16 @@ const Layout = ({ children }) => {
   const location = useLocation();
 
   //Define paths navbar should be displayed on i.e. not login or register
-  const navPaths = ["/", "/quizzes", "/users", "/user", "/info", "/user/update"];
+  const navPaths = [
+    "/quizzes",
+    "/user",
+    "/info",
+    "/user/update",
+    "/quizzes/old",
+    "/quizzes/current",
+    "/quizzes/new",
+    "logout",
+  ];
 
   return (
     <div className="flex flex-col min-h-screen bg-pink-50">

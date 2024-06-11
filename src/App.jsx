@@ -36,6 +36,7 @@ const App = () => {
                 <Route path="/quizzes" element={<></>} />
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/user/update" element={<UpdatePage />} />
+                <Route path="/logout" element={<UserPage />} />
               </Routes>
             </div>
           {/* </section> */}

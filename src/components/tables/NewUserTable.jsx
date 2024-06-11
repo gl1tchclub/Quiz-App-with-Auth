@@ -2,7 +2,6 @@
 import React from "react";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import UpdateForm from "../forms/UpdateUserForm";
-import Logout from "../buttons/LogoutButton";
 
 // Components
 import {
@@ -92,7 +91,6 @@ const NewUserTable = () => {
               </TableBody>
             </Table>
           </section>
-          <Logout />
         </CardWrapper>
       )}
     </>
