@@ -16,8 +16,10 @@ const UserPage = () => {
           {/* <AllUsersTable /> */}
           {role === "ADMIN_USER" ? (
             <>
+            <div className="w-full justify-center flex-col">
               <UserTable />
               <AllUsersTable />
+            </div>
             </>
           ) : (
             <UserTable />
