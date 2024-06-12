@@ -53,14 +53,14 @@ app.use(json());
 app.use(cacheRouteMiddleware);
 
 // CORS Config
-// const corsOptions = {
-//   origin: "http://localhost:5173",
-//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//   credentials: true,
-//   optionsSuccessStatus: 204,
-// };
-// app.use(cors(corsOptions));
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:5173",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+app.use(cors(corsOptions));
+// app.use(cors());
 app.use(setXPoweredBy);
 app.use(setXContentTypeOptions);
 app.use(setXFrameOptions);
