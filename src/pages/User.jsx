@@ -1,5 +1,5 @@
 import LogoutButton from "../components/buttons/LogoutButton";
-import AlertComponent from "../components/Alert";
+import { ErrorAlert } from "../components/Alert";
 import { useLocation } from "react-router";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -12,9 +12,10 @@ const UserPage = () => {
 
   return (
     <>
-      <div className="w-3/4 flex justify-center">
-        <AllUsersTable/>
-        {/* {role === "ADMIN_USER" ? (
+      {role ? (
+        <div className="w-3/4 flex justify-center">
+          <AllUsersTable />
+          {/* {role === "ADMIN_USER" ? (
           <>
             <UserTable />
             <AllUsersTable />
@@ -22,7 +23,10 @@ const UserPage = () => {
         ) : (
           <UserTable />
         )} */}
-      </div>
+        </div>
+      ) : (
+        <ErrorAlert />
+      )}
     </>
   );
 };

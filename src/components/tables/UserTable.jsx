@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import Loading from "../Load";
-import AlertComponent from "../Alert";
+import { ErrorAlert } from "../Alert";
 import CardWrapper from "../CardWrapper";
 
 const UserTable = () => {
@@ -24,12 +24,7 @@ const UserTable = () => {
 
   if (!user) {
     return (
-      <AlertComponent
-        type="error"
-        title="Error"
-        desc="Unauthorized. Please log in"
-        style="border-2 border-pink-700 w-1/3 bg-transparent shadow-xl mt-10 text-pink-800 [&>svg]:text-pink-800 [&>svg]:size-7"
-      />
+      <ErrorAlert/>
     );
   }
 
