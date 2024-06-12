@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import Loading from "../Load";
+import CardWrapper from "../CardWrapper";
 import { ErrorAlert } from "../Alert";
 
 const AllUsersTable = () => {
@@ -47,15 +48,20 @@ const AllUsersTable = () => {
     queryKey: ["users"],
     queryFn: ({ pageParam = 1 }) =>
       fetch(
-        `https://two4-mintep1-app-dev.onrender.com/api/v1/users?page=${pageParam}`
+        `https://two4-mintep1-app-dev.onrender.com/api/v1/users?page=${pageParam}&pageSize=5`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       ).then((res) => {
         console.log(res.json());
         res.json();
       }),
-    getNextPageParam: (prevData, allPages) => prevData.nextPage,
+    getNextPageParam: (prevData) => prevData.nextPage,
   });
 
-  if (error) return <ErrorAlert desc="Unable to fetch all users." />;
+  if (error) return <ErrorAlert desc={"Unable to fetch all users."} />;
 
   return (
     <>
@@ -102,21 +108,26 @@ const AllUsersTable = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="text-gray-700 font-semibold">
-                  {users.data.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell className="py-2 px-4">{user.id}</TableCell>
-                      <TableCell className="py-2 px-4">
-                        {user.username}
-                      </TableCell>
-                      <TableCell className="py-2 px-4">
-                        {user.firstName}
-                      </TableCell>
-                      <TableCell className="py-2 px-4">
-                        {user.lastName}
-                      </TableCell>
-                      <TableCell className="py-2 px-4">{user.role}</TableCell>
-                    </TableRow>
-                  ))}
+                  {!error && (
+                    users.map((user) => (
+                        <TableRow key={user.id}>
+                          <TableCell className="py-2 px-4">{user.id}</TableCell>
+                          <TableCell className="py-2 px-4">
+                            {user.username}
+                          </TableCell>
+                          <TableCell className="py-2 px-4">
+                            {user.firstName}
+                          </TableCell>
+                          <TableCell className="py-2 px-4">
+                            {user.lastName}
+                          </TableCell>
+                          <TableCell className="py-2 px-4">
+                            {user.role}
+                          </TableCell>
+                        </TableRow>
+                      ))
+                  ) }
+
                 </TableBody>
               </Table>
               {isFetchingNextPage && <Spinner className="m-auto" />}
