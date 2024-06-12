@@ -51,6 +51,15 @@ app.use(urlencoded({ extended: false }));
 app.use(json());
 // app.use(limiter);
 app.use(cacheRouteMiddleware);
+
+// CORS Config
+// const corsOptions = {
+//   origin: "http://localhost:5173",
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   credentials: true,
+//   optionsSuccessStatus: 204,
+// };
+// app.use(cors(corsOptions));
 app.use(cors());
 app.use(setXPoweredBy);
 app.use(setXContentTypeOptions);
