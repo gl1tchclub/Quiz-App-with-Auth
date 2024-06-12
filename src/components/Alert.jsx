@@ -16,12 +16,12 @@ const AlertComponent = (props) => {
   );
 }
 
-const ErrorAlert = () => {
+const ErrorAlert = (props) => {
   return (
     <AlertComponent
       type="error"
       title="Error"
-      desc="Unauthorized. Please log in"
+      desc={props.desc}
       style="border-2 border-pink-700 w-1/3 bg-transparent shadow-xl mt-10 text-pink-800 [&>svg]:text-pink-800 [&>svg]:size-7"
     />
   );

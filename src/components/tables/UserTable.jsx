@@ -20,11 +20,10 @@ import CardWrapper from "../CardWrapper";
 
 const UserTable = () => {
   const user = JSON.parse(localStorage.getItem("userData"));
-  const token = localStorage.getItem("token");
 
   if (!user) {
     return (
-      <ErrorAlert/>
+      <ErrorAlert desc="Unauthorized. Please log in"/>
     );
   }
 
