@@ -19,6 +19,8 @@ import { ErrorAlert } from "../Alert";
 const UsersTable = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState([]);
+    const updateForm = useForm();
+    const navigate = useNavigate();
     const [errors, setErrors] = useState({
         username: "",
         firstName: "",
@@ -36,7 +38,41 @@ const UsersTable = () => {
     const fetchData = async () => {
         setIsLoading(true);
         try {
-            const res = await quizAppInstance.get("/users");
+            const { mutate: postUpdateMutation, data: updateData } = useMutation({
+                mutationFn: (user) =>
+                    fetch(`https://two4-mintep1-app-dev.onrender.com/api/v1/user/${props.id}`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            email: user.email,
+                            username: user.username,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            password: user.password,
+                            confirm_password: user.confirm_password,
+                        }),
+                    }).then((res) => {
+                        if (res.status === 201) {
+                            updateForm.reset((formValues) => ({
+                                ...formValues,
+                                email: "",
+                                username: "",
+                                firstName: "",
+                                lastName: "",
+                                password: "",
+                                confirm_password: "",
+                            }));
+                        }
+                        return res.json();
+                    }),
+                onSuccess: (data) => {
+                    localStorage.setItem("userData", JSON.stringify(data.data));
+                    console.log(JSON.parse(localStorage.getItem("userData")));
+                    if (data.token) navigate("/user");
+                },
+            });
             setData(res.data.data);
         } catch (err) {
             console.log(err);
@@ -98,6 +134,139 @@ const UsersTable = () => {
             }
         }
     };
-    
+
     const handleFormSubmit = () => fetchData();
-}
+
+    return (
+        <>
+            <InstitutionForm onFormSubmit={handleFormSubmit} />
+            {isLoading ? (
+                <Loading />
+            ) : (
+                <>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Region</th>
+                                <th>Country</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data.length === 0 ? (
+                                <tr>
+                                    <td colSpan="5" className="text-center">
+                                        No data available
+                                    </td>
+                                </tr>
+                            ) : (
+                                <>
+                                    {data.map((item) => (
+                                        <tr key={item.id}>
+                                            <td>{item.id}</td>
+                                            <td>{item.name}</td>
+                                            <td>{item.region}</td>
+                                            <td>{item.country}</td>
+                                            <td>
+                                                <Button
+                                                    color="primary"
+                                                    onClick={() => handleEdit(item)}
+                                                >
+                                                    Edit
+                                                </Button>{" "}
+                                                <Button
+                                                    color="danger"
+                                                    onClick={() => handleDelete(item.id)}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </>
+                            )}
+                        </tbody>
+                    </Table>
+                    <Modal
+                        isOpen={modalOpen}
+                        toggle={() => {
+                            resetErrors(); // Reset errors when the modal is closed
+                            setModalOpen(!modalOpen);
+                        }}
+                    >
+                        <ModalHeader
+                            toggle={() => {
+                                resetErrors(); // Reset errors when the modal is closed
+                                setModalOpen(!modalOpen);
+                            }}
+                        >
+                            Edit Item
+                        </ModalHeader>
+                        <ModalBody>
+                            <FormGroup>
+                                <Label for="editName">Name:</Label>
+                                <Input
+                                    type="text"
+                                    defaultValue={editItem?.name}
+                                    id="editName"
+                                    name="editName"
+                                    invalid={!!errors.name}
+                                />
+                                <FormFeedback>{errors.name}</FormFeedback>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="editRegion">Region:</Label>
+                                <Input
+                                    type="text"
+                                    defaultValue={editItem?.region}
+                                    id="editRegion"
+                                    name="editRegion"
+                                    invalid={!!errors.region}
+                                />
+                                <FormFeedback>{errors.region}</FormFeedback>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="editCountry">Country:</Label>
+                                <Input
+                                    type="text"
+                                    defaultValue={editItem?.country}
+                                    id="editCountry"
+                                    name="editCountry"
+                                    invalid={!!errors.country}
+                                />
+                                <FormFeedback>{errors.country}</FormFeedback>
+                            </FormGroup>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button
+                                color="primary"
+                                onClick={() =>
+                                    handleEditFormSubmit({
+                                        name: document.getElementById("editName").value,
+                                        region: document.getElementById("editRegion").value,
+                                        country: document.getElementById("editCountry").value,
+                                    })
+                                }
+                            >
+                                Save
+                            </Button>
+                            <Button
+                                color="secondary"
+                                onClick={() => {
+                                    resetErrors();
+                                    setModalOpen(!modalOpen);
+                                }}
+                            >
+                                Cancel
+                            </Button>
+                        </ModalFooter>
+                    </Modal>
+                </>
+            )}
+        </>
+    );
+};
+
+export default UsersTable;
