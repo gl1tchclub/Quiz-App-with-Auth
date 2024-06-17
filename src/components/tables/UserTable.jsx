@@ -1,7 +1,6 @@
 // src/components/UserTable.jsx
 import React from "react";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
-import UpdateForm from "../forms/UpdateUserForm";
 
 // Components
 import {
@@ -20,11 +19,11 @@ import CardWrapper from "../CardWrapper";
 const UserTable = () => {
   const user = JSON.parse(localStorage.getItem("userData"));
 
-  if (!user) {
-    return (
-      <ErrorAlert desc="Unauthorized. Please log in"/>
-    );
-  }
+  // if (!user) {
+  //   return (
+  //     <ErrorAlert desc="Unauthorized. Please log in"/>
+  //   );
+  // }
 
 // create isLoading func
 
