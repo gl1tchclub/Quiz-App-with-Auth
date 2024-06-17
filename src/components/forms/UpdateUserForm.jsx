@@ -1,56 +1,118 @@
-import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+// Note: Please read the code comments
+
+import { useState } from "react";
 import {
+  Button,
   Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import CardWrapper from "../CardWrapper";
-import { useNavigate } from "react-router-dom";
+  FormGroup,
+  Label,
+  Input,
+  FormFeedback,
+} from "reactstrap";
+import PropTypes from "prop-types";
+
+import { quizAppInstance } from "../../utils/axios";
 
 const UpdateForm = ({ onFormSubmit }) => {
-  const updateForm = useForm();
-  const navigate = useNavigate();
-  const { mutate: postUpdateMutation, data: updateData } = useMutation({
-    mutationFn: (user) =>
-      fetch(`https://two4-mintep1-app-dev.onrender.com/api/v1/user/${props.id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: user.email,
-          username: user.username,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          password: user.password,
-          confirm_password: user.confirm_password,
-        }),
-      }).then((res) => {
-        if (res.status === 201) {
-          updateForm.reset((formValues) => ({
-            ...formValues,
-            email: "",
-            username: "",
-            firstName: "",
-            lastName: "",
-            password: "",
-            confirm_password: "",
-          }));
-        }
-        return res.json();
-      }),
-    onSuccess: (data) => {
-      localStorage.setItem("userData", JSON.stringify(data.data));
-      console.log(JSON.parse(localStorage.getItem("userData")));
-      if (data.token) navigate("/user");
-    },
+  const [formData, setFormData] = useState({
+    username: "",
+    firstName: "",
+    lastName: "",
   });
+  const [errors, setErrors] = useState({
+    username: "",
+    firstName: "",
+    lastName: "",
+    submitError: "",
+  });
+
+  // This function is called when the input fields change
+  const handleChange = (e) => {
+    const { name, value } = e.target; // name refers to the name attribute of the input field, value refers to the value of the input field
+    setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: "" });
+  };
+
+  // This function is called when the form is submitted
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent the default form submission
+    try {
+      await quizAppInstance.post("/register", formData);
+      setFormData({
+        name: "",
+        region: "",
+        country: "",
+      });
+      setErrors({
+        name: "",
+        region: "",
+        country: "",
+        submitError: "",
+      });
+      onFormSubmit(); // Call the onFormSubmit prop
+    } catch (err) {
+      // Handle validation errors
+      if (err.response && err.response.data && err.response.data.msg) {
+        const errorMsg = err.response.data.msg; // Get the error message
+        const field = errorMsg.split(" ")[0]; // Get the field name from the error message, i.e., "name should be a string" -> "name"
+        setErrors((prevErrors) => ({
+          ...prevErrors, // Keep the other errors
+          [field]: errorMsg, // Set the error for the field
+        }));
+      } else {
+        console.log(err);
+      }
+    }
+  };
+
+  return (
+    <Form onSubmit={handleSubmit}>
+      <FormGroup>
+        <Label for="name">Name:</Label>
+        <Input
+          type="text"
+          value={formData.name}
+          id="name"
+          name="name"
+          onChange={handleChange}
+          invalid={!!errors.name}
+        />
+        <FormFeedback>{errors.name}</FormFeedback>
+      </FormGroup>
+      <FormGroup>
+        <Label for="name">Region:</Label>
+        <Input
+          type="text"
+          value={formData.region}
+          id="region"
+          name="region"
+          onChange={handleChange}
+          invalid={!!errors.region} 
+        />
+        <FormFeedback>{errors.region}</FormFeedback>
+      </FormGroup>
+      <FormGroup>
+        <Label for="name">Country:</Label>
+        <Input
+          type="text"
+          value={formData.country}
+          id="country"
+          name="country"
+          onChange={handleChange}
+          invalid={!!errors.country}
+        />
+        <FormFeedback>{errors.country}</FormFeedback>
+      </FormGroup>
+      {errors.submitError && (
+        <div className="text-danger">{errors.submitError}</div>
+      )}
+      <Button type="submit">Add Institution</Button>
+    </Form>
+  );
 };
-export default UpdateForm;
+
+InstitutionForm.propTypes = {
+  onFormSubmit: PropTypes.func.isRequired,
+};
+
+export default InstitutionForm;

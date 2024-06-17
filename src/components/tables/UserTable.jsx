@@ -7,7 +7,6 @@ import UpdateForm from "../forms/UpdateUserForm";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,

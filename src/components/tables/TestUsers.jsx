@@ -5,7 +5,6 @@ import { quizAppInstance } from "../../utils/axios";
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -38,41 +37,7 @@ const UsersTable = () => {
     const fetchData = async () => {
         setIsLoading(true);
         try {
-            const { mutate: postUpdateMutation, data: updateData } = useMutation({
-                mutationFn: (user) =>
-                    fetch(`https://two4-mintep1-app-dev.onrender.com/api/v1/user/${props.id}`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            email: user.email,
-                            username: user.username,
-                            firstName: user.firstName,
-                            lastName: user.lastName,
-                            password: user.password,
-                            confirm_password: user.confirm_password,
-                        }),
-                    }).then((res) => {
-                        if (res.status === 201) {
-                            updateForm.reset((formValues) => ({
-                                ...formValues,
-                                email: "",
-                                username: "",
-                                firstName: "",
-                                lastName: "",
-                                password: "",
-                                confirm_password: "",
-                            }));
-                        }
-                        return res.json();
-                    }),
-                onSuccess: (data) => {
-                    localStorage.setItem("userData", JSON.stringify(data.data));
-                    console.log(JSON.parse(localStorage.getItem("userData")));
-                    if (data.token) navigate("/user");
-                },
-            });
+            const res = await quizAppInstance.get("/users");
             setData(res.data.data);
         } catch (err) {
             console.log(err);
@@ -120,6 +85,7 @@ const UsersTable = () => {
             setData(updatedData);
             setModalOpen(false);
             setEditItem(null);
+            fetchData();
         } catch (err) {
             // Handle validation errors
             if (err.response && err.response.data && err.response.data.msg) {
@@ -135,60 +101,77 @@ const UsersTable = () => {
         }
     };
 
-    const handleFormSubmit = () => fetchData();
-
     return (
         <>
-            <InstitutionForm onFormSubmit={handleFormSubmit} />
             {isLoading ? (
                 <Loading />
             ) : (
                 <>
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Region</th>
-                                <th>Country</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data.length === 0 ? (
-                                <tr>
-                                    <td colSpan="5" className="text-center">
-                                        No data available
-                                    </td>
-                                </tr>
-                            ) : (
-                                <>
-                                    {data.map((item) => (
-                                        <tr key={item.id}>
-                                            <td>{item.id}</td>
-                                            <td>{item.name}</td>
-                                            <td>{item.region}</td>
-                                            <td>{item.country}</td>
-                                            <td>
-                                                <Button
-                                                    color="primary"
-                                                    onClick={() => handleEdit(item)}
-                                                >
-                                                    Edit
-                                                </Button>{" "}
-                                                <Button
-                                                    color="danger"
-                                                    onClick={() => handleDelete(item.id)}
-                                                >
-                                                    Delete
-                                                </Button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </>
-                            )}
-                        </tbody>
-                    </Table>
+                    <CardWrapper
+                        title="Dashboard"
+                        box="w-3/4 mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mt-20"
+                        button="true"
+                        buttonLabel="Update Info"
+                        href="/user/update"
+                        label="Your user information"
+                        buttonStyle="bg-pink-700 text-pink-100 font-bold py-2 px-4 rounded hover:bg-pink-800"
+                    >
+                        <section className="text-pink-700 bg-pink-200 rounded-lg p-6 shadow-md">
+                            <Table className="hover:none">
+                                <TableHeader className="text-lg text-pink-700 ">
+                                    <TableRow className="border-b-2 border-pink-300 hover:bg-transparent">
+                                        <TableHead className="text-inherit py-2 px-4">ID</TableHead>
+                                        <TableHead className="text-inherit py-2 px-4">
+                                            Username
+                                        </TableHead>
+                                        <TableHead className="text-inherit py-2 px-4">
+                                            First Name
+                                        </TableHead>
+                                        <TableHead className="text-inherit py-2 px-4">
+                                            Last Name
+                                        </TableHead>
+                                        <TableHead className="text-inherit py-2 px-4">Role</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody className="text-gray-700 font-semibold">
+                                    {data.length === 0 ? (
+                                        <TableRow>
+                                            <TableCell colSpan="5" className="text-center">
+                                                No data available
+                                            </TableCell>
+                                        </TableRow>
+                                    ) : (
+                                        <>
+                                            {data.map((user) => (
+                                                <TableRow
+                                                key={user.id}
+                                                className="border-b border-pink-200 hover:bg-transparent"
+                                              >
+                                                <TableCell className="py-2 px-4">{user.id}</TableCell>
+                                                <TableCell className="py-2 px-4">{user.username}</TableCell>
+                                                <TableCell className="py-2 px-4">{user.firstName}</TableCell>
+                                                <TableCell className="py-2 px-4">{user.lastName}</TableCell>
+                                                <TableCell className="py-2 px-4">{user.role}</TableCell>
+                                                        <Button
+                                                            color="primary"
+                                                            onClick={() => handleEdit(item)}
+                                                        >
+                                                            Edit
+                                                        </Button>{" "}
+                                                        <Button
+                                                            color="danger"
+                                                            onClick={() => handleDelete(item.id)}
+                                                        >
+                                                            Delete
+                                                        </Button>
+                                                    </TableRow>
+                                            ))}
+                                        </>
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </section>
+                    </CardWrapper>
                     <Modal
                         isOpen={modalOpen}
                         toggle={() => {
@@ -202,41 +185,41 @@ const UsersTable = () => {
                                 setModalOpen(!modalOpen);
                             }}
                         >
-                            Edit Item
+                            Edit User
                         </ModalHeader>
                         <ModalBody>
                             <FormGroup>
-                                <Label for="editName">Name:</Label>
+                                <Label for="editFirstname">First Name:</Label>
                                 <Input
                                     type="text"
-                                    defaultValue={editItem?.name}
-                                    id="editName"
-                                    name="editName"
-                                    invalid={!!errors.name}
+                                    defaultValue={editItem?.firstName}
+                                    id="editFirstname"
+                                    name="editFirstname"
+                                    invalid={!!errors.firstName}
                                 />
-                                <FormFeedback>{errors.name}</FormFeedback>
+                                <FormFeedback>{errors.firstName}</FormFeedback>
                             </FormGroup>
                             <FormGroup>
-                                <Label for="editRegion">Region:</Label>
+                                <Label for="editLastname">Last Name:</Label>
                                 <Input
                                     type="text"
-                                    defaultValue={editItem?.region}
-                                    id="editRegion"
-                                    name="editRegion"
-                                    invalid={!!errors.region}
+                                    defaultValue={editItem?.lastName}
+                                    id="editLastname"
+                                    name="editLastname"
+                                    invalid={!!errors.lastName}
                                 />
-                                <FormFeedback>{errors.region}</FormFeedback>
+                                <FormFeedback>{errors.lastName}</FormFeedback>
                             </FormGroup>
                             <FormGroup>
-                                <Label for="editCountry">Country:</Label>
+                                <Label for="editUsername">Username:</Label>
                                 <Input
                                     type="text"
-                                    defaultValue={editItem?.country}
-                                    id="editCountry"
-                                    name="editCountry"
-                                    invalid={!!errors.country}
+                                    defaultValue={editItem?.username}
+                                    id="editUsername"
+                                    name="editUsername"
+                                    invalid={!!errors.username}
                                 />
-                                <FormFeedback>{errors.country}</FormFeedback>
+                                <FormFeedback>{errors.username}</FormFeedback>
                             </FormGroup>
                         </ModalBody>
                         <ModalFooter>
