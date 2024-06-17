@@ -6,15 +6,16 @@ const prisma = new PrismaClient();
 const getUsers = async (req, res) => {
   try {
     const { id } = req.user;
-    const page = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.pageSize) || 25;
     const user = await prisma.user.findUnique({ where: { id: id } });
-
+    
     if (user.role == "BASIC_USER") {
       return res.status(403).json({
         error: "Not authorized to access this route",
       });
     }
+    
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 25;
 
     const query = {
       skip: pageSize * (page - 1),

@@ -6,7 +6,7 @@ import * as resources from "../../../controllers/v1/user.js";
 const router = express.Router();
 
 //GET ALL
-router.get("/", (req, res) => resources.getUsers(req, res));
+router.get("/all", (req, res) => resources.getUsers(req, res));
 
 //GET ID
 router.get("/:uuid", (req, res) => resources.getUser(req, res));
