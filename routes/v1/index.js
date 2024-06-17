@@ -11,7 +11,7 @@ import * as quiz from "../../controllers/v1/quiz.js";
 const router = express.Router();
 
 //GET ALL
-router.get("/", (req, res) => quiz.getQuizzes(req, res));
+router.get("/all", (req, res) => quiz.getQuizzes(req, res));
 
 //GET BY ID
 router.get("/:id", (req, res) => quiz.getQuiz(req, res));
