@@ -125,7 +125,7 @@ const TestTable = () => {
                       <TableCell>{user.role}</TableCell>
                       <TableCell>
                         <Button
-                          color="primary"
+                          className="bg-pink-500"
                           onClick={() => handleDelete(user.id)}
                         >
                           Delete
