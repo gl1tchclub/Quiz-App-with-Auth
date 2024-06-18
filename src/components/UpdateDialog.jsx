@@ -32,13 +32,16 @@ const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
 
   return (
     <Dialog isOpen={isOpen} onClose={onClose}>
-      <Dialog.Content className="sm:max-w-[425px]">
-        <Dialog.Header>
-          <Dialog.Title>Edit User</Dialog.Title>
-          <Dialog.Description>
+      <DialogTrigger asChild>
+        <Button variant="outline">Edit</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Edit User</DialogTitle>
+          <DialogDescription>
             Make changes to user details here. Click save when you're done.
-          </Dialog.Description>
-        </Dialog.Header>
+          </DialogDescription>
+        </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
@@ -102,11 +105,11 @@ const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
               />
             </div>
           </div>
-          <Dialog.Footer>
+          <DialogFooter>
             <Button type="submit">Save Changes</Button>
-          </Dialog.Footer>
+          </DialogFooter>
         </form>
-      </Dialog.Content>
+      </DialogContent>
     </Dialog>
   );
 };
