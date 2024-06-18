@@ -85,7 +85,7 @@ const TestTable = () => {
     );
     if (confirmDelete) {
       try {
-        deleteUserMutation.mutate({ id });
+        deleteUserMutation({ id });
       } catch (err) {
         console.log(err);
       }
@@ -179,15 +179,12 @@ const TestTable = () => {
                       <TableCell>{user.lastName}</TableCell>
                       <TableCell>{user.role}</TableCell>
                       <TableCell>
-                        {/* <Button onClick={() => openEditDialog(user)}>
-                          Edit
-                        </Button>{" "} */}
-                          <UpdateDialog
-                            isOpen={isDialogOpen}
-                            onClose={toggleDialog}
-                            user={selectedUser}
-                            onUpdate={updateUser}
-                          />
+                        <UpdateDialog
+                          isOpen={isDialogOpen}
+                          onClose={toggleDialog}
+                          user={selectedUser}
+                          onUpdate={updateUser}
+                        />
                         <Button
                           className="bg-pink-500 hover:bg-pink-400"
                           onClick={() => handleDelete(user.id)}

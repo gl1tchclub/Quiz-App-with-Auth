@@ -31,9 +31,9 @@ const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
   };
 
   return (
-    <Dialog isOpen={isOpen} onClose={onClose}>
+    <Dialog isOpen={isOpen} onClose={onClose} >
       <DialogTrigger asChild>
-        <Button variant="outline">Edit</Button>
+        <Button className="bg-pink-500 text-white hover:bg-pink-400 my-2">Edit</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -105,8 +105,8 @@ const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
               />
             </div>
           </div>
-          <DialogFooter>
-            <Button type="submit">Save Changes</Button>
+          <DialogFooter className="justify-center">
+            <Button type="submit" className="bg-pink-500 text-white hover:bg-pink-400">Save Changes</Button>
           </DialogFooter>
         </form>
       </DialogContent>
