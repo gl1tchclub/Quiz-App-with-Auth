@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import { quizAppInstance } from "../../utils/axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../main";
+import { useMutation } from "@tanstack/react-query";
 
 // Components
 import {
@@ -21,8 +20,13 @@ import { TrashIcon } from "@radix-ui/react-icons";
 const TestTable = () => {
   const token = localStorage.getItem("token");
 
-  // Get all users  
-  const { isLoading, data: users } = useQuery({
+  // Get all users
+  const {
+    isLoading,
+    data: users,
+    error,
+    refetch,
+  } = useQuery({
     queryKey: ["users"],
     queryFn: () =>
       fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/users/all", {
@@ -32,34 +36,28 @@ const TestTable = () => {
       }).then((res) => res.json()),
   });
 
-  // Delete and update users  
-  const { mutate: deleteUserMutation, data: updatedUsers } = useMutation({
-      mutationFn: (id) =>
-        fetch(
-          `https://two4-mintep1-app-dev.onrender.com/api/v1/users/${id}`,
-          {
-            method: DELETE,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        ).then((res) => {
-            if (res.status === 201) {
-                localStorage.setItem("userData", updatedUsers);
-            }
-            return res.json();
-        })
+  // Delete users
+  const { mutate: deleteUserMutation, data: updatedData } = useMutation({
+    mutationFn: async ({ id }) => {
+      const response = await fetch(`https://two4-mintep1-app-dev.onrender.com/api/v1/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete user");
+      }
+      return response.json();
     },
-    {
-      onSuccess: (data) => {
-        if (!data.error) {
-            queryClient.invalidateQueries("users");
-            localStorage.setItem("userData", JSON.stringify(data.data));
-            console.log(JSON.parse(localStorage.getItem("userData")));
-        }
-      },
-    }
-  );
+    onSuccess: (data) => {
+      queryClient.invalidateQueries("users");
+      refetch();
+    },
+    onError: (error) => {
+      console.error("Delete mutation error:", error);
+    },
+  });
 
   const handleDelete = (id) => {
     const confirmDelete = window.confirm(
@@ -67,7 +65,7 @@ const TestTable = () => {
     );
     if (confirmDelete) {
       try {
-        deleteUserMutation(id);
+        deleteUserMutation.mutate({id});
       } catch (err) {
         console.log(err);
       }
@@ -102,15 +100,18 @@ const TestTable = () => {
                     Last Name
                   </TableHead>
                   <TableHead className="text-inherit py-2 px-4">Role</TableHead>
+                  <TableHead className="text-inherit py-2 px-4">
+                    Options
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className="text-gray-700 font-semibold">
-                {users.error ? (
+                {error ? (
                   <TableRow>
-                    <TableCell colSpan="3">{users.error}</TableCell>
+                    <TableCell colSpan="3">{error.message}</TableCell>
                   </TableRow>
                 ) : (
-                  users.data.map((user) => (
+                  users.map((user) => (
                     <TableRow key={user.id}>
                       <TableCell>{user.email}</TableCell>
                       <TableCell>{user.username}</TableCell>
@@ -118,11 +119,11 @@ const TestTable = () => {
                       <TableCell>{user.lastName}</TableCell>
                       <TableCell>{user.role}</TableCell>
                       <TableCell>
-                        <Button 
-                            color="primary"
-                            onClick={() => handleDelete(user.id)}
+                        <Button
+                          color="primary"
+                          onClick={() => handleDelete(user.id)}
                         >
-                            Delete
+                          Delete
                         </Button>
                       </TableCell>
                     </TableRow>

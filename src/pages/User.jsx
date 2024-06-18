@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import UserTable from "../components/tables/UserTable";
-import UsersTable from "../components/tables/TestUsers";
+import TestTable from "../components/tables/TestingTable";
 
 const UserPage = () => {
   const role = JSON.parse(localStorage.getItem("userData")).role;
@@ -13,16 +13,16 @@ const UserPage = () => {
     <>
       {role ? (
         <div className="w-3/4 flex justify-center">
-          {/* <UsersTable /> */}
+          {/* <TestTable /> */}
           {role === "ADMIN_USER" ? (
             <>
             <div className="w-full justify-center flex-col">
               <UserTable />
-              <UsersTable />
+              <TestTable />
             </div>
             </>
           ) : (
-            <UserTable />
+            <TestTable />
           )}
         </div>
       ) : (
