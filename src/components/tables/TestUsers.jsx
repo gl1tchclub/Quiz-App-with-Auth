@@ -33,6 +33,7 @@ const UsersTable = () => {
   const updateForm = useForm();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({
+    email: "",
     username: "",
     firstName: "",
     lastName: "",
@@ -134,6 +135,9 @@ const UsersTable = () => {
                   <TableRow className="border-b-2 border-pink-300 hover:bg-transparent">
                     <TableHead className="text-inherit py-2 px-4">ID</TableHead>
                     <TableHead className="text-inherit py-2 px-4">
+                      Email
+                    </TableHead>
+                    <TableHead className="text-inherit py-2 px-4">
                       Username
                     </TableHead>
                     <TableHead className="text-inherit py-2 px-4">
@@ -162,6 +166,9 @@ const UsersTable = () => {
                           className="border-b border-pink-200 hover:bg-transparent"
                         >
                           <TableCell className="py-2 px-4">{user.id}</TableCell>
+                          <TableCell className="py-2 px-4">
+                            {user.email}
+                          </TableCell>
                           <TableCell className="py-2 px-4">
                             {user.username}
                           </TableCell>
