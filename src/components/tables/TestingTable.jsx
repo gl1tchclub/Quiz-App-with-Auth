@@ -15,9 +15,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Loading from "../Load";
+import { Button } from "reactstrap";
+import { TrashIcon } from "@radix-ui/react-icons";
 
 const TestTable = () => {
   const token = localStorage.getItem("token");
+
+  // Get all users  
   const { isLoading, data: users } = useQuery({
     queryKey: ["users"],
     queryFn: () =>
@@ -28,34 +32,42 @@ const TestTable = () => {
       }).then((res) => res.json()),
   });
 
-  const { mutate: deleteUserMutation, data: updatedUsers } = useMutation(
-    async () => {
-      mutationFn: (user) =>
+  // Delete and update users  
+  const { mutate: deleteUserMutation, data: updatedUsers } = useMutation({
+      mutationFn: (id) =>
         fetch(
-          `https://two4-mintep1-app-dev.onrender.com/api/v1/user/${user.id}`,
+          `https://two4-mintep1-app-dev.onrender.com/api/v1/users/${id}`,
           {
             method: DELETE,
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
-        );
+        ).then((res) => {
+            if (res.status === 201) {
+                localStorage.setItem("userData", updatedUsers);
+            }
+            return res.json();
+        })
     },
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries("users");
+      onSuccess: (data) => {
+        if (!data.error) {
+            queryClient.invalidateQueries("users");
+            localStorage.setItem("userData", JSON.stringify(data.data));
+            console.log(JSON.parse(localStorage.getItem("userData")));
+        }
       },
     }
   );
 
-  const handleDelete = async (item) => {
+  const handleDelete = (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this item?"
     );
     if (confirmDelete) {
       try {
-        deleteItemMutation(`/users/${id}`);
-        setData(data.filter((item) => item.id !== id)); // Remove the item from the data array
+        deleteUserMutation(id);
       } catch (err) {
         console.log(err);
       }
@@ -105,6 +117,14 @@ const TestTable = () => {
                       <TableCell>{user.firstName}</TableCell>
                       <TableCell>{user.lastName}</TableCell>
                       <TableCell>{user.role}</TableCell>
+                      <TableCell>
+                        <Button 
+                            color="primary"
+                            onClick={() => handleDelete(user.id)}
+                        >
+                            Delete
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   ))
                 )}
