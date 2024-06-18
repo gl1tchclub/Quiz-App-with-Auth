@@ -29,23 +29,24 @@ const UserTable = () => {
       ) : ( */}
       <CardWrapper
         title="Dashboard"
-        box="w-3/4 mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mt-20"
+        box="w-fit mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mt-20"
         button="true"
         buttonLabel="Update Info"
         href="/user/update"
         label="Your user information"
-        buttonStyle="bg-pink-700 text-pink-100 font-bold py-2 px-4 rounded hover:bg-pink-800"
+        buttonStyle="bg-pink-500 text-pink-100 font-bold py-2 px-4 rounded hover:bg-pink-400"
       >
         <section className="text-pink-700 bg-pink-200 rounded-lg p-6 shadow-md">
-          <div className="flex justify-center pb-5">
-            <div className="border-2 rounded-full align-center justify-center flex h-24 w-24">
-              <img src={user.avatar} className="w-15 h-full pb-2 pl-1" />
-            </div>
+          <div className="flex justify-center pb-2">
+              <img src={user.avatar} className="w-15 h-24" />
           </div>
           <Table className="hover:none">
             <TableHeader className="text-lg text-pink-700 ">
               <TableRow className="border-b-2 border-pink-300 hover:bg-transparent">
                 <TableHead className="text-inherit py-2 px-4">ID</TableHead>
+                <TableHead className="text-inherit py-2 px-4">
+                  Email
+                </TableHead>
                 <TableHead className="text-inherit py-2 px-4">
                   Username
                 </TableHead>
@@ -64,6 +65,7 @@ const UserTable = () => {
                 className="border-b border-pink-200 hover:bg-transparent"
               >
                 <TableCell className="py-2 px-4">{user.id}</TableCell>
+                <TableCell className="py-2 px-4">{user.email}</TableCell>
                 <TableCell className="py-2 px-4">{user.username}</TableCell>
                 <TableCell className="py-2 px-4">{user.firstName}</TableCell>
                 <TableCell className="py-2 px-4">{user.lastName}</TableCell>

@@ -22,7 +22,7 @@ const UserPage = () => {
             </div>
             </>
           ) : (
-            <TestTable />
+            <UserTable />
           )}
         </div>
       ) : (

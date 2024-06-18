@@ -13,10 +13,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { TrashIcon } from "@radix-ui/react-icons";
+
 import CardWrapper from "../CardWrapper";
 import Loading from "../Load";
-import { Button } from "reactstrap";
-import { TrashIcon } from "@radix-ui/react-icons";
 
 const TestTable = () => {
   const token = localStorage.getItem("token");
@@ -35,20 +36,23 @@ const TestTable = () => {
           Authorization: `Bearer ${token}`,
         },
       }).then((res) => res.json()),
-      onSuccess: (data) => {
-        console.log(JSON.parse(data));
-      } 
+    onSuccess: (data) => {
+      console.log(JSON.parse(data));
+    },
   });
 
   // Delete users
   const { mutate: deleteUserMutation, data: updatedData } = useMutation({
     mutationFn: async ({ id }) => {
-      const response = await fetch(`https://two4-mintep1-app-dev.onrender.com/api/v1/users/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `https://two4-mintep1-app-dev.onrender.com/api/v1/users/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to delete user");
       }
@@ -69,7 +73,7 @@ const TestTable = () => {
     );
     if (confirmDelete) {
       try {
-        deleteUserMutation.mutate({id});
+        deleteUserMutation.mutate({ id });
       } catch (err) {
         console.log(err);
       }
@@ -83,7 +87,7 @@ const TestTable = () => {
       ) : (
         <CardWrapper
           title="Dashboard"
-          box="w-3/4 mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mt-20"
+          box="w-fit mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mt-20"
           label="Your user information"
         >
           <section className="text-pink-700 bg-pink-200 rounded-lg p-6 shadow-md">
@@ -125,7 +129,7 @@ const TestTable = () => {
                       <TableCell>{user.role}</TableCell>
                       <TableCell>
                         <Button
-                          className="bg-pink-500"
+                          className="bg-pink-500 hover:bg-pink-400"
                           onClick={() => handleDelete(user.id)}
                         >
                           Delete
