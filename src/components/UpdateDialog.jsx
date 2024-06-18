@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 
 import { useState } from "react";
 
-const UserEditDialog = ({ isOpen, onClose, user, onUpdate }) => {
+const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
   const [editedUser, setEditedUser] = useState({ ...user });
 
   const handleInputChange = (e) => {
@@ -111,4 +111,4 @@ const UserEditDialog = ({ isOpen, onClose, user, onUpdate }) => {
   );
 };
 
-export default UserEditDialog;
+export default UpdateDialog;

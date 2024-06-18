@@ -7,13 +7,12 @@ import UserTable from "../components/tables/UserTable";
 import TestTable from "../components/tables/TestingTable";
 
 const UserPage = () => {
-  const role = JSON.parse(localStorage.getItem("userData")).role;
+  let role = JSON.parse(localStorage.getItem("userData")) ? JSON.parse(localStorage.getItem("userData")).role : undefined;
 
   return (
     <>
       {role ? (
         <div className="w-3/4 flex justify-center">
-          {/* <TestTable /> */}
           {role === "ADMIN_USER" ? (
             <>
             <div className="w-full justify-center flex-col">
@@ -27,7 +26,6 @@ const UserPage = () => {
         </div>
       ) : (
         <ErrorAlert desc="Unauthorized. Please log in"/>
-        // <div>hi</div>
       )}
     </>
   );

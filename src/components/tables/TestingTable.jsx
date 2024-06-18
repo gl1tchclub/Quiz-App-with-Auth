@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../main";
 import { useMutation } from "@tanstack/react-query";
@@ -18,9 +19,20 @@ import { TrashIcon } from "@radix-ui/react-icons";
 
 import CardWrapper from "../CardWrapper";
 import Loading from "../Load";
+import UpdateDialog from "../UpdateDialog";
+import { ErrorAlert } from "../Alert";
 
 const TestTable = () => {
   const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("userData"));
+
+  if (!user) {
+    return <ErrorAlert desc="Unauthorized. Please log in" />;
+  }
+
+  // State for dialog
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   // Get all users
   const {
@@ -58,7 +70,7 @@ const TestTable = () => {
       }
       return response.json();
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries("users");
       refetch();
     },
@@ -77,6 +89,45 @@ const TestTable = () => {
       } catch (err) {
         console.log(err);
       }
+    }
+  };
+
+  // Toggle dialog
+  const toggleDialog = () => {
+    setIsDialogOpen(!isDialogOpen);
+  };
+
+  // Open dialog with selected user data
+  const openEditDialog = (user) => {
+    setSelectedUser(user);
+    setIsDialogOpen(true);
+  };
+
+  // Update user details
+  const updateUser = async (updatedUser) => {
+    try {
+      // Perform update operation (e.g., API call)
+      const response = await fetch(
+        `https://two4-mintep1-app-dev.onrender.com/api/v1/users/${updatedUser.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(updatedUser),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to update user");
+      }
+      const data = await response.json();
+      console.log("Updated user:", data);
+      // Invalidate and refetch users list
+      queryClient.invalidateQueries("users");
+      refetch();
+    } catch (error) {
+      console.error("Update user error:", error);
     }
   };
 
@@ -114,7 +165,7 @@ const TestTable = () => {
                 </TableRow>
               </TableHeader>
               <TableBody className="text-gray-700 font-semibold">
-                {error ? (
+                {!user ? (
                   <TableRow>
                     <TableCell colSpan="3">{error.message}</TableCell>
                   </TableRow>
