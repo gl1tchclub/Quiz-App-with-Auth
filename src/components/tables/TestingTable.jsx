@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import CardWrapper from "../CardWrapper";
 import Loading from "../Load";
 import { Button } from "reactstrap";
 import { TrashIcon } from "@radix-ui/react-icons";
@@ -34,6 +35,9 @@ const TestTable = () => {
           Authorization: `Bearer ${token}`,
         },
       }).then((res) => res.json()),
+      onSuccess: (data) => {
+        console.log(JSON.parse(data));
+      } 
   });
 
   // Delete users
@@ -111,8 +115,9 @@ const TestTable = () => {
                     <TableCell colSpan="3">{error.message}</TableCell>
                   </TableRow>
                 ) : (
-                  users.map((user) => (
+                  users.data.map((user) => (
                     <TableRow key={user.id}>
+                      <TableCell>{user.id}</TableCell>
                       <TableCell>{user.email}</TableCell>
                       <TableCell>{user.username}</TableCell>
                       <TableCell>{user.firstName}</TableCell>
