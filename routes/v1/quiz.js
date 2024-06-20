@@ -12,19 +12,11 @@ const router = express.Router();
 //POST
 router.post("/", (req, res) => resources.createQuiz(req, res));
 
-//GET ALL
-router.get("/all/:type", (req, res) => resources.getQuizzes(req, res));
-
-//GET BY ID
-router.get("/:id", (req, res) => resources.getQuiz(req, res));
-
 //DELETE
 router.delete("/delete/:id", (req, res) => resources.deleteQuiz(req, res));
 
 // SCORE CRUD
 router.post("/scores", (req, res) => score.createUserScore(req, res));
-
-router.get("/scores", (req, res) => score.getQuizScores(req, res));
 
 // PARTICIPATE CRUD
 router.post("/participation", (req, res) =>
