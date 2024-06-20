@@ -46,21 +46,20 @@ const createQuiz = async (req, res) => {
         difficulty,
         startDate,
         endDate,
-        questions: {
-          create: [
-            json.results.forEach(
-              async (q) =>
-                await prisma.question.create({
-                  data: {
-                    question: q.question,
-                    correctAnswer: q.correct_answer,
-                    incorrectAnswers: q.incorrect_answers,
-                  },
-                }),
-            ),
-          ],
-        },
       },
+    });
+
+    const questionData = json.results.map((q) => {
+      return {
+        quizId: quiz.id,
+        question: q.question,
+        correctAnswer: q.correct_answer,
+        incorrectAnswers: q.incorrect_answers,
+      };
+    });
+
+    await prisma.question.createMany({
+      data: { questionData },
     });
 
     return res.status(201).json({
