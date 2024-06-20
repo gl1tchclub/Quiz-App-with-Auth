@@ -10,7 +10,7 @@ const router = express.Router();
 
 // QUIZ CRUD
 //POST
-router.post("/", (req, res) => resources.createQuiz(req, res));
+router.post("/create", validateQuiz, (req, res) => resources.createQuiz(req, res));
 
 //DELETE
 router.delete("/delete/:id", (req, res) => resources.deleteQuiz(req, res));
