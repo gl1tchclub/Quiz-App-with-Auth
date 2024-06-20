@@ -189,6 +189,7 @@ const UsersTable = () => {
                           className="bg-pink-500 hover:bg-pink-400"
                           onClick={() => handleDelete(user.id)}
                         >
+                          {/* <TrashIcon className="h-4 w-4" /> */}
                           Delete
                         </Button>
                       </TableCell>
