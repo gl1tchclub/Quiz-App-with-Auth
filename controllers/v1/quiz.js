@@ -26,8 +26,23 @@ const createQuiz = async (req, res) => {
         .status(409)
         .json({ error: `Quiz with name ${name} already exists` });
 
-    if (Object.keys(req.body).length < 6)
-      return res.status(400).json({ error: `Please fill out all fields` });
+    // Define an array of required fields
+    const requiredFields = [
+      "categoryId",
+      "name",
+      "type",
+      "difficulty",
+      "startDate",
+      "endDate",
+    ];
+
+    // Check if all required fields are provided
+    const missingFields = requiredFields.filter((field) => !req.body[field]);
+    if (missingFields.length > 0) {
+      return res.status(400).json({
+        error: `Missing required fields: ${missingFields.join(", ")}`,
+      });
+    }
 
     let quizFetch = await fetch(
       `https://opentdb.com/api.php?amount=10&category=${categoryId}&difficulty=${difficulty}&type=${type}`,

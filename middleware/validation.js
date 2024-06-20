@@ -3,18 +3,41 @@
  * @author Elizabeth Minty
  */
 import Joi from "joi";
+import moment from "moment/moment";
 
 const passRegex = /^(?=.*\d)(?=.*[\W_]).{8,16}$/;
 const nameRegex = /^[a-zA-Z].{2,50}$/;
 const dateRegex = /^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{4}$/;
 
+const endDateGreaterThanStartDate = (startDate, endDate) => {
+  // Convert dates to moment objects for comparison
+  const startMoment = moment(startDate, 'DD/MM/YYYY');
+  const endMoment = moment(endDate, 'DD/MM/YYYY');
+
+  // Check if endDate is greater than startDate
+  if (!endMoment.isAfter(startMoment)) {
+    return Joi.valid(null).message(stringMsgs({type: "endDate"}));
+  }
+
+  // Check if endDate is within 5 days from startDate
+  const maxEndDate = startMoment.clone().add(5, 'days');
+  if (!endMoment.isSameOrBefore(maxEndDate)) {
+    return Joi.valid(null).message(stringMsgs({type: "endDate"}));
+  }
+
+  return endDate;
+};
+
 function stringMsgs(obj) {
   let patternMsg = "";
   if (obj.type != "Password" && obj.type != "Date") {
     patternMsg = `${obj.type} must be between ${obj.min} and ${obj.max} characters and contain letters only.`;
-  } else if (obj.type == "Date") {
-    patternMsg = `${obj.type} start date must at least start from ${obj.min}`;
-  } else {
+  } else if (obj.type == "endDate") {
+    patternMsg = `End date must be greater than the start date and end no longer than 5 days later.`;
+  } else if (obj.type == "startDate") {
+    patternMsg = "Start date has to be greater than today's date";
+  } 
+  else {
     patternMsg = `${obj.type} must be between ${obj.min} and ${obj.max} characters and contain at least one numeric character and one special character`;
   }
   return {
@@ -89,12 +112,15 @@ const validateQuiz = (req, res, next) => {
     startDate: Joi.date()
       .min("now")
       .regex(dateRegex)
-      .messages(stringMsgs({ type: "Date", min: "today", max: 30 })),
+      .messages(stringMsgs({ type: "startDate" })),
     endDate: Joi.date()
     .min(startDate)
     .max()
     .regex(dateRegex)
-    .messages(stringMsgs({ type: "Date", min: "today", max: 30 })),
+    .custom((value, helpers) => {
+      const startDate = helpers.state.ancestors[0].startDate;
+      return endDateGreaterThanStartDate(startDate, value);
+    }),
   });
 
   const { error } = quizSchema.validate(req.body);

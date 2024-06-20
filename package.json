@@ -41,6 +41,7 @@
     "uuid": "^9.0.1"
   },
   "dependencies": {
-    "@prisma/client": "^5.15.0"
+    "@prisma/client": "^5.15.0",
+    "moment": "^2.30.1"
   }
 }
