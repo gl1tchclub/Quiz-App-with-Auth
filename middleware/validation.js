@@ -108,19 +108,21 @@ const validateQuiz = (req, res, next) => {
       .max(30)
       .regex(nameRegex)
       .messages(stringMsgs({ type: "Quiz Name", min: 5, max: 30 })),
-      startDate: Joi.string()
+    startDate: Joi.string()
       .regex(dateRegex)
       .required()
       .custom((value, helpers) => {
-        const currentDate = moment().startOf('day'); // Today's date without time
-        const selectedDate = moment(value, 'DD/MM/YYYY');
+        const currentDate = moment().startOf("day"); // Today's date without time
+        const selectedDate = moment(value, "DD/MM/YYYY");
 
         if (!selectedDate.isValid()) {
-          throw new Error(`Start date must be a valid date in the format dd/mm/yyyy.`);
+          throw new Error(
+            `Start date must be a valid date in the format dd/mm/yyyy.`,
+          );
         }
 
-        if (selectedDate.isSameOrBefore(currentDate)) {
-          throw new Error(`Start date must be greater than today's date.`);
+        if (selectedDate.isBefore(currentDate)) {
+          throw new Error(`Start date must be today or in the future.`);
         }
 
         return value; // Return the validated startDate
@@ -130,40 +132,44 @@ const validateQuiz = (req, res, next) => {
         "string.empty": `Start date cannot be empty.`,
         "string.pattern.base": `Start date must be in the format dd/mm/yyyy.`,
         "any.custom": `Start date validation failed: {#error.message}`,
-        "any.required": `Start date is required.`
+        "any.required": `Start date is required.`,
       }),
 
-      endDate: Joi.string()
+    endDate: Joi.string()
       .regex(dateRegex)
       .required()
       .custom((value, helpers) => {
-        const { startDate } = helpers.parent; // Access startDate from parent object
+        const startDate = helpers.parent.startDate; // Access startDate from parent object
 
         // Validate endDate against startDate and the 5-day limit
-        const momentStartDate = moment(startDate, 'DD/MM/YYYY');
-        const momentEndDate = moment(value, 'DD/MM/YYYY');
+        const momentStartDate = moment(startDate, "DD/MM/YYYY");
+        const momentEndDate = moment(value, "DD/MM/YYYY");
 
         if (!momentEndDate.isValid()) {
-          throw new Error(`End date must be a valid date in the format dd/mm/yyyy.`);
+          throw new Error(
+            `End date must be a valid date in the format dd/mm/yyyy.`,
+          );
         }
 
         if (!momentEndDate.isAfter(momentStartDate)) {
           throw new Error(`End date must be after the start date.`);
         }
 
-        const maxEndDate = momentStartDate.clone().add(5, 'days');
+        const maxEndDate = momentStartDate.clone().add(5, "days");
         if (!momentEndDate.isSameOrBefore(maxEndDate)) {
-          throw new Error(`End date must be within 5 days from the start date.`);
+          throw new Error(
+            `End date must be within 5 days from the start date.`,
+          );
         }
 
-        return value; // Return the validated endDate
+        return value;
       })
       .messages({
         "string.base": `End date must be a string.`,
         "string.empty": `End date cannot be empty.`,
         "string.pattern.base": `End date must be in the format dd/mm/yyyy.`,
         "any.custom": `End date validation failed: {#error.message}`,
-        "any.required": `End date is required.`
+        "any.required": `End date is required.`,
       }),
   });
 
