@@ -131,7 +131,6 @@ const getQuizzes = async (req, res, include) => {
 
     const quizzes = await prisma.quiz.findMany({
       include: {
-        categoryId: true,
         questions: true,
         userQuizScores: true,
       },
