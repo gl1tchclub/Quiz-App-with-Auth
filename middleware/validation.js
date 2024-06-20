@@ -11,18 +11,18 @@ const dateRegex = /^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{4}$/;
 
 const endDateGreaterThanStartDate = (startDate, endDate) => {
   // Convert dates to moment objects for comparison
-  const startMoment = moment(startDate, 'DD/MM/YYYY');
-  const endMoment = moment(endDate, 'DD/MM/YYYY');
+  const startMoment = moment(startDate, "DD/MM/YYYY");
+  const endMoment = moment(endDate, "DD/MM/YYYY");
 
   // Check if endDate is greater than startDate
   if (!endMoment.isAfter(startMoment)) {
-    return Joi.valid(null).message(stringMsgs({type: "endDate"}));
+    return Joi.valid(null).message(stringMsgs({ type: "endDate" }));
   }
 
   // Check if endDate is within 5 days from startDate
-  const maxEndDate = startMoment.clone().add(5, 'days');
+  const maxEndDate = startMoment.clone().add(5, "days");
   if (!endMoment.isSameOrBefore(maxEndDate)) {
-    return Joi.valid(null).message(stringMsgs({type: "endDate"}));
+    return Joi.valid(null).message(stringMsgs({ type: "endDate" }));
   }
 
   return endDate;
@@ -36,8 +36,7 @@ function stringMsgs(obj) {
     patternMsg = `End date must be greater than the start date and end no longer than 5 days later.`;
   } else if (obj.type == "startDate") {
     patternMsg = "Start date has to be greater than today's date";
-  } 
-  else {
+  } else {
     patternMsg = `${obj.type} must be between ${obj.min} and ${obj.max} characters and contain at least one numeric character and one special character`;
   }
   return {
@@ -110,26 +109,41 @@ const validateQuiz = (req, res, next) => {
       .regex(nameRegex)
       .messages(stringMsgs({ type: "Quiz Name", min: 5, max: 30 })),
     startDate: Joi.date()
-    .min(moment().startOf('day')) // Start date must be today or later (ignore time)
-    .iso()
-    .raw()
-    .required()
-    .messages({
-      "date.base": `Start date must be a valid date.`,
-      "date.min": `Start date must be today or later.`
-    }),
+      .min(moment().startOf("day")) // Start date must be today or later (ignore time)
+      .iso()
+      .required()
+      .messages({
+        "date.base": `Start date must be a valid date.`,
+        "date.min": `Start date must be today or later.`,
+      }),
 
     endDate: Joi.date()
-    .min(Joi.ref("startDate")) // End date must be after the start date
-    .max(Joi.ref("startDate").clone().add(5, 'days')) // End date must be within 5 days from the start date
-    .iso()
-    .raw()
-    .required()
-    .messages({
-      "date.base": `End date must be a valid date.`,
-      "date.min": `End date must be after the start date.`,
-      "date.max": `End date must not be more than 5 days after the start date.`
-    }),
+      .iso()
+      .required()
+      .custom((value, helpers) => {
+        const startDate = helpers.parent.startDate; // Access startDate from parent object
+
+        // Validate endDate against startDate and the 5-day limit
+        if (
+          moment(value, "YYYY-MM-DD").isSameOrAfter(
+            moment(startDate).add(1, "day"),
+          ) &&
+          moment(value, "YYYY-MM-DD").isSameOrBefore(
+            moment(startDate).add(5, "days"),
+          )
+        ) {
+          return value;
+        } else {
+          throw new Error(
+            `End date must be after the start date and within 5 days from the start date.`,
+          );
+        }
+      })
+      .messages({
+        "date.base": `End date must be a valid date.`,
+        "any.custom": `End date validation failed: {#error.message}`,
+        "any.required": `End date is required.`,
+      }),
   });
 
   const { error } = quizSchema.validate(req.body);
