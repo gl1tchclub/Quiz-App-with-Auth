@@ -108,51 +108,66 @@ const validateQuiz = (req, res, next) => {
       .max(30)
       .regex(nameRegex)
       .messages(stringMsgs({ type: "Quiz Name", min: 5, max: 30 })),
-    startDate: Joi.string()
-    .regex(dateRegex)
-    .required()
-    .messages({
-      "string.base": `Start date must be a string.`,
-      "string.empty": `Start date cannot be empty.`,
-      "string.pattern.base": `Start date must be in the format dd/mm/yyyy.`,
-      "any.required": `Start date is required.`
-    }),
+      startDate: Joi.string()
+      .regex(dateRegex)
+      .required()
+      .custom((value, helpers) => {
+        const currentDate = moment().startOf('day'); // Today's date without time
+        const selectedDate = moment(value, 'DD/MM/YYYY');
 
-    endDate: Joi.string()
-    .regex(dateRegex)
-    .required()
-    .custom((value, helpers) => {
-      const startDate = helpers.parent.startDate; // Access startDate from parent object
+        if (!selectedDate.isValid()) {
+          throw new Error(`Start date must be a valid date in the format dd/mm/yyyy.`);
+        }
 
-      // Validate endDate against startDate and the 5-day limit
-      const momentStartDate = moment(startDate, 'DD/MM/YYYY');
-      const momentEndDate = moment(value, 'DD/MM/YYYY');
+        if (selectedDate.isSameOrBefore(currentDate)) {
+          throw new Error(`Start date must be greater than today's date.`);
+        }
 
-      if (!momentEndDate.isValid()) {
-        throw new Error(`End date must be a valid date in the format dd/mm/yyyy.`);
-      }
+        return value; // Return the validated startDate
+      })
+      .messages({
+        "string.base": `Start date must be a string.`,
+        "string.empty": `Start date cannot be empty.`,
+        "string.pattern.base": `Start date must be in the format dd/mm/yyyy.`,
+        "any.custom": `Start date validation failed: {#error.message}`,
+        "any.required": `Start date is required.`
+      }),
 
-      if (!momentEndDate.isAfter(momentStartDate)) {
-        throw new Error(`End date must be after the start date.`);
-      }
+      endDate: Joi.string()
+      .regex(dateRegex)
+      .required()
+      .custom((value, helpers) => {
+        const { startDate } = helpers.parent; // Access startDate from parent object
 
-      const maxEndDate = momentStartDate.clone().add(5, 'days');
-      if (!momentEndDate.isSameOrBefore(maxEndDate)) {
-        throw new Error(`End date must be within 5 days from the start date.`);
-      }
+        // Validate endDate against startDate and the 5-day limit
+        const momentStartDate = moment(startDate, 'DD/MM/YYYY');
+        const momentEndDate = moment(value, 'DD/MM/YYYY');
 
-      return value; // Return the validated endDate
-    })
-    .messages({
-      "string.base": `End date must be a string.`,
-      "string.empty": `End date cannot be empty.`,
-      "string.pattern.base": `End date must be in the format dd/mm/yyyy.`,
-      "any.custom": `End date validation failed: {#error.message}`,
-      "any.required": `End date is required.`
-    }),
+        if (!momentEndDate.isValid()) {
+          throw new Error(`End date must be a valid date in the format dd/mm/yyyy.`);
+        }
+
+        if (!momentEndDate.isAfter(momentStartDate)) {
+          throw new Error(`End date must be after the start date.`);
+        }
+
+        const maxEndDate = momentStartDate.clone().add(5, 'days');
+        if (!momentEndDate.isSameOrBefore(maxEndDate)) {
+          throw new Error(`End date must be within 5 days from the start date.`);
+        }
+
+        return value; // Return the validated endDate
+      })
+      .messages({
+        "string.base": `End date must be a string.`,
+        "string.empty": `End date cannot be empty.`,
+        "string.pattern.base": `End date must be in the format dd/mm/yyyy.`,
+        "any.custom": `End date validation failed: {#error.message}`,
+        "any.required": `End date is required.`
+      }),
   });
 
-  const { error } = quizSchema.validate(req.body);
+  const { error } = quizSchema.validate(req.body, { abortEarly: false });
 
   if (error) {
     return res.status(400).json({
