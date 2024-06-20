@@ -109,7 +109,7 @@ const validateQuiz = (req, res, next) => {
       .max(30)
       .regex(nameRegex)
       .messages(stringMsgs({ type: "Quiz Name", min: 5, max: 30 })),
-    startDate: JJoi.date()
+    startDate: Joi.date()
     .min(moment().startOf('day')) // Start date must be today or later (ignore time)
     .iso()
     .raw()
