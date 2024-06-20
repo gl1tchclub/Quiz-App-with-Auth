@@ -1,6 +1,7 @@
 //operations relating to quiz information depending on user role
 //e.g. getting user quiz or updating info, etc
 import express from "express";
+import { validateQuiz } from "../../middleware/validation.js";
 import * as resources from "../../controllers/v1/quiz.js";
 import * as score from "../../controllers/v1/score.js";
 import * as answer from "../../controllers/v1/answer.js";

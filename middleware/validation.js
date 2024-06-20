@@ -3,7 +3,7 @@
  * @author Elizabeth Minty
  */
 import Joi from "joi";
-import moment from "moment/moment";
+import moment from "moment/moment.js";
 
 const passRegex = /^(?=.*\d)(?=.*[\W_]).{8,16}$/;
 const nameRegex = /^[a-zA-Z].{2,50}$/;
