@@ -46,10 +46,17 @@ const createUserScore = async (req, res) => {
   }
 };
 
-// Gets scores or average score for any given quiz
-const getQuizScores = async (req, res) => {
+// Gets average score for any given quiz
+const getAverageQuizScore = async (req, res) => {
   try {
-    const quiz = getQuiz(req, res);
+    const { quizId } = req.query.id;
+    const quiz = await prisma.quiz.findUnique({
+      where: { id: Number(quizId) },
+      include: {
+        questions: true,
+        userQuizScores: true,
+      },
+    });
 
     // Calculate average score function
     const averageScore = () => {
@@ -60,13 +67,9 @@ const getQuizScores = async (req, res) => {
       return sum / quiz.userQuizScores.length;
     };
 
-    // Store either array of scores or the average score for given quiz
-    const scores =
-      req.params.type === "average" ? averageScore() : quiz.userQuizScores;
-
     return res.json({
-      msg: "Successfully retrieved scores",
-      data: scores,
+      msg: "Successfully retrieved average score",
+      data: averageScore,
     });
   } catch (err) {
     return res.status(500).json({
@@ -75,4 +78,4 @@ const getQuizScores = async (req, res) => {
   }
 };
 
-export { createUserScore, getQuizScores };
+export { createUserScore, getAverageQuizScore };
