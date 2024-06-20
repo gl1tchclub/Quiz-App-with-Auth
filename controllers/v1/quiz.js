@@ -49,6 +49,8 @@ const createQuiz = async (req, res) => {
       },
     });
 
+    if (!quiz) return res.status(400).json({ error: "Failed to create quiz." })
+
     const questionData = json.results.map((q) => {
       return {
         quizId: quiz.id,
@@ -58,9 +60,12 @@ const createQuiz = async (req, res) => {
       };
     });
 
-    await prisma.question.createMany({
+    if (questionData.length === 0) return res.status(400).json({ error: "Failed to make questions for quiz." })
+
+    const quizQuestions = await prisma.question.createMany({
       data: questionData,
     });
+
 
     return res.status(201).json({
       msg: "Quiz successfully created",

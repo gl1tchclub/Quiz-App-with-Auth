@@ -90,7 +90,11 @@ const validateQuiz = (req, res, next) => {
       .min("now")
       .regex(dateRegex)
       .messages(stringMsgs({ type: "Date", min: "today", max: 30 })),
-    endDate:
+    endDate: Joi.date()
+    .min(startDate)
+    .max()
+    .regex(dateRegex)
+    .messages(stringMsgs({ type: "Date", min: "today", max: 30 })),
   });
 
   const { error } = quizSchema.validate(req.body);
