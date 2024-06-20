@@ -134,6 +134,12 @@ const getQuiz = async (req, res) => {
   try {
     quiz = await prisma.quiz.findUnique({
       where: { id: req.params.id },
+      include: {
+        questions: true,
+        userParticipateQuizzes: true,
+        userQuestionAnswers: true,
+        userQuizScores: true,
+      }
     });
 
     if (!quiz) {
