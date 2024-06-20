@@ -125,7 +125,7 @@ const validateQuiz = (req, res, next) => {
         "string.base": `Start date must be a string.`,
         "string.empty": `Start date cannot be empty.`,
         "string.pattern.base": `Start date must be in the format dd/mm/yyyy.`,
-        "any.custom": `Start date validation failed: {#error.message}`,
+        "any.custom": `{#error.message}`,
       }),
 
     endDate: Joi.string()
@@ -160,7 +160,7 @@ const validateQuiz = (req, res, next) => {
         "string.base": `End date must be a string.`,
         "string.empty": `End date cannot be empty.`,
         "string.pattern.base": `End date must be in the format dd/mm/yyyy.`,
-        "any.custom": `End date validation failed: {#error.message}`,
+        "any.custom": `{#error.message}`,
       }),
   });
 
