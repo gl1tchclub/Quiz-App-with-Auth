@@ -1,47 +1,38 @@
-// CSS
-// import "./App.css";
-import "./index.css";
-
-// Packages
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-// Components
-
-import Footer from "./components/Footer";
-import Layout from "./components/Layout";
-
-// Pages
-import HomePage from "./pages/Home";
-import RegisterPage from "./pages/Register";
-import LoginPage from "./pages/Login";
-import ApiInfoPage from "./pages/ApiPage";
-import UserPage from "./pages/User";
-import LogoutPage from "./pages/Logout";
+import InfoCard from "./InfoCard";
 
 const App = () => {
+  const data = [
+    {
+      title: "Register User",
+      description: "Register a new user.",
+      method: "POST",
+      url: "/api/v1/auth/register",
+      requestBody: {
+        email: "string",
+        firstName: "string",
+        lastName: "string",
+        // Add more if required
+      },
+      responseBody: {
+        msg: "User registered successfully",
+        data: "object",
+      },
+    },
+  ];
+
   return (
     <>
-      <Router>
-        <Layout>
-          {/* <section className="mx-auto h-screen"> */}
-            <div className="flex items-center justify-center">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/info" element={<ApiInfoPage />} />
-                <Route path="/quizzes/old" element={<></>} />
-                <Route path="/quizzes/current" element={<></>} />
-                <Route path="/quizzes/new" element={<></>} />
-                <Route path="/quizzes" element={<></>} />
-                <Route path="/user" element={<UserPage />} />
-                <Route path="/logout" element={<LogoutPage />} />
-              </Routes>
-            </div>
-          {/* </section> */}
-        </Layout>
-        <Footer />
-      </Router>
+      {data.map((api, index) => (
+        <InfoCard
+          key={index}
+          title={api.title}
+          description={api.description}
+          method={api.method}
+          url={api.url}
+          requestBody={api.requestBody}
+          responseBody={api.responseBody}
+        />
+      ))}
     </>
   );
 };

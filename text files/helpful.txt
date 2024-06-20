@@ -1,5 +1,0 @@
-Classname styling
-https://legacy.reactjs.org/docs/faq-styling.html
-
-Actual styling
-https://tailwindcss.com/docs
