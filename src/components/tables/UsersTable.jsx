@@ -22,7 +22,7 @@ import Loading from "../Load";
 import UpdateDialog from "../UpdateDialog";
 import { ErrorAlert } from "../Alert";
 
-const TestTable = () => {
+const UsersTable = () => {
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("userData"));
 
@@ -204,4 +204,4 @@ const TestTable = () => {
   );
 };
 
-export default TestTable;
+export default UsersTable;
