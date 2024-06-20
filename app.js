@@ -73,7 +73,7 @@ app.use("/api/v1/auth", authV1Routes);
 app.use("/api/v1/", indexV1Routes);
 app.use("/api/v1/users", authRouteMiddleware, userV1Routes); // Authenticated route
 app.use("/api/v1/quizzes", authRouteMiddleware, quizV1Routes);
-app.use("/api/v1/quizzes/public", publicQuizV1Routes);
+app.use("/api/v1/public", publicQuizV1Routes);
 app.use("/api/v1/seedBasic", authRouteMiddleware, seedV1Routes); // Authenticated route
 
 // Sets 404 error message if request contains an invalid route and sends to next middleware function in the stack
