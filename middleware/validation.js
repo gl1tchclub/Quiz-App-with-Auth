@@ -135,20 +135,18 @@ const validateQuiz = (req, res, next) => {
         "any.required": `Start date is required.`,
       }),
 
-    endDate: Joi.string()
+      endDate: Joi.string()
       .regex(dateRegex)
       .required()
       .custom((value, helpers) => {
-        const startDate = helpers.parent.startDate; // Access startDate from parent object
+        const startDate = req.body.startDate; // Access startDate directly from req.body
 
         // Validate endDate against startDate and the 5-day limit
         const momentStartDate = moment(startDate, "DD/MM/YYYY");
         const momentEndDate = moment(value, "DD/MM/YYYY");
 
         if (!momentEndDate.isValid()) {
-          throw new Error(
-            `End date must be a valid date in the format dd/mm/yyyy.`,
-          );
+          throw new Error(`End date must be a valid date in the format dd/mm/yyyy.`);
         }
 
         if (!momentEndDate.isAfter(momentStartDate)) {
@@ -157,9 +155,7 @@ const validateQuiz = (req, res, next) => {
 
         const maxEndDate = momentStartDate.clone().add(5, "days");
         if (!momentEndDate.isSameOrBefore(maxEndDate)) {
-          throw new Error(
-            `End date must be within 5 days from the start date.`,
-          );
+          throw new Error(`End date must be within 5 days from the start date.`);
         }
 
         return value;
