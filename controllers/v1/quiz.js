@@ -105,7 +105,7 @@ const getQuizzes = async (req, res, include) => {
     }
 
     //Extract query parameters like filters
-    const filters = req.query.type ? options : {};
+    const filters = req.query.filters ? JSON.parse(req.query.filters) : {};
     const orderBy = req.query.orderBy;
 
     const query = {
