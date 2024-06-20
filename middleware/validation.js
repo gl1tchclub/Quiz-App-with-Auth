@@ -25,6 +25,7 @@ function stringMsgs(obj) {
     "string.minDomainSegments": "Email domain must have 2 segments.",
     "string.maxDomainSegments": "Email domain must have 2 segments.",
     "string.alphanum": `${obj.type} must contain only letters and numbers.`,
+    "string.alpha": "Must contain only alpha characters.",
     "string.pattern.base": patternMsg,
   };
 }
@@ -75,4 +76,25 @@ const validateRegister = (req, res, next) => {
 
   next();
 };
-export { validateRegister };
+
+const validateQuiz = (req, res, next) => {
+  const quizSchema = Joi.object({
+    name: Joi.string()
+      .min(5)
+      .max(30)
+      .regex(nameRegex)
+      .messages(stringMsgs({ type: "Quiz Name", min: 5, max: 30 })),
+  });
+
+  const { error } = quizSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({
+      error: error.details[0].message,
+    });
+  }
+
+  next();
+};
+
+export { validateRegister, validateQuiz };
