@@ -89,6 +89,20 @@ const validateQuiz = (req, res, next) => {
       .max(30)
       .regex(nameRegex)
       .messages(stringMsgs({ type: "Quiz Name", min: 5, max: 30 })),
+
+    categoryId: Joi.number()
+      .integer()
+      .min(9)
+      .max(32)
+      .messages(stringMsgs({ type: "Category ID", min: 9, max: 32 })),
+
+    type: Joi.string().valid("multiple", "single").messages({
+      "string.valid": "Type must be either multiple or single",
+    }),
+    difficulty: Joi.string().valid("easy", "medium", "hard").messages({
+      "string.valid": "Difficulty must be either easy, medium, or hard",
+    }),
+
     startDate: Joi.string()
       .regex(dateRegex)
       .custom((value, helpers) => {
@@ -115,35 +129,39 @@ const validateQuiz = (req, res, next) => {
       }),
 
     endDate: Joi.string()
-    .regex(dateRegex)
-    .custom((value, helpers) => {
-      const startDate = req.body.startDate; // Access startDate directly from req.body
+      .regex(dateRegex)
+      .custom((value, helpers) => {
+        const startDate = req.body.startDate; // Access startDate directly from req.body
 
-      // Validate endDate against startDate and the 5-day limit
-      const momentStartDate = moment(startDate, "DD/MM/YYYY");
-      const momentEndDate = moment(value, "DD/MM/YYYY");
+        // Validate endDate against startDate and the 5-day limit
+        const momentStartDate = moment(startDate, "DD/MM/YYYY");
+        const momentEndDate = moment(value, "DD/MM/YYYY");
 
-      if (!momentEndDate.isValid()) {
-        throw new Error(`End date must be a valid date in the format dd/mm/yyyy.`);
-      }
+        if (!momentEndDate.isValid()) {
+          throw new Error(
+            `End date must be a valid date in the format dd/mm/yyyy.`,
+          );
+        }
 
-      if (!momentEndDate.isAfter(momentStartDate)) {
-        throw new Error(`End date must be after the start date.`);
-      }
+        if (!momentEndDate.isAfter(momentStartDate)) {
+          throw new Error(`End date must be after the start date.`);
+        }
 
-      const maxEndDate = momentStartDate.clone().add(5, "days");
-      if (!momentEndDate.isSameOrBefore(maxEndDate)) {
-        throw new Error(`End date must be within 5 days from the start date.`);
-      }
+        const maxEndDate = momentStartDate.clone().add(5, "days");
+        if (!momentEndDate.isSameOrBefore(maxEndDate)) {
+          throw new Error(
+            `End date must be within 5 days from the start date.`,
+          );
+        }
 
-      return value;
-    })
-    .messages({
-      "string.base": `End date must be a string.`,
-      "string.empty": `End date cannot be empty.`,
-      "string.pattern.base": `End date must be in the format dd/mm/yyyy.`,
-      "any.custom": `End date validation failed: {#error.message}`,
-    }),
+        return value;
+      })
+      .messages({
+        "string.base": `End date must be a string.`,
+        "string.empty": `End date cannot be empty.`,
+        "string.pattern.base": `End date must be in the format dd/mm/yyyy.`,
+        "any.custom": `End date validation failed: {#error.message}`,
+      }),
   });
 
   const { error } = quizSchema.validate(req.body);
