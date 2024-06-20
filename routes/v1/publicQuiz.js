@@ -5,7 +5,7 @@ import * as score from "../../controllers/v1/score.js";
 const router = express.Router();
 
 //GET ALL
-router.get("/all/:type", (req, res) => resources.getQuizzes(req, res));
+router.get("/all", (req, res) => resources.getQuizzes(req, res));
 
 //GET BY ID
 router.get("/quiz/:id", (req, res) => resources.getQuiz(req, res));
