@@ -59,7 +59,7 @@ const createQuiz = async (req, res) => {
     });
 
     await prisma.question.createMany({
-      questionData,
+      data: questionData,
     });
 
     return res.status(201).json({
