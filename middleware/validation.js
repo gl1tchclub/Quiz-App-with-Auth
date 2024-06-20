@@ -6,11 +6,14 @@ import Joi from "joi";
 
 const passRegex = /^(?=.*\d)(?=.*[\W_]).{8,16}$/;
 const nameRegex = /^[a-zA-Z].{2,50}$/;
+const dateRegex = /^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{4}$/;
 
 function stringMsgs(obj) {
   let patternMsg = "";
-  if (obj.type != "Password") {
+  if (obj.type != "Password" && obj.type != "Date") {
     patternMsg = `${obj.type} must be between ${obj.min} and ${obj.max} characters and contain letters only.`;
+  } else if (obj.type == "Date") {
+    patternMsg = `${obj.type} start date must at least start from ${obj.min}`;
   } else {
     patternMsg = `${obj.type} must be between ${obj.min} and ${obj.max} characters and contain at least one numeric character and one special character`;
   }
@@ -25,7 +28,6 @@ function stringMsgs(obj) {
     "string.minDomainSegments": "Email domain must have 2 segments.",
     "string.maxDomainSegments": "Email domain must have 2 segments.",
     "string.alphanum": `${obj.type} must contain only letters and numbers.`,
-    "string.alpha": "Must contain only alpha characters.",
     "string.pattern.base": patternMsg,
   };
 }
@@ -84,6 +86,11 @@ const validateQuiz = (req, res, next) => {
       .max(30)
       .regex(nameRegex)
       .messages(stringMsgs({ type: "Quiz Name", min: 5, max: 30 })),
+    startDate: Joi.date()
+      .min("now")
+      .regex(dateRegex)
+      .messages(stringMsgs({ type: "Date", min: "today", max: 30 })),
+    endDate:
   });
 
   const { error } = quizSchema.validate(req.body);
