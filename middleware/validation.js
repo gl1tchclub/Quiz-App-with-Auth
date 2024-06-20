@@ -9,25 +9,6 @@ const passRegex = /^(?=.*\d)(?=.*[\W_]).{8,16}$/;
 const nameRegex = /^[a-zA-Z].{2,50}$/;
 const dateRegex = /^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{4}$/;
 
-const endDateGreaterThanStartDate = (startDate, endDate) => {
-  // Convert dates to moment objects for comparison
-  const startMoment = moment(startDate, "DD/MM/YYYY");
-  const endMoment = moment(endDate, "DD/MM/YYYY");
-
-  // Check if endDate is greater than startDate
-  if (!endMoment.isAfter(startMoment)) {
-    return Joi.valid(null).message(stringMsgs({ type: "endDate" }));
-  }
-
-  // Check if endDate is within 5 days from startDate
-  const maxEndDate = startMoment.clone().add(5, "days");
-  if (!endMoment.isSameOrBefore(maxEndDate)) {
-    return Joi.valid(null).message(stringMsgs({ type: "endDate" }));
-  }
-
-  return endDate;
-};
-
 function stringMsgs(obj) {
   let patternMsg = "";
   if (obj.type != "Password" && obj.type != "Date") {
@@ -165,7 +146,7 @@ const validateQuiz = (req, res, next) => {
     }),
   });
 
-  const { error } = quizSchema.validate(req.body, { abortEarly: false });
+  const { error } = quizSchema.validate(req.body);
 
   if (error) {
     return res.status(400).json({
