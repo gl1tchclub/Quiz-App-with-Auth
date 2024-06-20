@@ -11,6 +11,6 @@ router.get("/all/:type", (req, res) => resources.getQuizzes(req, res));
 router.get("/:id", (req, res) => resources.getQuiz(req, res));
 
 //SCORE CRUD
-router.get("/scores", (req, res) => score.getQuizScores(req, res));
+router.get("/scores/:id", (req, res) => score.getQuizScores(req, res));
 
 export default router;
