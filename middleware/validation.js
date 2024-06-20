@@ -3,7 +3,7 @@
  * @author Elizabeth Minty
  */
 import Joi from "joi";
-import moment from "moment/moment.js";
+import moment from "moment";
 
 const passRegex = /^(?=.*\d)(?=.*[\W_]).{8,16}$/;
 const nameRegex = /^[a-zA-Z].{2,50}$/;
@@ -109,17 +109,26 @@ const validateQuiz = (req, res, next) => {
       .max(30)
       .regex(nameRegex)
       .messages(stringMsgs({ type: "Quiz Name", min: 5, max: 30 })),
-    startDate: Joi.date()
-      .min("now")
-      .regex(dateRegex)
-      .messages(stringMsgs({ type: "startDate" })),
+    startDate: JJoi.date()
+    .min(moment().startOf('day')) // Start date must be today or later (ignore time)
+    .iso()
+    .raw()
+    .required()
+    .messages({
+      "date.base": `Start date must be a valid date.`,
+      "date.min": `Start date must be today or later.`
+    }),
+
     endDate: Joi.date()
-    .min(startDate)
-    .max()
-    .regex(dateRegex)
-    .custom((value, helpers) => {
-      const startDate = helpers.state.ancestors[0].startDate;
-      return endDateGreaterThanStartDate(startDate, value);
+    .min(Joi.ref("startDate")) // End date must be after the start date
+    .max(Joi.ref("startDate").clone().add(5, 'days')) // End date must be within 5 days from the start date
+    .iso()
+    .raw()
+    .required()
+    .messages({
+      "date.base": `End date must be a valid date.`,
+      "date.min": `End date must be after the start date.`,
+      "date.max": `End date must not be more than 5 days after the start date.`
     }),
   });
 
