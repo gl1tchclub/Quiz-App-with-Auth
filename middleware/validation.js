@@ -32,6 +32,7 @@ function stringMsgs(obj) {
     "string.maxDomainSegments": "Email domain must have 2 segments.",
     "string.alphanum": `${obj.type} must contain only letters and numbers.`,
     "string.pattern.base": patternMsg,
+    "any.required": `${obj.type} īs required.`,
   };
 }
 
@@ -88,6 +89,7 @@ const validateQuiz = (req, res, next) => {
       .min(5)
       .max(30)
       .regex(nameRegex)
+      .required()
       .messages(stringMsgs({ type: "Quiz Name", min: 5, max: 30 })),
 
     categoryId: Joi.number()
@@ -96,8 +98,8 @@ const validateQuiz = (req, res, next) => {
       .max(32)
       .messages(stringMsgs({ type: "Category ID", min: 9, max: 32 })),
 
-    type: Joi.string().valid("multiple", "single").messages({
-      "string.valid": "Type must be either multiple or single",
+    type: Joi.string().valid("multiple", "single").required().messages({
+      "string.valid": "Type must be either multiple or boolean",
     }),
     difficulty: Joi.string().valid("easy", "medium", "hard").messages({
       "string.valid": "Difficulty must be either easy, medium, or hard",
@@ -105,6 +107,7 @@ const validateQuiz = (req, res, next) => {
 
     startDate: Joi.string()
       .regex(dateRegex)
+      .required()
       .custom((value, helpers) => {
         const currentDate = moment().startOf("day"); // Today's date without time
         const selectedDate = moment(value, "DD/MM/YYYY");
@@ -130,6 +133,7 @@ const validateQuiz = (req, res, next) => {
 
     endDate: Joi.string()
       .regex(dateRegex)
+      .required()
       .custom((value, helpers) => {
         const startDate = req.body.startDate; // Access startDate directly from req.body
 

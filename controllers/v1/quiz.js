@@ -27,7 +27,7 @@ const createQuiz = async (req, res) => {
         .json({ error: `Quiz with name ${name} already exists` });
 
     // Define an array of required fields
-    const requiredFields = [
+    const givenFields = [
       "categoryId",
       "name",
       "type",
@@ -35,6 +35,13 @@ const createQuiz = async (req, res) => {
       "startDate",
       "endDate",
     ];
+
+    const link = givenFields.filter((field) => req.body[field]);
+    if (link.length == 0) {
+      return "https://opentdb.com/api.php?amount=10";
+    }
+
+    const requiredFields = ["name", "startDate", "endDate"];
 
     // Check if all required fields are provided
     const missingFields = requiredFields.filter((field) => !req.body[field]);
@@ -64,7 +71,7 @@ const createQuiz = async (req, res) => {
       },
     });
 
-    if (!quiz) return res.status(400).json({ error: "Failed to create quiz." })
+    if (!quiz) return res.status(400).json({ error: "Failed to create quiz." });
 
     const questionData = json.results.map((q) => {
       return {
@@ -75,12 +82,16 @@ const createQuiz = async (req, res) => {
       };
     });
 
-    if (questionData.length === 0) return res.status(400).json({ error: "Failed to make questions for quiz." })
+    if (questionData.length === 0) {
+      await prisma.quiz.delete(quiz.id);
+      return res
+        .status(400)
+        .json({ error: "Failed to make questions for quiz." });
+    }
 
     const quizQuestions = await prisma.question.createMany({
       data: questionData,
     });
-
 
     return res.status(201).json({
       msg: "Quiz successfully created",
@@ -159,7 +170,7 @@ const getQuiz = async (req, res) => {
         userParticipateQuizzes: true,
         userQuestionAnswers: true,
         userQuizScores: true,
-      }
+      },
     });
 
     if (!quiz) {
