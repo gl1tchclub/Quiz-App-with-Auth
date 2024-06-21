@@ -24,6 +24,8 @@ import UpdateDialog from "../UpdateDialog";
 
 const QuizTable = () => {
   const user = JSON.parse(localStorage.getItem("userData"));
+  const [quiz, setQuiz] = useState(null);
+  const [selectedAnswers, setSelectedAnswers] = useState({});
 
   if (!user) {
     return <ErrorAlert desc="Unauthorized. Please log in" />;
@@ -46,14 +48,31 @@ const QuizTable = () => {
       }
       const data = await response.json();
       console.log("Quiz:", data);
+      setQuiz(data);
       localStorage.removeItem("quizId");
-      return data;
     } catch (error) {
       console.error("Get quiz error:", error);
     }
   };
 
-  const quiz = fetchQuiz();
+  if (!quiz) {
+    return <ErrorAlert desc="Unauthorized. Please log in" />;
+  }
+
+  setQuiz(data);
+
+  const handleAnswerChange = (questionIndex, selectedOption) => {
+    setSelectedAnswers({
+      ...selectedAnswers,
+      [questionIndex]: selectedOption,
+    });
+  };
+
+  const handleSubmitQuiz = () => {
+    // Logic to submit quiz answers
+    console.log("Selected Answers:", selectedAnswers);
+    // Implement your logic here for submitting answers
+  };
 
   const participate = () => {};
 
@@ -64,25 +83,48 @@ const QuizTable = () => {
         box="w-fit mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mt-20"
         label="Answer all 10 questions correctly to win!"
       >
-        <Table>
-          <TableBody>
+        <Carousel>
+          <CarouselContent>
             {quiz.questions.map((question, index) => (
-              <TableRow key={`${quiz.id}-${index}`}>
-                <TableCell colSpan="5" className="pl-8">
-                  <strong>{question.question}</strong>
-                </TableCell>
-                <TableCell colSpan="2">
-                  <ul className="ml-4">
-                    {question.incorrectAnswers.map((answer, idx) => (
-                      <li key={`${quiz.id}-${index}-${idx}`}>{answer}</li>
-                    ))}
-                    <li>{question.correctAnswer}</li>
-                  </ul>
-                </TableCell>
-              </TableRow>
+              <CarouselItem key={question.id}>
+                <Card>
+                  <CardContent className="p-6">
+                    <h2 className="text-xl font-bold mb-4">
+                      {question.question}
+                    </h2>
+                    <ul>
+                      {question.options.map((option, optionIndex) => (
+                        <li key={optionIndex} className="mb-2">
+                          <label className="flex items-center space-x-2">
+                            <input
+                              type="radio"
+                              name={`question-${index}`}
+                              value={option}
+                              checked={selectedAnswers[index] === option}
+                              onChange={() => handleAnswerChange(index, option)}
+                            />
+                            <span>{option}</span>
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </CarouselItem>
             ))}
-          </TableBody>
-        </Table>
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+
+        <div className="mt-4">
+          <button
+            className="bg-pink-500 hover:bg-pink-400 text-white font-bold py-2 px-4 rounded"
+            onClick={handleSubmitQuiz}
+          >
+            Submit Quiz
+          </button>
+        </div>
       </CardWrapper>
     </>
   );
