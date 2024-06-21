@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../main";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
+import { useNavigate } from "react-router";
 
 // Components
 import {
@@ -26,13 +27,15 @@ import CardWrapper from "../CardWrapper";
 import Loading from "../Load";
 import UpdateDialog from "../UpdateDialog";
 import { ErrorAlert } from "../Alert";
+import { Link } from "react-router-dom";
 
 const AllQuizzesTable = () => {
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("userData"));
-
-  if (!user) {
-    return <ErrorAlert desc="Unauthorized. Please log in" />;
+  let isAdmin = false;
+  if (user) {
+    isAdmin = user.role === "ADMIN_USER";
   }
 
   const [type, setType] = useState(null); // for old, active, future quizzes (need to implement)
@@ -73,6 +76,7 @@ const AllQuizzesTable = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries("quizzes");
+      localStorage.removeItem("quizId");
       refetch();
     },
     onError: (error) => {
@@ -138,18 +142,49 @@ const AllQuizzesTable = () => {
                         <TableCell>{quiz.startDate}</TableCell>
                         <TableCell>{quiz.endDate}</TableCell>
                         <TableCell>
-                          <Button
-                            className="bg-pink-500 hover:bg-pink-400"
-                            onClick={() => handleDelete(quiz.id)}
-                          >
-                            {/* <TrashIcon className="h-4 w-4" /> */}
-                            Delete
-                          </Button>
+                          {!user ? (
+                            <Link to="/login">Login to play</Link>
+                          ) : (
+                            <>
+                              {isAdmin ? (
+                                <>
+                                  <Button
+                                    className="bg-pink-500 hover:bg-pink-400 flex mb-2"
+                                    onClick={() => handleDelete(quiz.id)}
+                                  >
+                                    {/* <TrashIcon className="h-4 w-4" /> */}
+                                    Delete
+                                  </Button>
+                                  <Button
+                                    className="bg-pink-500 hover:bg-pink-400"
+                                    onClick={() => {
+                                      localStorage.setItem("quizId", quiz.id);
+                                      navigate("/quiz");
+                                    }}
+                                  >
+                                    Play
+                                  </Button>
+                                </>
+                              ) : (
+                                <Button
+                                  className="bg-pink-500 hover:bg-pink-400"
+                                  onClick={() => {
+                                    localStorage.setItem("quizId", quiz.id);
+                                    navigate("/quiz");
+                                  }}
+                                >
+                                  Play
+                                </Button>
+                              )}
+                            </>
+                          )}
                         </TableCell>
                       </TableRow>
                       <Accordion type="single" collapsible className="w-full">
                         <AccordionItem value="questions">
-                          <AccordionTrigger className="text-pink-500 text-sm">View Questions</AccordionTrigger>
+                          <AccordionTrigger className="text-pink-500 text-sm">
+                            View Questions
+                          </AccordionTrigger>
                           <AccordionContent>
                             {quiz.questions.map((question, index) => (
                               <TableRow key={`${quiz.id}-${index}`}>
