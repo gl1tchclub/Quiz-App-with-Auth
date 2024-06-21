@@ -1,4 +1,4 @@
-import AllQuizzesTable from "../components/tables/QuizTable";
+import AllQuizzesTable from "../components/tables/AllQuizTable";
 import { ErrorAlert } from "../components/Alert";
 
 const QuizzesPage = () => {
