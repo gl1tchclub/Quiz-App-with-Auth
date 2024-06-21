@@ -96,8 +96,8 @@ const validateQuiz = (req, res, next) => {
       .max(32)
       .messages(stringMsgs({ type: "Category ID", min: 9, max: 32 })),
 
-    type: Joi.string().valid("multiple", "single").messages({
-      "string.valid": "Type must be either multiple or single",
+    type: Joi.string().valid("multiple", "boolean").messages({
+      "string.valid": "Type must be either multiple or boolean",
     }),
     difficulty: Joi.string().valid("easy", "medium", "hard").messages({
       "string.valid": "Difficulty must be either easy, medium, or hard",
