@@ -23,10 +23,7 @@ import { ErrorAlert } from "../Alert";
 const AllQuizzesTable = () => {
   const token = localStorage.getItem("token");
 
-  // State for dialog
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedQuiz, setSelectedQuiz] = useState(null);
-  const [type, setType] = useState(null);
+  const [type, setType] = useState(null); // for old, active, future quizzes (need to implement)
 
   // Get All Quizzes
   const {
@@ -37,13 +34,14 @@ const AllQuizzesTable = () => {
   } = useQuery({
     queryKey: ["quizzes"],
     queryFn: () =>
-      fetch(
-        `https://two4-mintep1-app-dev.onrender.com/api/v1/quizzes/all/${type}`
-      ).then((res) => res.json()),
+      fetch(`https://two4-mintep1-app-dev.onrender.com/api/v1/public/all`).then(
+        (res) => res.json()
+      ),
     onSuccess: (data) => {
       console.log(JSON.parse(data));
     },
   });
+
   // Delete quiz
   const { mutate: deleteQuizMutation, data: updatedData } = useMutation({
     mutationFn: async ({ id }) => {
@@ -62,7 +60,7 @@ const AllQuizzesTable = () => {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries("quizs");
+      queryClient.invalidateQueries("quizzes");
       refetch();
     },
     onError: (error) => {
@@ -72,16 +70,17 @@ const AllQuizzesTable = () => {
 
   const handleDelete = (id) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this item?"
+      "Are you sure you want to delete this quiz?"
     );
     if (confirmDelete) {
       try {
-        deleteUserMutation({ id });
+        deleteQuizMutation({ id });
       } catch (err) {
         console.log(err);
       }
     }
   };
+
   return (
     <>
       {isLoading ? (
@@ -90,10 +89,10 @@ const AllQuizzesTable = () => {
         <CardWrapper
           title="Dashboard"
           box="w-fit mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mt-20"
-          label="Your user information"
+          label="Your quiz information"
         >
           <section className="text-pink-700 bg-pink-200 rounded-lg p-6 shadow-md">
-          <Table className="hover:none">
+            <Table className="hover:none">
               <TableHeader className="text-lg text-pink-700 ">
                 <TableRow className="border-b-2 border-pink-300 hover:bg-transparent">
                   <TableHead className="text-inherit py-2 px-4">ID</TableHead>
@@ -101,7 +100,7 @@ const AllQuizzesTable = () => {
                     Email
                   </TableHead>
                   <TableHead className="text-inherit py-2 px-4">
-                    Username
+                    Quizname
                   </TableHead>
                   <TableHead className="text-inherit py-2 px-4">
                     First Name
@@ -121,24 +120,18 @@ const AllQuizzesTable = () => {
                     <TableCell colSpan="3">{error.message}</TableCell>
                   </TableRow>
                 ) : (
-                  users.data.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell>{user.id}</TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.username}</TableCell>
-                      <TableCell>{user.firstName}</TableCell>
-                      <TableCell>{user.lastName}</TableCell>
-                      <TableCell>{user.role}</TableCell>
+                  quizzes.data.map((quiz) => (
+                    <TableRow key={quiz.id}>
+                      <TableCell>{quiz.name}</TableCell>
+                      <TableCell>{quiz.email}</TableCell>
+                      <TableCell>{quiz.quizname}</TableCell>
+                      <TableCell>{quiz.firstName}</TableCell>
+                      <TableCell>{quiz.lastName}</TableCell>
+                      <TableCell>{quiz.role}</TableCell>
                       <TableCell>
-                        <UpdateDialog
-                          isOpen={isDialogOpen}
-                          onClose={toggleDialog}
-                          user={selectedUser}
-                          onUpdate={updateUser}
-                        />
                         <Button
                           className="bg-pink-500 hover:bg-pink-400"
-                          onClick={() => handleDelete(user.id)}
+                          onClick={() => handleDelete(quiz.id)}
                         >
                           {/* <TrashIcon className="h-4 w-4" /> */}
                           Delete
@@ -155,3 +148,5 @@ const AllQuizzesTable = () => {
     </>
   );
 };
+
+export default AllQuizzesTable;
