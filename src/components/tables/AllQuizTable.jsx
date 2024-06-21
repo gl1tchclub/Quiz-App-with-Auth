@@ -25,8 +25,6 @@ import { TrashIcon } from "@radix-ui/react-icons";
 
 import CardWrapper from "../CardWrapper";
 import Loading from "../Load";
-import UpdateDialog from "../UpdateDialog";
-import { ErrorAlert } from "../Alert";
 import { Link } from "react-router-dom";
 
 const AllQuizzesTable = () => {
@@ -54,6 +52,7 @@ const AllQuizzesTable = () => {
       ),
     onSuccess: (data) => {
       console.log(JSON.parse(data));
+      localStorage.removeItem("quizId");
     },
   });
 
@@ -76,7 +75,6 @@ const AllQuizzesTable = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries("quizzes");
-      localStorage.removeItem("quizId");
       refetch();
     },
     onError: (error) => {

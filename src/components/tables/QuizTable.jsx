@@ -20,46 +20,48 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { ErrorAlert } from "../Alert";
 import CardWrapper from "../CardWrapper";
-import UpdateDialog from "../UpdateDialog";
 
 const QuizTable = () => {
   const user = JSON.parse(localStorage.getItem("userData"));
   const [quiz, setQuiz] = useState(null);
   const [selectedAnswers, setSelectedAnswers] = useState({});
+  const quizId = localStorage.getItem("quizId");
+  console.log(quizId);
 
   if (!user) {
     return <ErrorAlert desc="Unauthorized. Please log in" />;
   }
 
-  const fetchQuiz = async () => {
-    try {
-      // Perform update operation (e.g., API call)
-      const response = await fetch(
-        `https://two4-mintep1-app-dev.onrender.com/api/v1/public/quiz/${localStorage.getItem("quizId")}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      try {
+        // Perform update operation (e.g., API call)
+        const response = await fetch(
+          `https://two4-mintep1-app-dev.onrender.com/api/v1/public/quiz/${quizId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Failed to get quiz");
         }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to get quiz");
+        const data = await response.json();
+        console.log("Quiz:", data);
+        setQuiz(data);
+      } catch (error) {
+        console.error("Get quiz error:", error);
       }
-      const data = await response.json();
-      console.log("Quiz:", data);
-      setQuiz(data);
-      localStorage.removeItem("quizId");
-    } catch (error) {
-      console.error("Get quiz error:", error);
+    };
+
+    if (!quiz) {
+      return <ErrorAlert desc="Unauthorized. Please log in" />;
     }
-  };
 
-  if (!quiz) {
-    return <ErrorAlert desc="Unauthorized. Please log in" />;
-  }
-
-  setQuiz(data);
+    fetchQuiz();
+  }, []);
 
   const handleAnswerChange = (questionIndex, selectedOption) => {
     setSelectedAnswers({

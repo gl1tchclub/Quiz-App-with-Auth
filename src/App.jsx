@@ -17,6 +17,7 @@ import LoginPage from "./pages/Login";
 import ApiInfoPage from "./pages/ApiPage";
 import UserPage from "./pages/User";
 import QuizzesPage from "./pages/AllQuizzes";
+import QuizPage from "./pages/Quiz";
 import LogoutPage from "./pages/Logout";
 
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
                 <Route path="/quizzes/current" element={<></>} />
                 <Route path="/quizzes/new" element={<></>} />
                 <Route path="/quizzes" element={<QuizzesPage />} />
+                <Route path="/quiz" element={<QuizPage />} />
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/logout" element={<LogoutPage />} />
               </Routes>
