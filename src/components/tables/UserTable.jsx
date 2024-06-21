@@ -24,17 +24,10 @@ const UserTable = () => {
 
   // State for dialog
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
 
   // Toggle dialog
   const toggleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
-  };
-
-  // Open dialog with selected user data
-  const openEditDialog = (user) => {
-    setSelectedUser(user);
-    setIsDialogOpen(true);
   };
 
   // Update user details
