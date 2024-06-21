@@ -26,21 +26,6 @@ const createQuiz = async (req, res) => {
         .status(409)
         .json({ error: `Quiz with name ${name} already exists` });
 
-    // Define an array of required fields
-    const givenFields = [
-      "categoryId",
-      "name",
-      "type",
-      "difficulty",
-      "startDate",
-      "endDate",
-    ];
-
-    const link = givenFields.filter((field) => req.body[field]);
-    if (link.length == 0) {
-      return "https://opentdb.com/api.php?amount=10";
-    }
-
     const requiredFields = ["name", "startDate", "endDate"];
 
     // Check if all required fields are provided
@@ -51,13 +36,30 @@ const createQuiz = async (req, res) => {
       });
     }
 
-    let quizFetch = await fetch(
-      `https://opentdb.com/api.php?amount=10&category=${categoryId}&difficulty=${difficulty}&type=${type}`,
-    );
-    let json = await quizFetch.json();
+    let baseUrl = "https://opentdb.com/api.php";
+    let queryParams = [];
+
+    if (type) {
+      queryParams.push(`type=${type}`);
+    }
+    if (difficulty) {
+      queryParams.push(`difficulty=${difficulty}`);
+    }
+    if (categoryId) {
+      queryParams.push(`category=${categoryId}`);
+    }
+
+    if (queryParams.length > 0) {
+      baseUrl = `${baseUrl}?amount=10${queryParams.join("&")}`;
+    } else {
+      baseUrl = `${baseUrl}?amount=10`;
+    }
+
+    const quizFetch = await fetch(baseUrl);
+    const json = await quizFetch.json();
 
     if (json.response_code > 0)
-      return res.status(403).json({ error: "Failed to fetch" });
+      return res.status(403).json({ error: "Failed to fetch quiz data" });
 
     // Insert quiz data
     quiz = await prisma.quiz.create({
