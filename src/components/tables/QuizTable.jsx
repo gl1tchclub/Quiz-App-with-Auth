@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../main";
 import { useMutation } from "@tanstack/react-query";
+import React from "react";
 
 // Components
 import {
@@ -12,7 +13,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Toggle } from "@/components/ui/toggle";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "@radix-ui/react-icons";
 
@@ -52,7 +58,7 @@ const AllQuizzesTable = () => {
   const { mutate: deleteQuizMutation, data: updatedData } = useMutation({
     mutationFn: async ({ id }) => {
       const response = await fetch(
-        `https://two4-mintep1-app-dev.onrender.com/api/v1/public/all/${id}`,
+        `https://two4-mintep1-app-dev.onrender.com/api/v1/quizzes/delete/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -95,11 +101,11 @@ const AllQuizzesTable = () => {
         <CardWrapper
           title="Dashboard"
           box="w-fit mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mt-20"
-          label="Your quiz information"
+          label="All quiz information"
         >
           <section className="text-pink-700 bg-pink-200 rounded-lg p-6 shadow-md">
-            <Table className="hover:none">
-              <TableHeader className="text-lg text-pink-700 ">
+            <Table className="hover:none w-full">
+              <TableHeader className="text-lg text-pink-700">
                 <TableRow className="border-b-2 border-pink-300 hover:bg-transparent">
                   <TableHead className="text-inherit py-2 px-4">Name</TableHead>
                   <TableHead className="text-inherit py-2 px-4">Type</TableHead>
@@ -112,10 +118,6 @@ const AllQuizzesTable = () => {
                   <TableHead className="text-inherit py-2 px-4">
                     End Date
                   </TableHead>
-
-                  <TableHead className="text-inherit py-2 px-4">
-                    Questions
-                  </TableHead>
                   <TableHead className="text-inherit py-2 px-4">
                     Options
                   </TableHead>
@@ -124,46 +126,56 @@ const AllQuizzesTable = () => {
               <TableBody className="text-gray-700 font-semibold">
                 {error ? (
                   <TableRow>
-                    <TableCell colSpan="3">{error.message}</TableCell>
+                    <TableCell colSpan="7">{error.message}</TableCell>
                   </TableRow>
                 ) : (
                   quizzes.data.map((quiz) => (
-                    <TableRow key={quiz.id}>
-                      <TableCell>{quiz.name}</TableCell>
-                      <TableCell>{quiz.type}</TableCell>
-                      <TableCell>{quiz.difficulty}</TableCell>
-                      <TableCell>{quiz.startDate}</TableCell>
-                      <TableCell>{quiz.endDate}</TableCell>
-                      <TableCell>{quiz.questions}</TableCell>
-                      <TableCell>
-                        <ul>
-                          {quiz.questions.map((question, index) => (
-                            <li key={index} className="mb-2">
-                              <strong>{question.question}</strong>
-                              <ul className="ml-4">
-                                {question.incorrectAnswers.map(
-                                  (answer, index) => (
-                                    <li key={index}>{answer}</li>
-                                  )
-                                )}
-                                <li>
-                                  {question.correctAnswer}
-                                </li>
-                              </ul>
-                            </li>
-                          ))}
-                        </ul>
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          className="bg-pink-500 hover:bg-pink-400"
-                          onClick={() => handleDelete(quiz.id)}
-                        >
-                          {/* <TrashIcon className="h-4 w-4" /> */}
-                          Delete
-                        </Button>
-                      </TableCell>
-                    </TableRow>
+                    <React.Fragment key={quiz.id}>
+                      <TableRow>
+                        <TableCell>{quiz.name}</TableCell>
+                        <TableCell>{quiz.type}</TableCell>
+                        <TableCell>{quiz.difficulty}</TableCell>
+                        <TableCell>{quiz.startDate}</TableCell>
+                        <TableCell>{quiz.endDate}</TableCell>
+                        <TableCell>
+                          <Button
+                            className="bg-pink-500 hover:bg-pink-400"
+                            onClick={() => handleDelete(quiz.id)}
+                          >
+                            {/* <TrashIcon className="h-4 w-4" /> */}
+                            Delete
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                      <Accordion type="single" collapsible className="w-full">
+                        <AccordionItem value="questions">
+                          <AccordionTrigger className="text-pink-500 text-sm">View Questions</AccordionTrigger>
+                          <AccordionContent>
+                            {quiz.questions.map((question, index) => (
+                              <TableRow key={`${quiz.id}-${index}`}>
+                                <TableCell colSpan="5" className="pl-8">
+                                  <strong>{question.question}</strong>
+                                </TableCell>
+                                <TableCell colSpan="2">
+                                  <ul className="ml-4">
+                                    {question.incorrectAnswers.map(
+                                      (answer, idx) => (
+                                        <li key={`${quiz.id}-${index}-${idx}`}>
+                                          {answer}
+                                        </li>
+                                      )
+                                    )}
+                                    <li>{question.correctAnswer}</li>
+                                  </ul>
+                                </TableCell>
+                                <TableCell></TableCell>{" "}
+                                {/* Empty cell for layout */}
+                              </TableRow>
+                            ))}
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    </React.Fragment>
                   ))
                 )}
               </TableBody>
