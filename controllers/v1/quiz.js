@@ -166,7 +166,7 @@ const getQuizzes = async (req, res, include) => {
 const getQuiz = async (req, res) => {
   try {
     quiz = await prisma.quiz.findUnique({
-      where: { id: req.params.id },
+      where: { id: Number(req.params.id) },
       include: {
         questions: true,
         userParticipateQuizzes: true,
