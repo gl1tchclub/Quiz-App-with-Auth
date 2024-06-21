@@ -10,6 +10,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Card, CardContent } from "@/components/ui/card";
 import { ErrorAlert } from "../Alert";
 import CardWrapper from "../CardWrapper";
 import UpdateDialog from "../UpdateDialog";
