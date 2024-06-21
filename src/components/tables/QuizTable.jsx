@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Toggle } from "@/components/ui/toggle";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "@radix-ui/react-icons";
 
@@ -22,6 +23,11 @@ import { ErrorAlert } from "../Alert";
 
 const AllQuizzesTable = () => {
   const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("userData"));
+
+  if (!user) {
+    return <ErrorAlert desc="Unauthorized. Please log in" />;
+  }
 
   const [type, setType] = useState(null); // for old, active, future quizzes (need to implement)
 
@@ -95,20 +101,21 @@ const AllQuizzesTable = () => {
             <Table className="hover:none">
               <TableHeader className="text-lg text-pink-700 ">
                 <TableRow className="border-b-2 border-pink-300 hover:bg-transparent">
-                  <TableHead className="text-inherit py-2 px-4">ID</TableHead>
+                  <TableHead className="text-inherit py-2 px-4">Name</TableHead>
+                  <TableHead className="text-inherit py-2 px-4">Type</TableHead>
                   <TableHead className="text-inherit py-2 px-4">
-                    Email
+                    Difficulty
                   </TableHead>
                   <TableHead className="text-inherit py-2 px-4">
-                    Quizname
+                    Start Date
                   </TableHead>
                   <TableHead className="text-inherit py-2 px-4">
-                    First Name
+                    End Date
                   </TableHead>
+
                   <TableHead className="text-inherit py-2 px-4">
-                    Last Name
+                    Questions
                   </TableHead>
-                  <TableHead className="text-inherit py-2 px-4">Role</TableHead>
                   <TableHead className="text-inherit py-2 px-4">
                     Options
                   </TableHead>
@@ -123,11 +130,30 @@ const AllQuizzesTable = () => {
                   quizzes.data.map((quiz) => (
                     <TableRow key={quiz.id}>
                       <TableCell>{quiz.name}</TableCell>
-                      <TableCell>{quiz.email}</TableCell>
-                      <TableCell>{quiz.quizname}</TableCell>
-                      <TableCell>{quiz.firstName}</TableCell>
-                      <TableCell>{quiz.lastName}</TableCell>
-                      <TableCell>{quiz.role}</TableCell>
+                      <TableCell>{quiz.type}</TableCell>
+                      <TableCell>{quiz.difficulty}</TableCell>
+                      <TableCell>{quiz.startDate}</TableCell>
+                      <TableCell>{quiz.endDate}</TableCell>
+                      <TableCell>{quiz.questions}</TableCell>
+                      <TableCell>
+                        <ul>
+                          {quiz.questions.map((question, index) => (
+                            <li key={index} className="mb-2">
+                              <strong>{question.question}</strong>
+                              <ul className="ml-4">
+                                {question.incorrectAnswers.map(
+                                  (answer, index) => (
+                                    <li key={index}>{answer}</li>
+                                  )
+                                )}
+                                <li>
+                                  {question.correctAnswer}
+                                </li>
+                              </ul>
+                            </li>
+                          ))}
+                        </ul>
+                      </TableCell>
                       <TableCell>
                         <Button
                           className="bg-pink-500 hover:bg-pink-400"
