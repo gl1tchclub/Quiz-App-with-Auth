@@ -8,6 +8,7 @@ const Square = (props) => {
     fontSize: "30px",
     fontWeight: "800",
     outline: "none",
+    color: props.value == "X" ? "blue" : "red",
   };
 
   // Return button with set style and prop value
