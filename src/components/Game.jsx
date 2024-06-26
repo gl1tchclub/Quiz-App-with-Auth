@@ -9,6 +9,7 @@ const Game = () => {
     width: "200px",
   };
 
+  const [history, setHistory] = useState([]);
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [xIsNext, setXIsNext] = useState(true);
   const [gameStarted, setGameStarted] = useState(false);
@@ -22,11 +23,18 @@ const Game = () => {
     squaresCopy[idx] = xIsNext ? "X" : "O";
     setSquares(squaresCopy);
     setXIsNext(!xIsNext);
+
+    const move = {
+      player: xIsNext ? "X" : "O",
+      location: idx,
+    };
+    setHistory([...history, move]);
   };
 
   const restartGame = () => {
     setSquares(Array(9).fill(null));
     setGameStarted(true);
+    setHistory([]);
   };
 
   return (
@@ -34,12 +42,23 @@ const Game = () => {
       {gameStarted && <Board squares={squares} onClick={handleClick} />}
       <div style={style}>
         {gameStarted && (
-          <p>
-            {/* create a draw option - use .includes method (search up) */}
-            {winner
-              ? `Winner: ${winner}`
-              : `Next Player: ${xIsNext ? "X" : "O"}`}
-          </p>
+          <>
+            <p>
+              {/* create a draw option - use .includes method (search up) */}
+              {winner
+                ? `Winner: ${winner}`
+                : `Next Player: ${xIsNext ? "X" : "O"}`}
+            </p>
+            <ul>
+              <li>Start</li>
+              {history.map((move, index) => (
+                <li key={index}>
+                  Move {index + 1}: Player {move.player} to location{" "}
+                  {move.location}
+                </li>
+              ))}
+            </ul>
+          </>
         )}
         <button onClick={restartGame}>
           {gameStarted ? "Restart Game" : "Start Game"}
