@@ -49,9 +49,8 @@ const createUserScore = async (req, res) => {
 // Gets average score for any given quiz
 const getAverageQuizScore = async (req, res) => {
   try {
-    const { quizId } = req.query.id;
     const quiz = await prisma.quiz.findUnique({
-      where: { id: Number(quizId) },
+      where: { id: Number(req.params.id) },
       include: {
         questions: true,
         userQuizScores: true,
