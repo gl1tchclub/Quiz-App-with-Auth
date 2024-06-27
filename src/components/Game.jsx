@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Board from "./Board";
 
@@ -14,8 +14,24 @@ const Game = () => {
   const [xIsNext, setXIsNext] = useState(true);
   const [gameStarted, setGameStarted] = useState(false);
   const [isNull, setIsNull] = useState(true);
+  const [scoreboard, setScoreboard] = useState({ x: 0, o: 0, draw: 0 });
+
 
   const winner = calculateGameState(squares);
+
+  useEffect(() => {
+    if (winner) {
+      setScoreboard((prevScoreboard) => ({
+        ...prevScoreboard,
+        [winner.toLowerCase()]: prevScoreboard[winner.toLowerCase()] + 1,
+      }));
+    } else if (!squares.includes(null)) {
+      setScoreboard((prevScoreboard) => ({
+        ...prevScoreboard,
+        draw: prevScoreboard.draw + 1,
+      }));
+    }
+  }, [winner, squares]);
 
   const handleClick = (idx) => {
     const squaresCopy = [...squares];
