@@ -103,14 +103,6 @@ export function NavigationMenuDemo() {
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink
-              href="/info"
-              className={`${navigationMenuTriggerStyle()} text-pink-500 hover:text-black hover:bg-pink-300 no-underline`}
-            >
-              API Documentation
-            </NavigationMenuLink>
-          </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
     </nav>

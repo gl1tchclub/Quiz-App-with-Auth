@@ -8,8 +8,6 @@ const Layout = ({ children }) => {
   const navPaths = [
     "/quizzes",
     "/user",
-    "/info",
-    "/user/update",
     "/quizzes/old",
     "/quizzes/current",
     "/quizzes/new",
