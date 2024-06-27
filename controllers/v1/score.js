@@ -60,10 +60,14 @@ const getAverageQuizScore = async (req, res) => {
     // Calculate average score function
     const averageScore = () => {
       let sum = 0;
-      quiz.userQuizScores.forEach((userScore) => {
+      const userScores = quiz.userQuizScores;
+      
+      if (!userScores) return [];
+      
+      userScores.forEach((userScore) => {
         sum += userScore.score;
       });
-      return sum / quiz.userQuizScores.length;
+      return sum / userScores.length;
     };
 
     return res.json({
