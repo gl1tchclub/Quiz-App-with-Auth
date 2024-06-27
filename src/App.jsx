@@ -14,7 +14,6 @@ import Layout from "./components/Layout";
 import HomePage from "./pages/Home";
 import RegisterPage from "./pages/Register";
 import LoginPage from "./pages/Login";
-import ApiInfoPage from "./pages/ApiPage";
 import UserPage from "./pages/User";
 import QuizzesPage from "./pages/AllQuizzes";
 import QuizPage from "./pages/Quiz";
@@ -31,7 +30,6 @@ const App = () => {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
-                <Route path="/info" element={<ApiInfoPage />} />
                 <Route path="/quizzes/old" element={<></>} />
                 <Route path="/quizzes/current" element={<></>} />
                 <Route path="/quizzes/new" element={<></>} />
