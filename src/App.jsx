@@ -11,11 +11,45 @@ const App = () => {
         email: "string",
         firstName: "string",
         lastName: "string",
-        // Add more if required
+        username: "string",
+        password: "string",
+        confirm_password: "string",
       },
       responseBody: {
         msg: "User registered successfully",
-        data: "object",
+        data: "user object",
+      },
+    },
+    {
+      title: "Login User",
+      description: "Login to a registered user.",
+      method: "POST",
+      url: "/api/v1/auth/login",
+      requestBody: {
+        username: "string",
+        password: "string",
+      },
+      responseBody: {
+        token: "string",
+        data: "user object",
+      },
+    },
+    {
+      title: "Create Quiz - Admin Only",
+      description: "Create a quiz",
+      method: "POST",
+      url: "/api/v1/quizzes/create",
+      requestBody: {
+        categoryId: "integer (9-32)",
+        name: "string",
+        type: "string (multiple, boolean)",
+        difficulty: "string (easy, medium, hard)",
+        startDate: "string (DD/MM/YYYY)",
+        endDate: "string (DD/MM/YYYY)"
+      },
+      responseBody: {
+        msg: "Quiz successfully created",
+        data: "quiz object",
       },
     },
   ];
