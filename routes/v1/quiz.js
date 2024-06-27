@@ -14,7 +14,7 @@ const router = express.Router();
 router.post("/create", validateQuiz, (req, res) => resources.createQuiz(req, res));
 
 //GET BY ID
-router.get("/quiz/:id", (req, res) => resources.getQuiz(req, res));
+router.get("/:id", (req, res) => resources.getQuiz(req, res));
 
 //DELETE
 router.delete("/delete/:id", (req, res) => resources.deleteQuiz(req, res));
