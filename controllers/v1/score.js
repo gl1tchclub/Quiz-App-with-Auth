@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import { getQuiz } from "./quiz.js";
 
 const prisma = new PrismaClient();
 
@@ -49,6 +48,7 @@ const createUserScore = async (req, res) => {
 // Gets average score for any given quiz
 const getAverageQuizScore = async (req, res) => {
   try {
+    let averageScore = 0;
     const quiz = await prisma.quiz.findUnique({
       where: { id: Number(req.params.id) },
       include: {
@@ -58,16 +58,16 @@ const getAverageQuizScore = async (req, res) => {
     });
 
     // Calculate average score function
-    const averageScore = () => {
+    const setAverageScore = () => {
       let sum = 0;
       const userScores = quiz.userQuizScores;
       
-      if (!userScores) return [];
+      if (!userScores) averageScore = "N/A";
       
       userScores.forEach((userScore) => {
         sum += userScore.score;
       });
-      return sum / userScores.length;
+      averageScore = sum / userScores.length;
     };
 
     return res.json({
