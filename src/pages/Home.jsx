@@ -20,6 +20,11 @@ const HomePage = () => {
             buttonLabel="Docs"
             buttonStyle="bg-pink-600 text-white font-bold py-2 px-20 rounded-lg hover:bg-pink-400"
           />
+          <LinkButton
+            href="/quizzes"
+            buttonLabel="See Our Quizzes"
+            buttonStyle="bg-pink-600 text-white font-bold py-2 px-20 rounded-lg hover:bg-pink-400"
+          />
         </div>
       </CardWrapper>
     </div>

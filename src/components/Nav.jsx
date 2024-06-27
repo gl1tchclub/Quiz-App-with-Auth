@@ -1,13 +1,4 @@
 import {
-  Collapse,
-  Navbar as ReactNavBar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-} from "reactstrap";
-import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
@@ -16,7 +7,6 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { useState } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -74,7 +64,7 @@ const userComponents = [
 export function NavigationMenuDemo() {
   return (
     <nav className="bg-pink-400 text-pink-500 p-4 flex justify-between items-center rounded-b-lg">
-      <div className="text-2xl font-bold text-pink-700">Quiz App</div>
+      <div className="text-2xl font-bold text-pink-700"><Link to="/" className="no-underline text-inherit">Quiz App</Link></div>
       <NavigationMenu className="justify-center align-center">
         <NavigationMenuList className="flex space-x-4">
           <NavigationMenuItem>
