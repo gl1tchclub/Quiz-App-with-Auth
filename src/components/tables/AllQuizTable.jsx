@@ -37,6 +37,7 @@ const AllQuizzesTable = () => {
   }
 
   const [type, setType] = useState(null); // for old, active, future quizzes (need to implement)
+  const [averageScores, setAverageScores] = useState({});
 
   // Get All Quizzes
   const {
@@ -95,10 +96,36 @@ const AllQuizzesTable = () => {
     }
   };
 
+  useEffect(() => {
+    const getAverageScores = async () => {
+      const averageScores = {};
+
+      for (const quiz of quizzes) {
+        try {
+          const response = await fetch(`/scores/average/${quiz.id}`);
+          if (!response.ok) {
+            throw new Error('Could not get average scores');
+          }
+          const data = await response.json();
+          averageScores[quiz.id] = data.averageScore;
+        } catch (error) {
+          console.error('Failed to fetch average score for quiz:', quiz.id, error);
+          averageScores[quiz.id] = null; // Or handle error as you see fit
+        }
+      }
+
+      getAverageScores(averageScores);
+    };
+
+    getAverageScores();
+  }, [quizzes]);
+
   return (
     <>
       {isLoading ? (
-        <Loading />
+        <div className="justify-center flex">
+          <Loading />
+        </div>
       ) : (
         <CardWrapper
           title="Dashboard"
@@ -121,6 +148,12 @@ const AllQuizzesTable = () => {
                     End Date
                   </TableHead>
                   <TableHead className="text-inherit py-2 px-4">
+                    All Scores
+                  </TableHead>
+                  <TableHead className="text-inherit py-2 px-4">
+                    Average Score
+                  </TableHead>
+                  <TableHead className="text-inherit py-2 px-4">
                     Options
                   </TableHead>
                 </TableRow>
@@ -139,6 +172,8 @@ const AllQuizzesTable = () => {
                         <TableCell>{quiz.difficulty}</TableCell>
                         <TableCell>{quiz.startDate}</TableCell>
                         <TableCell>{quiz.endDate}</TableCell>
+                        <TableCell>{}</TableCell>
+                        <TableCell>{}</TableCell>
                         <TableCell>
                           {!user ? (
                             <Link to="/login">Login to play</Link>
