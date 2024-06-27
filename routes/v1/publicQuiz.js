@@ -8,6 +8,6 @@ const router = express.Router();
 router.get("/all", (req, res) => resources.getQuizzes(req, res));
 
 //SCORE CRUD
-router.get("/scores/:id", (req, res) => score.getAverageQuizScore(req, res));
+router.get("/:id", (req, res) => score.getAverageQuizScore(req, res));
 
 export default router;
