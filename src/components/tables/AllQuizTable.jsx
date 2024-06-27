@@ -28,6 +28,7 @@ import Loading from "../Load";
 import { Link } from "react-router-dom";
 
 const AllQuizzesTable = () => {
+  const baseURL = "https://two4-mintep1-app-dev.onrender.com/api/v1/"
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("userData"));
@@ -48,7 +49,7 @@ const AllQuizzesTable = () => {
   } = useQuery({
     queryKey: ["quizzes"],
     queryFn: () =>
-      fetch(`https://two4-mintep1-app-dev.onrender.com/api/v1/public/all`).then(
+      fetch(`${baseURL}public/all`).then(
         (res) => res.json()
       ),
     onSuccess: (data) => {
@@ -61,7 +62,7 @@ const AllQuizzesTable = () => {
   const { mutate: deleteQuizMutation, data: updatedData } = useMutation({
     mutationFn: async ({ id }) => {
       const response = await fetch(
-        `https://two4-mintep1-app-dev.onrender.com/api/v1/quizzes/delete/${id}`,
+        `${baseURL}quizzes/delete/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -98,23 +99,23 @@ const AllQuizzesTable = () => {
 
   useEffect(() => {
     const getAverageScores = async () => {
-      const averageScores = {};
+      const scores = {};
 
       for (const quiz of quizzes) {
         try {
-          const response = await fetch(`/scores/average/${quiz.id}`);
+          const response = await fetch(`${baseURL}public/${quiz.id}`);
           if (!response.ok) {
-            throw new Error('Could not get average scores');
+            throw new Error('Network error');
           }
           const data = await response.json();
-          averageScores[quiz.id] = data.averageScore;
+          data.error ? setAverageScores(data.error) : scores[quiz.id] = data.data;
         } catch (error) {
           console.error('Failed to fetch average score for quiz:', quiz.id, error);
-          averageScores[quiz.id] = null; // Or handle error as you see fit
+          scores[quiz.id] = "error";
         }
       }
 
-      getAverageScores(averageScores);
+      setAverageScores(scores);
     };
 
     getAverageScores();
