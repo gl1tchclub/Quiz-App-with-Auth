@@ -7,9 +7,6 @@ const router = express.Router();
 //GET ALL
 router.get("/all", (req, res) => resources.getQuizzes(req, res));
 
-//GET BY ID
-router.get("/quiz/:id", (req, res) => resources.getQuiz(req, res));
-
 //SCORE CRUD
 router.get("/scores/:id", (req, res) => score.getAverageQuizScore(req, res));
 
