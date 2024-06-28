@@ -90,7 +90,7 @@ const AllQuizzesTable = () => {
       }
     }
   };
-  
+
   //create fn to update quiz data when new quiz created using queryClient.invalidateQueries("quizzes") and refetch();
 
   useEffect(() => {
@@ -128,78 +128,99 @@ const AllQuizzesTable = () => {
           <Loading />
         </div>
       ) : (
-        <CardWrapper
-          title="Dashboard"
-          box="w-fit mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mt-20"
-          label="All quiz information"
-        >
-          <CreateQuiz token={token} />
-          <section className="text-pink-700 bg-pink-200 rounded-lg p-6 shadow-md">
-            <Table className="hover:none w-full text-pink-700">
-              <TableHeader>
-                <TableRow className="border-b-2 border-pink-300 hover:bg-transparent text-xl">
-                  <TableHead className="text-inherit py-2 px-4">Name</TableHead>
-                  <TableHead className="text-inherit py-2 px-4">Type</TableHead>
-                  <TableHead className="text-inherit py-2 px-4">
-                    Difficulty
-                  </TableHead>
-                  <TableHead className="text-inherit py-2 px-4">
-                    Start Date
-                  </TableHead>
-                  <TableHead className="text-inherit py-2 px-4">
-                    End Date
-                  </TableHead>
-                  <TableHead className="text-inherit py-2 px-4">
-                    All Scores
-                  </TableHead>
-                  <TableHead className="text-inherit py-2 px-4">
-                    Average Score
-                  </TableHead>
-                  <TableHead className="text-inherit py-2 px-4">
-                    Options
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className="text-gray-700 font-semibold">
-                {error ? (
-                  <TableRow>
-                    <TableCell colSpan="7">{error.message}</TableCell>
+        <>
+          {token && (
+            <div className="justify-center flex">
+              <CreateQuiz token={token} />
+            </div>
+          )}
+          <CardWrapper
+            title="Dashboard"
+            box="w-fit mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mt-20"
+            label="All quiz information"
+          >
+            <section className="text-pink-700 bg-pink-200 rounded-lg p-6 shadow-md">
+              <Table className="hover:none w-full text-pink-700">
+                <TableHeader>
+                  <TableRow className="border-b-2 border-pink-300 hover:bg-transparent text-xl">
+                    <TableHead className="text-inherit py-2 px-4">
+                      Name
+                    </TableHead>
+                    <TableHead className="text-inherit py-2 px-4">
+                      Type
+                    </TableHead>
+                    <TableHead className="text-inherit py-2 px-4">
+                      Difficulty
+                    </TableHead>
+                    <TableHead className="text-inherit py-2 px-4">
+                      Start Date
+                    </TableHead>
+                    <TableHead className="text-inherit py-2 px-4">
+                      End Date
+                    </TableHead>
+                    <TableHead className="text-inherit py-2 px-4">
+                      All Scores
+                    </TableHead>
+                    <TableHead className="text-inherit py-2 px-4">
+                      Average Score
+                    </TableHead>
+                    <TableHead className="text-inherit py-2 px-4">
+                      Options
+                    </TableHead>
                   </TableRow>
-                ) : (
-                  quizzes.data.map((quiz) => (
-                    <React.Fragment key={quiz.id}>
-                      <TableRow className="text-lg">
-                        <TableCell >{quiz.name}</TableCell>
-                        <TableCell>{quiz.type}</TableCell>
-                        <TableCell>{quiz.difficulty}</TableCell>
-                        <TableCell>{quiz.startDate}</TableCell>
-                        <TableCell>{quiz.endDate}</TableCell>
-                        <TableCell>
-                          {quiz.userQuizScores && quiz.userQuizScores.length > 0
-                            ? quiz.userQuizScores.map((score, idx) => (
-                                <p key={idx}>{score}</p>
-                              ))
-                            : "N/A"}
-                        </TableCell>
-                        <TableCell>
-                          {averageScores[quiz.id] !== undefined
-                            ? averageScores[quiz.id]
-                            : "Calculating..."}
-                        </TableCell>
-                        <TableCell>
-                          {!user ? (
-                            <Link to="/login">Login to play</Link>
-                          ) : (
-                            <>
-                              {isAdmin ? (
-                                <>
-                                  <Button
-                                    className="bg-pink-500 hover:bg-pink-400 flex mb-2"
-                                    onClick={() => handleDelete(quiz.id)}
-                                  >
-                                    <TrashIcon className="h-5 w-5 mr-2" />
-                                    Delete
-                                  </Button>
+                </TableHeader>
+                <TableBody className="text-gray-700 font-semibold">
+                  {error ? (
+                    <TableRow>
+                      <TableCell colSpan="7">{error.message}</TableCell>
+                    </TableRow>
+                  ) : (
+                    quizzes.data.map((quiz) => (
+                      <React.Fragment key={quiz.id}>
+                        <TableRow className="text-lg">
+                          <TableCell>{quiz.name}</TableCell>
+                          <TableCell>{quiz.type}</TableCell>
+                          <TableCell>{quiz.difficulty}</TableCell>
+                          <TableCell>{quiz.startDate}</TableCell>
+                          <TableCell>{quiz.endDate}</TableCell>
+                          <TableCell>
+                            {quiz.userQuizScores &&
+                            quiz.userQuizScores.length > 0
+                              ? quiz.userQuizScores.map((score, idx) => (
+                                  <p key={idx}>{score}</p>
+                                ))
+                              : "N/A"}
+                          </TableCell>
+                          <TableCell>
+                            {averageScores[quiz.id] !== undefined
+                              ? averageScores[quiz.id]
+                              : "Calculating..."}
+                          </TableCell>
+                          <TableCell>
+                            {!user ? (
+                              <Link to="/login">Login to play</Link>
+                            ) : (
+                              <>
+                                {isAdmin ? (
+                                  <>
+                                    <Button
+                                      className="bg-pink-500 hover:bg-pink-400 flex mb-2"
+                                      onClick={() => handleDelete(quiz.id)}
+                                    >
+                                      <TrashIcon className="h-5 w-5 mr-2" />
+                                      Delete
+                                    </Button>
+                                    <Button
+                                      className="bg-pink-500 hover:bg-pink-400"
+                                      onClick={() => {
+                                        localStorage.setItem("quizId", quiz.id);
+                                        navigate("/quiz");
+                                      }}
+                                    >
+                                      Play
+                                    </Button>
+                                  </>
+                                ) : (
                                   <Button
                                     className="bg-pink-500 hover:bg-pink-400"
                                     onClick={() => {
@@ -209,59 +230,51 @@ const AllQuizzesTable = () => {
                                   >
                                     Play
                                   </Button>
-                                </>
-                              ) : (
-                                <Button
-                                  className="bg-pink-500 hover:bg-pink-400"
-                                  onClick={() => {
-                                    localStorage.setItem("quizId", quiz.id);
-                                    navigate("/quiz");
-                                  }}
-                                >
-                                  Play
-                                </Button>
-                              )}
-                            </>
-                          )}
-                        </TableCell>
-                      </TableRow>
-                      <Accordion type="single" collapsible className="w-full">
-                        <AccordionItem value="questions">
-                          <AccordionTrigger className="text-pink-500 text-sm">
-                            View Questions
-                          </AccordionTrigger>
-                          <AccordionContent>
-                            {quiz.questions.map((question, index) => (
-                              <TableRow key={`${quiz.id}-${index}`}>
-                                <TableCell colSpan="5" className="pl-8">
-                                  <strong>{question.question}</strong>
-                                </TableCell>
-                                <TableCell colSpan="2">
-                                  <ul className="ml-4">
-                                    {question.incorrectAnswers.map(
-                                      (answer, idx) => (
-                                        <li key={`${quiz.id}-${index}-${idx}`}>
-                                          {answer}
-                                        </li>
-                                      )
-                                    )}
-                                    <li>{question.correctAnswer}</li>
-                                  </ul>
-                                </TableCell>
-                                <TableCell></TableCell>{" "}
-                                {/* Empty cell for layout */}
-                              </TableRow>
-                            ))}
-                          </AccordionContent>
-                        </AccordionItem>
-                      </Accordion>
-                    </React.Fragment>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </section>
-        </CardWrapper>
+                                )}
+                              </>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                        <Accordion type="single" collapsible className="w-full">
+                          <AccordionItem value="questions">
+                            <AccordionTrigger className="text-pink-500 text-sm">
+                              View Questions
+                            </AccordionTrigger>
+                            <AccordionContent>
+                              {quiz.questions.map((question, index) => (
+                                <TableRow key={`${quiz.id}-${index}`}>
+                                  <TableCell colSpan="5" className="pl-8">
+                                    <strong>{question.question}</strong>
+                                  </TableCell>
+                                  <TableCell colSpan="2">
+                                    <ul className="ml-4">
+                                      {question.incorrectAnswers.map(
+                                        (answer, idx) => (
+                                          <li
+                                            key={`${quiz.id}-${index}-${idx}`}
+                                          >
+                                            {answer}
+                                          </li>
+                                        )
+                                      )}
+                                      <li>{question.correctAnswer}</li>
+                                    </ul>
+                                  </TableCell>
+                                  <TableCell></TableCell>{" "}
+                                  {/* Empty cell for layout */}
+                                </TableRow>
+                              ))}
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
+                      </React.Fragment>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </section>
+          </CardWrapper>
+        </>
       )}
     </>
   );
