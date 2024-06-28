@@ -52,7 +52,14 @@ const CreateQuiz = ({ refetch }) => {
     },
   });
 
-  const handleCreateQuizSubmit = (values) => postQuizMutation(values);
+  const handleCreateQuizSubmit = (values) => {
+    setIsLoading(true);
+    postQuizMutation(values, {
+      onSettled: () => {
+        setIsLoading(false);
+      },
+    });
+  };
 
   return (
     <>
