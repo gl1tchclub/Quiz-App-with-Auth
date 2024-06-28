@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../main";
 import { useMutation } from "@tanstack/react-query";
@@ -53,7 +53,7 @@ const AllQuizzesTable = () => {
         (res) => res.json()
       ),
     onSuccess: (data) => {
-      console.log(JSON.parse(data));
+      // console.log(data.data[0]);
       localStorage.removeItem("quizId");
     },
   });
@@ -101,14 +101,14 @@ const AllQuizzesTable = () => {
     const getAverageScores = async () => {
       const scores = {};
 
-      for (const quiz of quizzes) {
+      for (const quiz of quizzes.data) {
         try {
           const response = await fetch(`${baseURL}public/${quiz.id}`);
           if (!response.ok) {
             throw new Error('Network error');
           }
           const data = await response.json();
-          data.error ? setAverageScores(data.error) : scores[quiz.id] = data.data;
+          scores[quiz.id] = data.data;
         } catch (error) {
           console.error('Failed to fetch average score for quiz:', quiz.id, error);
           scores[quiz.id] = "error";
@@ -174,7 +174,7 @@ const AllQuizzesTable = () => {
                         <TableCell>{quiz.startDate}</TableCell>
                         <TableCell>{quiz.endDate}</TableCell>
                         <TableCell>{}</TableCell>
-                        <TableCell>{}</TableCell>
+                        <TableCell>{averageScores[quiz.id] !== undefined ? averageScores[quiz.id] : "Calculating..."}</TableCell>
                         <TableCell>
                           {!user ? (
                             <Link to="/login">Login to play</Link>
