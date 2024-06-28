@@ -9,6 +9,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CardWrapper from "../CardWrapper";
@@ -18,6 +25,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 const CreateQuiz = ({ refetch }) => {
   const [isLoading, setIsLoading] = useState(false);
   const createQuizForm = useForm();
+
   const { mutate: postQuizMutation, data: quizData } = useMutation({
     mutationFn: (quiz) =>
       fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/quizzes/create", {
@@ -52,6 +60,13 @@ const CreateQuiz = ({ refetch }) => {
     },
   });
 
+  const categories = async () => {
+    const res = await fetch("https://opentdb.com/api_category.php").then(
+      (res) => res.json()
+    );
+    return res.trivia_categories;
+  };
+
   const handleCreateQuizSubmit = (values) => {
     setIsLoading(true);
     postQuizMutation(values, {
@@ -63,36 +78,104 @@ const CreateQuiz = ({ refetch }) => {
 
   return (
     <>
-      <Navigation />
-      <h2>Quiz</h2>
-      <form onSubmit={createQuizForm.handleSubmit(handleCreateQuizSubmit)}>
-        {/* change to radio buttons */}
-        <label htmlFor="quiz-question">Email</label>
-        <input
-          type="text"
-          id="quiz-email"
-          name="email"
-          {...createQuizForm.quiz("email")}
-        />
-        <label htmlFor="quiz-answer">Password</label>
-        <input
-          type="radio"
-          id="quiz-answer"
-          name="answer"
-          {...createQuizForm.quiz("answer")}
-        />
-        <button type="submit">Submit</button>
-      </form>
-      <p>{quizData?.msg}</p>
-
-      <button
-        onClick={() => {
-          localStorage.removeItem("token");
-          // queryClient.invalidateQueries("institutionData");
-        }}
-      >
-        Logout
-      </button>
+      <div className="h-dvh w-1/3 flex items-center justify-center">
+        <CardWrapper
+          variant="link"
+          title="Login"
+          buttonLabel="Don't have an account? Register here"
+          hrefLabel="register"
+          href="/register"
+          box="w-full shadow-md flex-col"
+          button="true"
+          buttonStyle="font-normal w-1/3"
+        >
+          <Form {...createQuizForm}>
+            <form
+              onSubmit={createQuizForm.handleSubmit(handleCreateQuizSubmit)}
+              className="space-y-6 justify-center"
+            >
+              <div className="space-y-4">
+                <FormField
+                  control={createQuizForm.control}
+                  name="categoryId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Username</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a category" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value={9}>General Knowledge</SelectItem>
+                          <SelectItem value={10}>Books</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                          <SelectItem value={11}>Film</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              {quizData?.error ? (
+                <p className="text-red-500 text-sm">{quizData.error}</p>
+              ) : (
+                <p className="text-green-500 text-sm">{quizData?.msg}</p>
+              )}
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-pink-500 hover:bg-pink-300 hover:text-pink-600"
+              >
+                {isLoading ? (
+                  <>
+                    <ReloadIcon className="mr-2 h-6 w-6 animate-spin" />
+                    <p className="mt-3 text-lg">Creating quiz...</p>
+                  </>
+                ) : (
+                  <p className="mt-3 text-lg">Create</p>
+                )}
+              </Button>
+            </form>
+          </Form>
+        </CardWrapper>
+      </div>
     </>
   );
 };
