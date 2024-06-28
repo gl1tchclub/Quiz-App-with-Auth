@@ -4,6 +4,8 @@ import { queryClient } from "../../main";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router";
+import CreateQuiz from "../forms/CreateQuizForm";
+import { queryClient } from "../../main";
 
 // Components
 import {
@@ -89,6 +91,8 @@ const AllQuizzesTable = () => {
       }
     }
   };
+  
+  //create fn to update quiz data when new quiz created using queryClient.invalidateQueries("quizzes") and refetch();
 
   useEffect(() => {
     const getAverageScores = async () => {
@@ -130,6 +134,7 @@ const AllQuizzesTable = () => {
           box="w-fit mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mt-20"
           label="All quiz information"
         >
+          <CreateQuiz token={token} />
           <section className="text-pink-700 bg-pink-200 rounded-lg p-6 shadow-md">
             <Table className="hover:none w-full text-pink-700">
               <TableHeader>

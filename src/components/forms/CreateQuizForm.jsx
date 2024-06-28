@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import {
   Form,
   FormControl,
@@ -22,7 +23,7 @@ import CardWrapper from "../CardWrapper";
 import { useState } from "react";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
-const CreateQuiz = ({ refetch }) => {
+const CreateQuiz = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const createQuizForm = useForm();
 
@@ -32,6 +33,7 @@ const CreateQuiz = ({ refetch }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${props.token}`
         },
         body: JSON.stringify({
           categoryId: quiz.categoryId,
@@ -56,7 +58,7 @@ const CreateQuiz = ({ refetch }) => {
         return res.json();
       }),
     onSuccess: (data) => {
-      if (!data.error) refetch();
+      // if (!data.error) invalidate quiz data;
     },
   });
 
@@ -84,14 +86,9 @@ const CreateQuiz = ({ refetch }) => {
     <>
       <div className="h-dvh w-1/3 flex items-center justify-center">
         <CardWrapper
-          variant="link"
-          title="Login"
-          buttonLabel="Don't have an account? Register here"
-          hrefLabel="register"
-          href="/register"
+          title="Create Quiz"
+          href="/quizzes"
           box="w-full shadow-md flex-col"
-          button="true"
-          buttonStyle="font-normal w-1/3"
         >
           <Form {...createQuizForm}>
             <form

@@ -1,8 +1,5 @@
-import LogoutButton from "../components/buttons/LogoutButton";
 import { ErrorAlert } from "../components/Alert";
-import { useLocation } from "react-router";
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
 import UserTable from "../components/tables/UserTable";
 import UsersTable from "../components/tables/UsersTable";
 
