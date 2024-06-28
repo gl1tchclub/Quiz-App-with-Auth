@@ -129,14 +129,14 @@ const AllQuizzesTable = () => {
         </div>
       ) : (
         <>
-          {token && (
+          {isAdmin && (
             <div className="justify-center flex">
               <CreateQuiz token={token} />
             </div>
           )}
           <CardWrapper
-            title="Dashboard"
-            box="w-fit mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mt-20"
+            title="All Quizzes"
+            box="w-fit mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mb-20"
             label="All quiz information"
           >
             <section className="text-pink-700 bg-pink-200 rounded-lg p-6 shadow-md">

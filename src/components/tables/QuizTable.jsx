@@ -27,6 +27,7 @@ const QuizTable = () => {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const quizId = localStorage.getItem("quizId");
   console.log(quizId);
+  console.log(user);
 
   if (!user) {
     return <ErrorAlert desc="Unauthorized. Please log in" />;

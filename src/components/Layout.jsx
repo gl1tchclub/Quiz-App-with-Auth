@@ -1,4 +1,4 @@
-import NavigationMenuDemo from "./Nav";
+import Nav from "./Nav";
 import { useLocation } from "react-router";
 
 const Layout = ({ children }) => {
@@ -11,12 +11,13 @@ const Layout = ({ children }) => {
     "/quizzes/old",
     "/quizzes/current",
     "/quizzes/new",
-    "logout",
+    "/logout",
+    "/quiz"
   ];
 
   return (
     <div className="flex flex-col min-h-screen bg-pink-50">
-      {navPaths.includes(location.pathname) && <NavigationMenuDemo />}
+      {navPaths.includes(location.pathname) && <Nav />}
       <div className="flex-grow">{children}</div>
     </div>
   );

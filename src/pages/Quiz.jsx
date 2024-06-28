@@ -3,7 +3,7 @@ import { ErrorAlert } from "../components/Alert";
 
 const QuizPage = () => {
   const quiz = localStorage.getItem("quizId");
-  localStorage.removeItem("quizId");
+  // localStorage.removeItem("quizId");
 
   return (
     <>
