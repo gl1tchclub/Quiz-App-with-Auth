@@ -179,19 +179,23 @@ const UsersTable = () => {
                       <TableCell>{user.lastName}</TableCell>
                       <TableCell>{user.role}</TableCell>
                       <TableCell>
-                        <UpdateDialog
-                          isOpen={isDialogOpen}
-                          onClose={toggleDialog}
-                          user={selectedUser}
-                          onUpdate={updateUser}
-                        />
-                        <Button
-                          className="bg-pink-500 hover:bg-pink-400"
-                          onClick={() => handleDelete(user.id)}
-                        >
-                          {/* <TrashIcon className="h-4 w-4" /> */}
-                          Delete
-                        </Button>
+                        {user.role === "ADMIN_USER" ? null : (
+                          <>
+                            <UpdateDialog
+                              isOpen={isDialogOpen}
+                              onClose={toggleDialog}
+                              user={selectedUser}
+                              onUpdate={updateUser}
+                            />
+                            <Button
+                              className="bg-pink-500 hover:bg-pink-400"
+                              onClick={() => handleDelete(user.id)}
+                            >
+                              <TrashIcon className="h-5 w-5 mr-2"/>
+                              Delete
+                            </Button>
+                          </>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))
