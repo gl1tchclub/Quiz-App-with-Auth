@@ -50,7 +50,6 @@ const AllQuizzesTable = () => {
     queryKey: ["quizzes"],
     queryFn: () => fetch(`${baseURL}public/all`).then((res) => res.json()),
     onSuccess: (data) => {
-      // console.log(data.data[0]);
       localStorage.removeItem("quizId");
     },
   });
@@ -132,9 +131,9 @@ const AllQuizzesTable = () => {
           label="All quiz information"
         >
           <section className="text-pink-700 bg-pink-200 rounded-lg p-6 shadow-md">
-            <Table className="hover:none w-full">
-              <TableHeader className="text-lg text-pink-700">
-                <TableRow className="border-b-2 border-pink-300 hover:bg-transparent">
+            <Table className="hover:none w-full text-pink-700">
+              <TableHeader>
+                <TableRow className="border-b-2 border-pink-300 hover:bg-transparent text-xl">
                   <TableHead className="text-inherit py-2 px-4">Name</TableHead>
                   <TableHead className="text-inherit py-2 px-4">Type</TableHead>
                   <TableHead className="text-inherit py-2 px-4">
@@ -165,8 +164,8 @@ const AllQuizzesTable = () => {
                 ) : (
                   quizzes.data.map((quiz) => (
                     <React.Fragment key={quiz.id}>
-                      <TableRow>
-                        <TableCell>{quiz.name}</TableCell>
+                      <TableRow className="text-lg">
+                        <TableCell >{quiz.name}</TableCell>
                         <TableCell>{quiz.type}</TableCell>
                         <TableCell>{quiz.difficulty}</TableCell>
                         <TableCell>{quiz.startDate}</TableCell>

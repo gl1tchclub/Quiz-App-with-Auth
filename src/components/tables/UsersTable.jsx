@@ -134,12 +134,14 @@ const UsersTable = () => {
   return (
     <>
       {isLoading ? (
-        <Loading />
+        <div className="justify-center flex">
+          <Loading />
+        </div>
       ) : (
         <CardWrapper
-          title="Dashboard"
-          box="w-fit mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mt-20"
-          label="Your user information"
+          title="All Users"
+          box="w-fit mx-auto bg-pink-300 shadow-lg rounded-lg p-6 my-20"
+          label="Information for all user accounts"
         >
           <section className="text-pink-700 bg-pink-200 rounded-lg p-6 shadow-md">
             <Table className="hover:none">
