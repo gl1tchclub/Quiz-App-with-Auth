@@ -28,7 +28,7 @@ import Loading from "../Load";
 import { Link } from "react-router-dom";
 
 const AllQuizzesTable = () => {
-  const baseURL = "https://two4-mintep1-app-dev.onrender.com/api/v1/"
+  const baseURL = "https://two4-mintep1-app-dev.onrender.com/api/v1/";
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("userData"));
@@ -48,10 +48,7 @@ const AllQuizzesTable = () => {
     refetch,
   } = useQuery({
     queryKey: ["quizzes"],
-    queryFn: () =>
-      fetch(`${baseURL}public/all`).then(
-        (res) => res.json()
-      ),
+    queryFn: () => fetch(`${baseURL}public/all`).then((res) => res.json()),
     onSuccess: (data) => {
       // console.log(data.data[0]);
       localStorage.removeItem("quizId");
@@ -61,15 +58,12 @@ const AllQuizzesTable = () => {
   // Delete quiz
   const { mutate: deleteQuizMutation, data: updatedData } = useMutation({
     mutationFn: async ({ id }) => {
-      const response = await fetch(
-        `${baseURL}quizzes/delete/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${baseURL}quizzes/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!response.ok) {
         throw new Error("Failed to delete quiz");
       }
@@ -105,12 +99,16 @@ const AllQuizzesTable = () => {
         try {
           const response = await fetch(`${baseURL}public/${quiz.id}`);
           if (!response.ok) {
-            throw new Error('Network error');
+            throw new Error("Network error");
           }
           const data = await response.json();
           scores[quiz.id] = data.data;
         } catch (error) {
-          console.error('Failed to fetch average score for quiz:', quiz.id, error);
+          console.error(
+            "Failed to fetch average score for quiz:",
+            quiz.id,
+            error
+          );
           scores[quiz.id] = "error";
         }
       }
@@ -173,8 +171,18 @@ const AllQuizzesTable = () => {
                         <TableCell>{quiz.difficulty}</TableCell>
                         <TableCell>{quiz.startDate}</TableCell>
                         <TableCell>{quiz.endDate}</TableCell>
-                        <TableCell>{}</TableCell>
-                        <TableCell>{averageScores[quiz.id] !== undefined ? averageScores[quiz.id] : "Calculating..."}</TableCell>
+                        <TableCell>
+                          {quiz.userQuizScores && quiz.userQuizScores.length > 0
+                            ? quiz.userQuizScores.map((score, idx) => (
+                                <div key={idx}>{score}</div>
+                              ))
+                            : "N/A"}
+                        </TableCell>
+                        <TableCell>
+                          {averageScores[quiz.id] !== undefined
+                            ? averageScores[quiz.id]
+                            : "Calculating..."}
+                        </TableCell>
                         <TableCell>
                           {!user ? (
                             <Link to="/login">Login to play</Link>
