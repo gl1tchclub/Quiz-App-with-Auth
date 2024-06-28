@@ -50,7 +50,7 @@ const createQuiz = async (req, res) => {
     }
 
     if (queryParams.length > 0) {
-      baseUrl = `${baseUrl}?amount=10${queryParams.join("&")}`;
+      baseUrl = `${baseUrl}?amount=10&${queryParams.join("&")}`;
     } else {
       baseUrl = `${baseUrl}?amount=10`;
     }
