@@ -60,12 +60,16 @@ const CreateQuiz = ({ refetch }) => {
     },
   });
 
-  const categories = async () => {
-    const res = await fetch("https://opentdb.com/api_category.php").then(
-      (res) => res.json()
-    );
-    return res.trivia_categories;
-  };
+  // Fetch categories
+  const { data: categories, isLoading: categoriesLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const res = await fetch("https://opentdb.com/api_category.php").then(
+        (res) => res.json()
+      );
+      return res.trivia_categories;
+    },
+  });
 
   const handleCreateQuizSubmit = (values) => {
     setIsLoading(true);
