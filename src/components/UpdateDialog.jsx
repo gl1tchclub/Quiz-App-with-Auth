@@ -11,10 +11,28 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
-  const [editedUser, setEditedUser] = useState({ ...user });
+  const [editedUser, setEditedUser] = useState({
+    email: "",
+    username: "",
+    firstName: "",
+    lastName: "",
+    role: "",
+  });
+
+  useEffect(() => {
+    if (isOpen) {
+      setEditedUser({
+        email: "",
+        username: "",
+        firstName: "",
+        lastName: "",
+        role: "",
+      });
+    }
+  }, [isOpen]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

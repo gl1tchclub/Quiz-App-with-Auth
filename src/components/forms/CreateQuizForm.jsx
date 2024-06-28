@@ -33,7 +33,7 @@ const CreateQuiz = (props) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${props.token}`
+          Authorization: `Bearer ${props.token}`,
         },
         body: JSON.stringify({
           categoryId: quiz.categoryId,
@@ -66,10 +66,9 @@ const CreateQuiz = (props) => {
   const { data: categories, isLoading: categoriesLoading } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      const res = await fetch("https://opentdb.com/api_category.php").then(
-        (res) => res.json()
-      );
-      return res.trivia_categories;
+      const res = await fetch("https://opentdb.com/api_category.php");
+      const data = await res.json();
+      return data.trivia_categories;
     },
   });
 
@@ -96,31 +95,16 @@ const CreateQuiz = (props) => {
               className="space-y-6 justify-center"
             >
               <div className="space-y-4">
-                <FormField
+              <FormField
                   control={createQuizForm.control}
                   name="categoryId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Username</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        disabled={categoriesLoading}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a category" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {categories &&
-                            categories.map((category) => (
-                              <SelectItem key={category.id} value={category.id}>
-                                {category.name}
-                              </SelectItem>
-                            ))}
-                        </SelectContent>
-                      </Select>
+                      <FormLabel>Category</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder=". . . . ." />
+                      </FormControl>
+                      <FormDescription>Optional. Enter a number from 9-32</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -132,8 +116,9 @@ const CreateQuiz = (props) => {
                     <FormItem>
                       <FormLabel>Quiz Name</FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="Enter quiz name" />
+                        <Input {...field} placeholder=". . . . ." />
                       </FormControl>
+                      <FormDescription>Required</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -145,8 +130,9 @@ const CreateQuiz = (props) => {
                     <FormItem>
                       <FormLabel>Type</FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="Enter quiz type" />
+                        <Input {...field} placeholder=". . . . ." />
                       </FormControl>
+                      <FormDescription>Optional. Multiple or boolean</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -160,9 +146,10 @@ const CreateQuiz = (props) => {
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="Enter difficulty level"
+                          placeholder=". . . . ."
                         />
                       </FormControl>
+                      <FormDescription>Optional. Easy, medium, or hard.</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -176,6 +163,7 @@ const CreateQuiz = (props) => {
                       <FormControl>
                         <Input type="date" {...field} />
                       </FormControl>
+                      <FormDescription>Required. Must start from at least today's date.</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -189,6 +177,7 @@ const CreateQuiz = (props) => {
                       <FormControl>
                         <Input type="date" {...field} />
                       </FormControl>
+                      <FormDescription>Required. Must be greater than start date.</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}

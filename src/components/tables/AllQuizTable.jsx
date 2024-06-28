@@ -5,7 +5,6 @@ import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router";
 import CreateQuiz from "../forms/CreateQuizForm";
-import { queryClient } from "../../main";
 
 // Components
 import {
@@ -178,7 +177,7 @@ const AllQuizzesTable = () => {
                         <TableCell>
                           {quiz.userQuizScores && quiz.userQuizScores.length > 0
                             ? quiz.userQuizScores.map((score, idx) => (
-                                <div key={idx}>{score}</div>
+                                <p key={idx}>{score}</p>
                               ))
                             : "N/A"}
                         </TableCell>
