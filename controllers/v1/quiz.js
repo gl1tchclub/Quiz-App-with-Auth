@@ -59,7 +59,7 @@ const createQuiz = async (req, res) => {
     const json = await quizFetch.json();
 
     if (json.response_code > 0)
-      return res.status(404).json({ error: "No quiz data available. Please adjust your quiz requirements." });
+      return res.status(404).json({ error: "No quiz data available. Please adjust your quiz requirements.", url: baseUrl, params: queryParams});
 
     // Insert quiz data
     quiz = await prisma.quiz.create({
