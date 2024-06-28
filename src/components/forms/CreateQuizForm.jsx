@@ -108,6 +108,7 @@ const CreateQuiz = ({ refetch }) => {
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
+                        disabled={categoriesLoading}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -115,43 +116,82 @@ const CreateQuiz = ({ refetch }) => {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value={9}>General Knowledge</SelectItem>
-                          <SelectItem value={10}>Books</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
-                          <SelectItem value={11}>Film</SelectItem>
+                          {categories &&
+                            categories.map((category) => (
+                              <SelectItem key={category.id} value={category.id}>
+                                {category.name}
+                              </SelectItem>
+                            ))}
                         </SelectContent>
                       </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={createQuizForm.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Quiz Name</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="Enter quiz name" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={createQuizForm.control}
+                  name="type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Type</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="Enter quiz type" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={createQuizForm.control}
+                  name="difficulty"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Difficulty</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="Enter difficulty level"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={createQuizForm.control}
+                  name="startDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Start Date</FormLabel>
+                      <FormControl>
+                        <Input type="date" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={createQuizForm.control}
+                  name="endDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>End Date</FormLabel>
+                      <FormControl>
+                        <Input type="date" {...field} />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
