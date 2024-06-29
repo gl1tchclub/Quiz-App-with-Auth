@@ -64,10 +64,10 @@ const createQuiz = async (req, res) => {
     // Insert quiz data
     quiz = await prisma.quiz.create({
       data: {
-        categoryId,
+        categoryId: categoryId || null,
         name,
-        type,
-        difficulty,
+        type: type || null,
+        difficulty: difficulty || null,
         startDate,
         endDate,
       },
