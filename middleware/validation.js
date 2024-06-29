@@ -110,11 +110,11 @@ const validateQuiz = (req, res, next) => {
       .required()
       .custom((value, helpers) => {
         const currentDate = moment().startOf("day"); // Today's date without time
-        const selectedDate = moment(value, "DD-MM-YYYY");
+        const selectedDate = moment(value, "YYYY-MM-DD");
 
         if (!selectedDate.isValid()) {
           throw new Error(
-            `Start date must be a valid date in the format dd-mm-yyyy.`,
+            `Start date must be a valid date in the format yyyy-mm-dd.`,
           );
         }
 
@@ -127,7 +127,7 @@ const validateQuiz = (req, res, next) => {
       .messages({
         "string.base": `Start date must be a string.`,
         "string.empty": `Start date cannot be empty.`,
-        "string.pattern.base": `Start date must be in the format dd-mm-yyyy.`,
+        "string.pattern.base": `Start date must be in the format yyyy-mm-dd.`,
         "any.custom": `{#error.message}`,
       }),
 
@@ -138,12 +138,12 @@ const validateQuiz = (req, res, next) => {
         const startDate = req.body.startDate; // Access startDate directly from req.body
 
         // Validate endDate against startDate and the 5-day limit
-        const momentStartDate = moment(startDate, "DD-MM-YYYY");
-        const momentEndDate = moment(value, "DD-MM-YYYY");
+        const momentStartDate = moment(startDate, "YYYY-MM-DD");
+        const momentEndDate = moment(value, "YYYY-MM-DD");
 
         if (!momentEndDate.isValid()) {
           throw new Error(
-            `End date must be a valid date in the format dd-mm-yyyy.`,
+            `End date must be a valid date in the format yyyy-mm-dd.`,
           );
         }
 
@@ -163,7 +163,7 @@ const validateQuiz = (req, res, next) => {
       .messages({
         "string.base": `End date must be a string.`,
         "string.empty": `End date cannot be empty.`,
-        "string.pattern.base": `End date must be in the format dd-mm-yyyy.`,
+        "string.pattern.base": `End date must be in the format yyyy-mm-dd.`,
         "any.custom": `{#error.message}`,
       }),
   });
