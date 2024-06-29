@@ -10,13 +10,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CardWrapper from "../CardWrapper";
@@ -28,37 +21,33 @@ const CreateQuiz = (props) => {
   const createQuizForm = useForm();
 
   const { mutate: postQuizMutation, data: quizData } = useMutation({
-    mutationFn: (quiz) =>
-      fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/quizzes/create", {
+    mutationFn: async (quiz) => {
+      // Filter out empty fields from quiz object
+      const filteredQuiz = Object.fromEntries(
+        Object.entries(quiz).filter(([_, value]) => value !== "")
+      );
+  
+      return fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/quizzes/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${props.token}`,
         },
-        body: JSON.stringify({
-          categoryId: quiz.categoryId,
-          name: quiz.name,
-          type: quiz.type,
-          difficulty: quiz.difficulty,
-          startDate: quiz.startDate,
-          endDate: quiz.endDate,
-        }),
+        body: JSON.stringify(filteredQuiz),
       }).then((res) => {
+        console.log(filteredQuiz.startDate)
         if (res.status === 201) {
-          createQuizForm.reset((formValues) => ({
-            ...formValues,
+          createQuizForm.reset({
             categoryId: "",
             name: "",
             type: "",
             difficulty: "",
             startDate: "",
             endDate: "",
-          }));
+          });
         }
         return res.json();
-      }),
-    onSuccess: (data) => {
-      // if (!data.error) invalidate quiz data;
+      });
     },
   });
 

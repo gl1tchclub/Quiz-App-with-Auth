@@ -40,11 +40,6 @@ const userComponents = [
     description: "Find all your user information here",
   },
   {
-    title: "Update Profile",
-    href: "/user/update",
-    description: "Update user details",
-  },
-  {
     title: "Login",
     href: "/login",
     description: "Login here",
