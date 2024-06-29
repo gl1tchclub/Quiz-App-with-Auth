@@ -17,6 +17,8 @@ import UpdateDialog from "../UpdateDialog";
 
 const UserTable = () => {
   const user = JSON.parse(localStorage.getItem("userData"));
+  console.log(user);
+  console.log(localStorage.getItem("token"));
 
   if (!user) {
     return <ErrorAlert desc="Unauthorized. Please log in" />;

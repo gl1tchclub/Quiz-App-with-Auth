@@ -56,7 +56,8 @@ const RegisterForm = () => {
       if (!data.error) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userData", JSON.stringify(data.data));
-        // console.log(JSON.parse(localStorage.getItem("userData")));
+        localStorage.setItem("error", "false");
+
         setTimeout(() => {
           navigate("/login");
         }, 1500);
