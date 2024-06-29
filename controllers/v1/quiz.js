@@ -16,6 +16,16 @@ const createQuiz = async (req, res) => {
 
     const { categoryId, name, type, difficulty, startDate, endDate } = req.body;
 
+    const requiredFields = ["name", "startDate", "endDate"];
+    
+    // Check if all required fields are provided
+    const missingFields = requiredFields.filter((field) => !req.body[field]);
+    if (missingFields.length > 0) {
+      return res.status(400).json({
+        error: `Missing required fields: ${missingFields.join(", ")}`,
+      });
+    }
+    
     // Check if quiz has already been made
     let quiz = await prisma.quiz.findFirst({
       where: { name: name },
@@ -25,16 +35,6 @@ const createQuiz = async (req, res) => {
       return res
         .status(409)
         .json({ error: `Quiz with name ${name} already exists` });
-
-    const requiredFields = ["name", "startDate", "endDate"];
-
-    // Check if all required fields are provided
-    const missingFields = requiredFields.filter((field) => !req.body[field]);
-    if (missingFields.length > 0) {
-      return res.status(400).json({
-        error: `Missing required fields: ${missingFields.join(", ")}`,
-      });
-    }
 
     let baseUrl = "https://opentdb.com/api.php";
     let queryParams = [];
