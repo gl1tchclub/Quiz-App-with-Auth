@@ -7,7 +7,7 @@ import moment from "moment";
 
 const passRegex = /^(?=.*\d)(?=.*[\W_]).{8,16}$/;
 const nameRegex = /^[a-zA-Z].{2,50}$/;
-const dateRegex = /^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{4}$/;
+const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
 function stringMsgs(obj) {
   let patternMsg = "";
@@ -109,7 +109,7 @@ const validateQuiz = (req, res, next) => {
       .regex(dateRegex)
       .required()
       .custom((value, helpers) => {
-        const currentDate = moment().startOf("day"); // Today's date without time
+        const currentDate = moment().startOf("day");
         const selectedDate = moment(value, "YYYY-MM-DD");
 
         if (!selectedDate.isValid()) {
@@ -135,7 +135,7 @@ const validateQuiz = (req, res, next) => {
       .regex(dateRegex)
       .required()
       .custom((value, helpers) => {
-        const startDate = req.body.startDate; // Access startDate directly from req.body
+        const startDate = req.body.startDate;
 
         // Validate endDate against startDate and the 5-day limit
         const momentStartDate = moment(startDate, "YYYY-MM-DD");
