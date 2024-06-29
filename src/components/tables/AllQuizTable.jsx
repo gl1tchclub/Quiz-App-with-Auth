@@ -135,7 +135,7 @@ const AllQuizzesTable = () => {
           <>
             <CardWrapper
               title="All Quizzes"
-              box="w-fit mx-auto bg-pink-300 shadow-lg rounded-lg p-6 mb-20"
+              box="w-fit mx-auto bg-pink-300 shadow-lg rounded-lg p-6 my-20"
               label="All quiz information"
             >
               <section className="text-pink-700 bg-pink-200 rounded-lg p-6 shadow-md">

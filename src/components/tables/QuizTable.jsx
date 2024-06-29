@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { queryClient } from "../../main";
 
 // Components
@@ -21,24 +21,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ErrorAlert } from "../Alert";
 import CardWrapper from "../CardWrapper";
 
-const QuizTable = () => {
-  const user = JSON.parse(localStorage.getItem("userData"));
+const QuizTable = (props) => {
   const [quiz, setQuiz] = useState(null);
   const [selectedAnswers, setSelectedAnswers] = useState({});
-  const quizId = localStorage.getItem("quizId");
-  console.log(quizId);
-  console.log(user);
-
-  if (!user) {
-    return <ErrorAlert desc="Unauthorized. Please log in" />;
-  }
 
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        // Perform update operation (e.g., API call)
         const response = await fetch(
-          `https://two4-mintep1-app-dev.onrender.com/api/v1/public/quiz/${quizId}`,
+          `https://two4-mintep1-app-dev.onrender.com/api/v1/public/quiz/${props.quizId}`,
           {
             method: "GET",
             headers: {
@@ -53,16 +44,17 @@ const QuizTable = () => {
         console.log("Quiz:", data);
         setQuiz(data);
       } catch (error) {
-        console.error("Get quiz error:", error);
+        console.error(error);
       }
     };
 
-    if (!quiz) {
-      return <ErrorAlert desc="Unauthorized. Please log in" />;
-    }
-
+    
     fetchQuiz();
-  }, []);
+  }, [props.quizId]);
+  
+  if (!quiz) {
+    return <ErrorAlert desc="Unauthorized. Please log in" />;
+  }
 
   const handleAnswerChange = (questionIndex, selectedOption) => {
     setSelectedAnswers({
