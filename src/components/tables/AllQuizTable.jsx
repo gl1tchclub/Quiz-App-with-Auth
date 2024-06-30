@@ -2,6 +2,7 @@
  * @file AllQuizzesTable.jsx
  * @module AllQuizzesTable
  * @description Component to display a table of quizzes, handle quiz actions like deletion, and fetch quiz data using react-query.
+ * @author Elizabeth Minty
  */
 
 import { useState, useEffect } from "react";
@@ -33,7 +34,6 @@ import { TrashIcon } from "@radix-ui/react-icons";
 import CardWrapper from "../CardWrapper";
 import Loading from "../Load";
 import { Link } from "react-router-dom";
-
 
 /**
  * Component for displaying all quizzes in a table.
@@ -69,7 +69,6 @@ const AllQuizzesTable = () => {
       },
     });
 
-
     // Mutation to delete a quiz
     const { mutate: deleteQuizMutation, data: updatedData } = useMutation({
       mutationFn: async ({ id }) => {
@@ -93,11 +92,10 @@ const AllQuizzesTable = () => {
       },
     });
 
-
     // Function to handle deletion of a quiz
     const handleDelete = (id) => {
       const confirmDelete = window.confirm(
-        "Are you sure you want to delete this quiz?"
+        "Are you sure you want to delete this quiz?",
       );
       if (confirmDelete) {
         try {
@@ -113,7 +111,7 @@ const AllQuizzesTable = () => {
     useEffect(() => {
       const getAverageScores = async () => {
         const scores = {};
-        
+
         // Iterate over quizzes and fetch average score for each quiz
         for (const quiz of quizzes.data) {
           try {
@@ -127,7 +125,7 @@ const AllQuizzesTable = () => {
             console.error(
               "Failed to fetch average score for quiz:",
               quiz.id,
-              error
+              error,
             );
             scores[quiz.id] = "error";
           }
@@ -198,10 +196,10 @@ const AllQuizzesTable = () => {
                             <TableCell>{quiz.endDate}</TableCell>
                             <TableCell>
                               {quiz.userQuizScores &&
-                                quiz.userQuizScores.length > 0
+                              quiz.userQuizScores.length > 0
                                 ? quiz.userQuizScores.map((score, idx) => (
-                                  <p key={idx}>{score}</p>
-                                ))
+                                    <p key={idx}>{score}</p>
+                                  ))
                                 : "N/A"}
                             </TableCell>
                             <TableCell>
@@ -226,7 +224,10 @@ const AllQuizzesTable = () => {
                                       <Button
                                         className="bg-pink-500 hover:bg-pink-400"
                                         onClick={() => {
-                                          localStorage.setItem("quizId", quiz.id);
+                                          localStorage.setItem(
+                                            "quizId",
+                                            quiz.id,
+                                          );
                                           navigate("/quiz");
                                         }}
                                       >
@@ -248,7 +249,11 @@ const AllQuizzesTable = () => {
                               )}
                             </TableCell>
                           </TableRow>
-                          <Accordion type="single" collapsible className="w-full">
+                          <Accordion
+                            type="single"
+                            collapsible
+                            className="w-full"
+                          >
                             <AccordionItem value="questions">
                               <AccordionTrigger className="text-pink-500 text-sm">
                                 View Questions
@@ -268,7 +273,7 @@ const AllQuizzesTable = () => {
                                             >
                                               {answer}
                                             </li>
-                                          )
+                                          ),
                                         )}
                                         <li>{question.correctAnswer}</li>
                                       </ul>

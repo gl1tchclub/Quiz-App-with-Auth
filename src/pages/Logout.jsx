@@ -1,3 +1,10 @@
+/**
+ * @file Logout.jsx
+ * @module Logout
+ * @description Page component for logging out a user, displays confirmation and logout button.
+ * @author Elizabeth Minty
+ */
+
 import LogoutButton from "../components/buttons/LogoutButton";
 import React from "react";
 import CardWrapper from "../components/CardWrapper";

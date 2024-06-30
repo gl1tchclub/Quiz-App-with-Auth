@@ -3,6 +3,7 @@
  * @module RegisterForm
  * @description Form component for user registration using react-hook-form and react-query.
  * Allows users to register with their email, first name, last name, username, password, role, and confirm password.
+ * @author Elizabeth Minty
  */
 
 import { useForm } from "react-hook-form";
@@ -76,7 +77,7 @@ const RegisterForm = () => {
     },
   });
 
-   // Function to handle registration form submission
+  // Function to handle registration form submission
   const handleRegisterSubmit = (values) => {
     setIsLoading(true);
     postRegisterMutation(values, {

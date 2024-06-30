@@ -3,6 +3,7 @@
  * @module Quiz
  * @description Component for displaying quizzes fetched from an API using react-query.
  * Utilizes useInfiniteQuery for paginated fetching and displays quiz data in a table.
+ * @author Elizabeth Minty
  */
 
 import { queryClient } from "../../main";
@@ -24,7 +25,7 @@ const Quiz = () => {
     queryKey: ["quizData"],
     queryFn: ({ pageParam = 1 }) =>
       fetch(
-        `https://id607001-graysono-1i3w.onrender.com/api/institutions?page=${pageParam}&amount=5`
+        `https://id607001-graysono-1i3w.onrender.com/api/institutions?page=${pageParam}&amount=5`,
       ).then((res) => res.json()),
     getNextPageParam: (prevData) => prevData.nextPage,
   });

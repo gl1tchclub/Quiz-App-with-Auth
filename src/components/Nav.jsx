@@ -3,7 +3,7 @@
  * @module Nav
  * @description Displays a navigation menu with links to different sections like Quiz and User.
  * Uses components from '@/components/ui/navigation-menu' for styling and functionality.
- * @module Nav
+ * @author Elizabeth Minty
  */
 
 import {
@@ -45,7 +45,6 @@ const quizComponents = [
   },
 ];
 
-
 /**
  * Array of user components data for navigation menu.
  * Each object contains title, href, and description.
@@ -80,7 +79,11 @@ const userComponents = [
 export function Nav() {
   return (
     <nav className="bg-pink-400 text-pink-500 p-4 flex justify-between items-center rounded-b-lg">
-      <div className="text-2xl font-bold text-pink-700"><Link to="/" className="no-underline text-inherit">Quiz App</Link></div>
+      <div className="text-2xl font-bold text-pink-700">
+        <Link to="/" className="no-underline text-inherit">
+          Quiz App
+        </Link>
+      </div>
       <NavigationMenu className="justify-center align-center">
         <NavigationMenuList className="flex space-x-4">
           <NavigationMenuItem>
@@ -125,8 +128,6 @@ export function Nav() {
   );
 }
 
-
-
 /**
  * ListItem component for rendering individual navigation menu items.
  * @param {object} props - Component properties
@@ -154,7 +155,7 @@ const ListItem = React.forwardRef(
         </NavigationMenuLink>
       </li>
     );
-  }
+  },
 );
 ListItem.displayName = "ListItem";
 

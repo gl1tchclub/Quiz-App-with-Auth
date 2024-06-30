@@ -1,5 +1,3 @@
-// Note: Please read the code comments
-
 import { useState } from "react";
 import {
   Button,
@@ -87,7 +85,7 @@ const UpdateForm = ({ onFormSubmit }) => {
           id="region"
           name="region"
           onChange={handleChange}
-          invalid={!!errors.region} 
+          invalid={!!errors.region}
         />
         <FormFeedback>{errors.region}</FormFeedback>
       </FormGroup>

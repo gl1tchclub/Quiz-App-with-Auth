@@ -2,6 +2,7 @@
  * @file UsersTable.jsx
  * @module UsersTable
  * @description Component to display a table of users, handle user actions like deletion and updating, and fetch user data using react-query.
+ * @author Elizabeth Minty
  */
 
 import { useForm } from "react-hook-form";
@@ -65,7 +66,6 @@ const UsersTable = () => {
       },
     });
 
-
     // Mutation to delete a user
     const { mutate: deleteUserMutation, data: updatedData } = useMutation({
       mutationFn: async ({ id }) => {
@@ -76,7 +76,7 @@ const UsersTable = () => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
         if (!response.ok) {
           throw new Error("Failed to delete user");
@@ -95,7 +95,7 @@ const UsersTable = () => {
     // Function to handle deletion of a user
     const handleDelete = (id) => {
       const confirmDelete = window.confirm(
-        "Are you sure you want to delete this user?"
+        "Are you sure you want to delete this user?",
       );
       if (confirmDelete) {
         try {
@@ -117,7 +117,7 @@ const UsersTable = () => {
       setIsDialogOpen(true);
     };
 
-     // Function to update user details
+    // Function to update user details
     const updateUser = async (updatedUser) => {
       try {
         // Perform update operation (e.g., API call)
@@ -130,7 +130,7 @@ const UsersTable = () => {
               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(updatedUser),
-          }
+          },
         );
         if (!response.ok) {
           throw new Error("Failed to update user");
@@ -174,7 +174,9 @@ const UsersTable = () => {
                     <TableHead className="text-inherit py-2 px-4">
                       Last Name
                     </TableHead>
-                    <TableHead className="text-inherit py-2 px-4">Role</TableHead>
+                    <TableHead className="text-inherit py-2 px-4">
+                      Role
+                    </TableHead>
                     <TableHead className="text-inherit py-2 px-4">
                       Options
                     </TableHead>
@@ -227,6 +229,5 @@ const UsersTable = () => {
     localStorage.setItem("error", "true");
     console.log(error);
   }
-}
-  export default UsersTable;
-
+};
+export default UsersTable;
