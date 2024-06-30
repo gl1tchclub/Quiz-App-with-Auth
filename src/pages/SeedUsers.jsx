@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 
 const SeedPage = () => {
     const [message, setMessage] = useState(null);
+    const [showButton, setShowButton] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const seedUsers = async () => {
@@ -26,6 +28,7 @@ const SeedPage = () => {
                     throw new Error("Failed to seed users");
                 }
                 setMessage("Users seeded successfully!");
+                setShowButton(true);
             } catch (error) {
                 console.error("Seed users error:", error);
                 setMessage("Failed to seed users");
@@ -41,6 +44,10 @@ const SeedPage = () => {
         }
     }, []);
 
+    const handleNavigateBack = () => {
+        navigate("/user");
+    };
+
     return (
         <>
             {message === "Users seeded successfully!" ? (
@@ -51,6 +58,15 @@ const SeedPage = () => {
                 />
             ) : (
                 <ErrorAlert desc={message} />
+            )}
+
+            {/* Render button after seeding is done */}
+            {showButton && (
+                <div className="flex justify-center mt-4">
+                    <Button className="bg-pink-500 hover:bg-pink-200 hover:text-pink-600" onClick={handleNavigateBack}>
+                        Go to User Page
+                    </Button>
+                </div>
             )}
         </>
     );
