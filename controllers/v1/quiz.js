@@ -206,9 +206,9 @@ const deleteQuiz = async (req, res) => {
     }
 
     // Get user with ID to delete from parameters
-    const removeQuiz = await prisma.user.findUnique({
+    const removeQuiz = await prisma.quiz.findUnique({
       where: {
-        id: req.params.id,
+        id: Number(req.params.id),
       },
     });
 
