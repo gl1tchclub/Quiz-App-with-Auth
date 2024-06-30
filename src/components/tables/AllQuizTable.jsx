@@ -11,7 +11,6 @@ import { queryClient } from "../../main";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router";
-import CreateQuiz from "../forms/CreateQuizForm";
 
 // Components
 import {
@@ -43,14 +42,15 @@ import { ErrorAlert } from "../Alert";
 const AllQuizzesTable = () => {
   const baseURL = "https://two4-mintep1-app-dev.onrender.com/api/v1/";
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const token = JSON.parse(localStorage.getItem("token"));
   let user;
+  let isAdmin;
 
   if (token) {
     user = JSON.parse(localStorage.getItem("userData"));
+    isAdmin = user.role === "ADMIN_USER";
   }
 
-  const isAdmin = user.role === "ADMIN_USER";
 
   // const [type, setType] = useState(null); // for old, active, future quizzes (need to implement)
   const [averageScores, setAverageScores] = useState({});
@@ -59,7 +59,6 @@ const AllQuizzesTable = () => {
     const {
       isLoading,
       data: quizzes,
-      error,
       refetch,
     } = useQuery({
       queryKey: ["quizzes"],

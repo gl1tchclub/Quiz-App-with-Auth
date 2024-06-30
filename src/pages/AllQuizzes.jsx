@@ -8,14 +8,14 @@
 import AllQuizzesTable from "../components/tables/AllQuizTable";
 import { ErrorAlert } from "../components/Alert";
 
-const user = localStorage.getItem('userData');
+const user = JSON.parse(localStorage.getItem('userData'));
 
 const QuizzesPage = () => {
 
   return (
     <>
       {/* Render CreateQuiz component if role is admin */}
-      {user.role === "ADMIN_USER" &&
+      {user && user.role === "ADMIN_USER" &&
         (
           <div className="justify-center flex">
             <CreateQuiz token={accessToken} />

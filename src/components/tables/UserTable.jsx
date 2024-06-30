@@ -5,7 +5,7 @@
  * @author Elizabeth Minty
  */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { queryClient } from "../../main";
 
 // Components
@@ -27,10 +27,17 @@ import UpdateDialog from "../UpdateDialog";
  * @returns {JSX.Element} Rendered UserTable component.
  */
 const UserTable = () => {
-  let user = JSON.parse(localStorage.getItem("userData"));
+  const [user, setUser] = useState(null); // State for user data
 
   // State for dialog
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  // Fetch user data from local storage on initial render
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    setUser(userData);
+    console.log(user);
+  }, []);
 
   // Toggle dialog
   const toggleDialog = () => {
@@ -61,8 +68,8 @@ const UserTable = () => {
       }
       const data = await response.json();
       localStorage.setItem("userData", JSON.stringify(data.data));
-      user = data.data;
-      // refetch();
+      setUser(data.data);
+      setIsDialogOpen(false);
 
       // Invalidate and refetch users list
       queryClient.invalidateQueries("users");
@@ -120,14 +127,13 @@ const UserTable = () => {
         </section>
         <div className="flex justify-center">
           <UpdateDialog
-            isOpen={isDialogOpen}
-            onClose={toggleDialog}
             user={user}
             onUpdate={updateUser}
+            submitted={isDialogOpen}
+            onClose={toggleDialog}
           />
         </div>
       </CardWrapper>
-      {/* )} */}
     </>
   );
 };

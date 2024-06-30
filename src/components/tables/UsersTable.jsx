@@ -123,13 +123,10 @@ const UsersTable = () => {
         if (!response.ok) {
           throw new Error("Failed to update user");
         }
-        const data = await response.json();
-        localStorage.setItem("userData", data.data);
-        console.log("Updated user:", data);
-        refetch();
-
+        // const data = await response.json();
         // Invalidate and refetch users list
         queryClient.invalidateQueries("users");
+        refetch();
       } catch (error) {
         console.error("Update user error:", error);
       }

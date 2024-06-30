@@ -18,16 +18,19 @@ import UsersTable from "../components/tables/UsersTable";
  * @returns {JSX.Element} Rendered component displaying user tables or error alert.
  */
 const UserPage = () => {
-  let role = localStorage.getItem("userData")
-    ? localStorage.getItem("userData").role
-    : undefined;
+  const user = JSON.parse(localStorage.getItem("userData"));
+  let role;
+
+  if (user) {
+    role = user.role === "ADMIN_USER";
+  }
 
   return (
     <>
       {/* Conditional rendering based on authentication and user role */}
-      {localStorage.getItem("error") != "true" ? (
+      {user ? (
         <div className="w-3/4 flex justify-center">
-          {role === "ADMIN_USER" ? (
+          {role ? (
             <>
               <div className="w-full justify-center flex-col">
                 <UserTable />

@@ -22,10 +22,10 @@ import { useState, useEffect } from "react";
 
 /**
  * Component for displaying a dialog to edit user details.
- * @param {Object} props - Component props containing isOpen, onClose, user, and onUpdate.
+ * @param {Object} props - Component props containing submitted, onClose, user, and onUpdate.
  * @returns {JSX.Element} Rendered UpdateDialog.
  */
-const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
+const UpdateDialog = ({ submitted, user, onClose, onUpdate }) => {
   const [editedUser, setEditedUser] = useState({
     id: user.id,
     email: user.email,
@@ -37,8 +37,9 @@ const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
 
   // Reset editedUser when dialog opens or user changes
   useEffect(() => {
-    if (isOpen && user) {
+    if (submitted && user) {
       setEditedUser({
+        id: "",
         email: "",
         username: "",
         firstName: "",
@@ -46,7 +47,7 @@ const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
         role: "",
       });
     }
-  }, [isOpen, user]);
+  }, [submitted, user]);
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -61,14 +62,16 @@ const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onUpdate(editedUser); // Call parent onUpdate function with edited user data
-    console.log(editedUser);
-    onClose(); // Close dialog after submission
+    onClose();
   };
 
   return (
-    <Dialog isOpen={isOpen} onClose={onClose} >
+    <Dialog submitted={submitted} onClose={onClose}>
       <DialogTrigger asChild>
-        <Button className="bg-pink-500 text-white hover:bg-pink-400 my-2">Edit</Button>
+        <Button onClick={() => {
+          onClose;
+          submitted = false;
+        }} className="bg-pink-500 text-white hover:bg-pink-400 my-2">Edit</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -141,7 +144,7 @@ const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
             </div>
           </div>
           <DialogFooter className="justify-center">
-            <Button type="submit" className="bg-pink-500 text-white hover:bg-pink-400">Save Changes</Button>
+            <Button onClick={() => {submitted = true}} type="submit" className="bg-pink-500 text-white hover:bg-pink-400">{!submitted && user? "Save Changes" : "Done!"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>
