@@ -139,7 +139,6 @@ const UsersTable = () => {
         console.log("Updated user:", data);
         // Invalidate and refetch users list
         queryClient.invalidateQueries("users");
-        refetch();
       } catch (error) {
         console.error("Update user error:", error);
       }
@@ -202,7 +201,7 @@ const UsersTable = () => {
                               <UpdateDialog
                                 isOpen={isDialogOpen}
                                 onClose={toggleDialog}
-                                user={selectedUser}
+                                user={user}
                                 onUpdate={updateUser}
                               />
                               <Button

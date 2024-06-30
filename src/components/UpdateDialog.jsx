@@ -27,16 +27,16 @@ import { useState, useEffect } from "react";
  */
 const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
   const [editedUser, setEditedUser] = useState({
-    email: "",
-    username: "",
-    firstName: "",
-    lastName: "",
-    role: "",
+    email: user.email,
+    username: user.username,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    role: user.role,
   });
 
   // Reset editedUser when dialog opens or user changes
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && user) {
       setEditedUser({
         email: "",
         username: "",
@@ -45,7 +45,7 @@ const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
         role: "",
       });
     }
-  }, [isOpen]);
+  }, [isOpen, user]);
 
   // Handle input change
   const handleInputChange = (e) => {

@@ -21,7 +21,6 @@ import { ErrorAlert } from "../Alert";
 import CardWrapper from "../CardWrapper";
 import UpdateDialog from "../UpdateDialog";
 
-
 /**
  * Functional component for rendering a table displaying user information.
  * Handles rendering of user data and provides update functionality through a dialog.
@@ -29,8 +28,6 @@ import UpdateDialog from "../UpdateDialog";
  */
 const UserTable = () => {
   const user = JSON.parse(localStorage.getItem("userData"));
-  console.log(user);
-  console.log(localStorage.getItem("token"));
 
   // State for dialog
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -47,6 +44,7 @@ const UserTable = () => {
    */
   const updateUser = async (updatedUser) => {
     try {
+      // Perform update operation (e.g., API call)
       const response = await fetch(
         `https://two4-mintep1-app-dev.onrender.com/api/v1/users/${updatedUser.id}`,
         {
@@ -56,7 +54,7 @@ const UserTable = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(updatedUser),
-        }
+        },
       );
       if (!response.ok) {
         throw new Error("Failed to update user");
@@ -65,12 +63,8 @@ const UserTable = () => {
       console.log("Updated user:", data);
       // Invalidate and refetch users list
       queryClient.invalidateQueries("users");
-      refetch();
     } catch (error) {
       console.error("Update user error:", error);
-    } finally {
-      // Close dialog regardless of success or failure
-      toggleDialog();
     }
   };
 
@@ -126,7 +120,7 @@ const UserTable = () => {
             isOpen={isDialogOpen}
             onClose={toggleDialog}
             user={user}
-            onUpdate={updateUser(user)}
+            onUpdate={updateUser}
           />
         </div>
       </CardWrapper>

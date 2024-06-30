@@ -23,7 +23,8 @@ const Layout = ({ children }) => {
     "/quizzes",
     "/user",
     "/logout",
-    "/quiz"
+    "/quiz",
+    "/",
   ];
 
   return (
