@@ -5,8 +5,6 @@
  * @author Elizabeth Minty
  */
 
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../main";
@@ -44,7 +42,6 @@ const UsersTable = () => {
 
   // State for dialog
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
 
   try {
     // Get all users
@@ -61,9 +58,6 @@ const UsersTable = () => {
             Authorization: `Bearer ${token}`,
           },
         }).then((res) => res.json()),
-      onSuccess: (data) => {
-        console.log(JSON.parse(data));
-      },
     });
 
     // Mutation to delete a user
@@ -111,12 +105,6 @@ const UsersTable = () => {
       setIsDialogOpen(!isDialogOpen);
     };
 
-    // Open dialog with selected user data
-    const openEditDialog = (user) => {
-      setSelectedUser(user);
-      setIsDialogOpen(true);
-    };
-
     // Function to update user details
     const updateUser = async (updatedUser) => {
       try {
@@ -136,7 +124,10 @@ const UsersTable = () => {
           throw new Error("Failed to update user");
         }
         const data = await response.json();
+        localStorage.setItem("userData", data.data);
         console.log("Updated user:", data);
+        refetch();
+
         // Invalidate and refetch users list
         queryClient.invalidateQueries("users");
       } catch (error) {

@@ -27,7 +27,7 @@ import UpdateDialog from "../UpdateDialog";
  * @returns {JSX.Element} Rendered UserTable component.
  */
 const UserTable = () => {
-  const user = JSON.parse(localStorage.getItem("userData"));
+  let user = JSON.parse(localStorage.getItem("userData"));
 
   // State for dialog
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -44,7 +44,7 @@ const UserTable = () => {
    */
   const updateUser = async (updatedUser) => {
     try {
-      console.log(updatedUser);
+      // Perform update operation (e.g., API call)
       const response = await fetch(
         `https://two4-mintep1-app-dev.onrender.com/api/v1/users/${updatedUser.id}`,
         {
@@ -60,10 +60,12 @@ const UserTable = () => {
         throw new Error("Failed to update user");
       }
       const data = await response.json();
-      console.log("Updated user:", data);
-      // localStorage.setItem("userData", updatedUser);
-      console.log(localStorage.getItem("userData"));
-      // queryClient.invalidateQueries("users");
+      localStorage.setItem("userData", JSON.stringify(data.data));
+      user = JSON.parse(localStorage.getItem("userData"));
+      // refetch();
+
+      // Invalidate and refetch users list
+      queryClient.invalidateQueries("users");
     } catch (error) {
       console.error("Update user error:", error);
     }
