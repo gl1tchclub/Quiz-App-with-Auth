@@ -17,7 +17,7 @@ router.post("/create", validateQuiz, (req, res) => resources.createQuiz(req, res
 router.get("/:id", (req, res) => resources.getQuiz(req, res));
 
 //DELETE
-router.delete("/delete/:id", (req, res) => resources.deleteQuiz(req, res));
+router.delete("/:id", (req, res) => resources.deleteQuiz(req, res));
 
 // SCORE CRUD
 router.post("/scores", (req, res) => score.createUserScore(req, res));
