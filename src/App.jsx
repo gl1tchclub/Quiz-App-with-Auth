@@ -19,7 +19,7 @@ import QuizzesPage from "./pages/AllQuizzes";
 import QuizPage from "./pages/Quiz";
 import LogoutPage from "./pages/Logout";
 import CheckAdminPage from "./pages/CheckAdmin";
-import SeedUserPage from "./pages/SeedUsers";
+import SeedPage from "./pages/SeedUsers";
 
 const App = () => {
   return (
@@ -39,7 +39,7 @@ const App = () => {
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/logout" element={<LogoutPage />} />
                 <Route path="/checkAuth" element={<CheckAdminPage />} />
-                <Route path="/seedBasicUsers" element={<SeedUserPage />} />
+                <Route path="/seedBasicUsers" element={<SeedPage />} />
               </Routes>
             </div>
         </Layout>
