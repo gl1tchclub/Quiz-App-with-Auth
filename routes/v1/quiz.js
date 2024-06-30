@@ -28,7 +28,7 @@ router.post("/participation", (req, res) =>
 );
 
 // ANSWER CRUD
-router.post("/userAnswers", (req, res) => answer.createAnswer(req, res));
+router.post("/createAnswers", (req, res) => answer.createAnswer(req, res));
 
 router.get("/userAnswers", (req, res) => answer.getAnswers(req, res));
 
