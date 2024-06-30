@@ -13,7 +13,7 @@
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
-    "cypress:open": "cypress open"
+    "cyop": "cypress open"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",

@@ -1,6 +1,19 @@
+/**
+ * @file Footer.jsx
+ * @module Footer
+ * @description Footer component for the Mintep1 Quiz App.
+ * Displays footer content with a link to return home.
+ * @author Elizabeth Minty
+ */
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Footer component
+ * Displays footer content with a link to return home.
+ * @returns {JSX.Element} Footer component JSX
+ */
 const Footer = () => {
   return (
     <footer className="bg-pink-300 text-pink-500 py-6">

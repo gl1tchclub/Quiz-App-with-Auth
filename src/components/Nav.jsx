@@ -1,3 +1,11 @@
+/**
+ * @file Nav.jsx
+ * @module Nav
+ * @description Displays a navigation menu with links to different sections like Quiz and User.
+ * Uses components from '@/components/ui/navigation-menu' for styling and functionality.
+ * @module Nav
+ */
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,6 +18,10 @@ import {
 import React from "react";
 import { Link } from "react-router-dom";
 
+/**
+ * Array of quiz components data for navigation menu.
+ * Each object contains title, href, and description.
+ */
 const quizComponents = [
   {
     title: "All",
@@ -33,6 +45,11 @@ const quizComponents = [
   },
 ];
 
+
+/**
+ * Array of user components data for navigation menu.
+ * Each object contains title, href, and description.
+ */
 const userComponents = [
   {
     title: "Dashboard",
@@ -56,6 +73,10 @@ const userComponents = [
   },
 ];
 
+/**
+ * Navigation component for displaying a navigation menu.
+ * @returns {JSX.Element} Navigation menu component JSX
+ */
 export function Nav() {
   return (
     <nav className="bg-pink-400 text-pink-500 p-4 flex justify-between items-center rounded-b-lg">
@@ -104,6 +125,17 @@ export function Nav() {
   );
 }
 
+
+
+/**
+ * ListItem component for rendering individual navigation menu items.
+ * @param {object} props - Component properties
+ * @param {string} props.className - Additional class names for customization
+ * @param {string} props.title - Title of the menu item
+ * @param {string} props.children - Description or additional content of the menu item
+ * @param {React.Ref<HTMLAnchorElement>} ref - Ref object for the anchor element
+ * @returns {JSX.Element} ListItem component JSX
+ */
 const ListItem = React.forwardRef(
   ({ className, title, children, ...props }, ref) => {
     return (

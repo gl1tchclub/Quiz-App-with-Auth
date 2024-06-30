@@ -1,13 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../main";
-
 import { Button } from "@/components/ui/button";
-import { quizAppInstance } from "../../utils/axios";
 
 const DeleteButton = ({ item }) => {
   const { mutate: deleteItemMutation, data: updatedData } = useMutation(
     async () => {
-      mutationFn: (item) =>
+      (item) =>
         fetch(
           `https://two4-mintep1-app-dev.onrender.com/api/v1/${item.type}/${item.id}`,
           {
