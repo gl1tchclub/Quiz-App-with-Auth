@@ -34,6 +34,7 @@ import { TrashIcon } from "@radix-ui/react-icons";
 import CardWrapper from "../CardWrapper";
 import Loading from "../Load";
 import { Link } from "react-router-dom";
+import { ErrorAlert } from "../Alert";
 
 /**
  * Component for displaying all quizzes in a table.
@@ -54,7 +55,6 @@ const AllQuizzesTable = () => {
   // const [type, setType] = useState(null); // for old, active, future quizzes (need to implement)
   const [averageScores, setAverageScores] = useState({});
 
-  try {
     // Get All Quizzes
     const {
       isLoading,
@@ -64,7 +64,7 @@ const AllQuizzesTable = () => {
     } = useQuery({
       queryKey: ["quizzes"],
       queryFn: () => fetch(`${baseURL}public/all`).then((res) => res.json()),
-      onSuccess: (data) => {
+      onSuccess: () => {
         localStorage.removeItem("quizId");
       },
     });
@@ -134,7 +134,9 @@ const AllQuizzesTable = () => {
         setAverageScores(scores);
       };
 
-      getAverageScores();
+      if (quizzes) {
+        getAverageScores();
+      }
     }, [quizzes]);
 
     return (
@@ -181,9 +183,9 @@ const AllQuizzesTable = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody className="text-gray-700 font-semibold">
-                    {error ? (
+                    {quizzes.error ? (
                       <TableRow>
-                        <TableCell colSpan="7">{error.message}</TableCell>
+                        <TableCell colSpan="7" className="text-lg">No Quizzes Available</TableCell>
                       </TableRow>
                     ) : (
                       quizzes.data.map((quiz) => (
@@ -296,13 +298,6 @@ const AllQuizzesTable = () => {
         )}
       </>
     );
-  } catch (error) {
-    console.log(error);
-    if (quizzes === undefined) {
-      localStorage.removeItem("token");
-      queryClient.invalidateQueries("users");
-    }
-  }
 };
 
 export default AllQuizzesTable;

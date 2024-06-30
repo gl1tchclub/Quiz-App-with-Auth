@@ -183,9 +183,9 @@ const UsersTable = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="text-gray-700 font-semibold">
-                  {error ? (
+                  {users.error ? (
                     <TableRow>
-                      <TableCell colSpan="3">{error.message}</TableCell>
+                      <TableCell colSpan="3">No Users!</TableCell>
                     </TableRow>
                   ) : (
                     users.data.map((user) => (
