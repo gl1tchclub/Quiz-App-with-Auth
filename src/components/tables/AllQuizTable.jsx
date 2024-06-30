@@ -33,7 +33,6 @@ import { TrashIcon } from "@radix-ui/react-icons";
 import CardWrapper from "../CardWrapper";
 import Loading from "../Load";
 import { Link } from "react-router-dom";
-import { ErrorAlert } from "../Alert";
 
 /**
  * Component for displaying all quizzes in a table.
@@ -42,7 +41,7 @@ import { ErrorAlert } from "../Alert";
 const AllQuizzesTable = () => {
   const baseURL = "https://two4-mintep1-app-dev.onrender.com/api/v1/";
   const navigate = useNavigate();
-  const token = JSON.parse(localStorage.getItem("token"));
+  const token = localStorage.getItem("token");
   let user;
   let isAdmin;
 

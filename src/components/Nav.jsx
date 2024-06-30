@@ -28,21 +28,6 @@ const quizComponents = [
     href: "/quizzes",
     description: "List of all quizzes",
   },
-  {
-    title: "Past",
-    href: "/quizzes/old",
-    description: "List of previous quizzes",
-  },
-  {
-    title: "Current",
-    href: "/quizzes/current",
-    description: "List of currently open quizzes",
-  },
-  {
-    title: "Future",
-    href: "/quizzes/new",
-    description: "List of soon-to-open quizzes",
-  },
 ];
 
 /**
