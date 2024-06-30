@@ -1,23 +1,33 @@
+/**
+ * @file QuizzesPage.jsx
+ * @module pages/QuizzesPage
+ * @description Page component displaying quizzes based on user authentication status.
+ * @author Your Name
+ */
+
 import AllQuizzesTable from "../components/tables/AllQuizTable";
 import { ErrorAlert } from "../components/Alert";
 
-  const accessToken = localStorage.getItem('token');
+const user = localStorage.getItem('userData');
 
-  const QuizzesPage = () => {
+const QuizzesPage = () => {
 
-    return (
-      <>
-        {!accessToken && <div className="justify-center flex">
-          <CreateQuiz token={accessToken} />
-        </div>}
-        {AllQuizzesTable ?
-          (<div className="w-3/4 flex justify-center">
-            <div className="w-full justify-center flex-col">
-              <AllQuizzesTable />
-            </div>
-          </div>) : (<ErrorAlert desc="Error with quiz table" />)
-        }
-      </>
-    );
-  };
-  export default QuizzesPage;
+  return (
+    <>
+      {/* Render CreateQuiz component if role is admin */}
+      {user.role === "ADMIN_USER" &&
+        (
+          <div className="justify-center flex">
+            <CreateQuiz token={accessToken} />
+          </div>
+        )}
+      <div className="w-3/4 flex justify-center">
+        <div className="w-full justify-center flex-col">
+          <AllQuizzesTable />
+        </div>
+      </div>
+
+    </>
+  );
+};
+export default QuizzesPage;
