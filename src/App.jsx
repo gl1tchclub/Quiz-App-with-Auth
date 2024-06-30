@@ -18,8 +18,6 @@ import UserPage from "./pages/User";
 import QuizzesPage from "./pages/AllQuizzes";
 import QuizPage from "./pages/Quiz";
 import LogoutPage from "./pages/Logout";
-import CheckAdminPage from "./pages/CheckAdmin";
-import SeedPage from "./pages/SeedUsers";
 
 const App = () => {
   return (
@@ -35,8 +33,6 @@ const App = () => {
                 <Route path="/quiz" element={<QuizPage />} />
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/logout" element={<LogoutPage />} />
-                <Route path="/checkAuth" element={<CheckAdminPage />} />
-                <Route path="/seedBasicUsers" element={<SeedPage />} />
               </Routes>
             </div>
         </Layout>

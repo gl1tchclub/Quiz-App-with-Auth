@@ -56,11 +56,6 @@ const userComponents = [
     description: "Find all your user information here",
   },
   {
-    title: "Seed Users",
-    href: "/seedBasicUsers",
-    description: "Seed basic users (admin only)",
-  },
-  {
     title: "Login",
     href: "/login",
     description: "Login here",

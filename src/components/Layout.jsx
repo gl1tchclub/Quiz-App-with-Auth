@@ -22,9 +22,6 @@ const Layout = ({ children }) => {
   const navPaths = [
     "/quizzes",
     "/user",
-    "/quizzes/old",
-    "/quizzes/current",
-    "/quizzes/new",
     "/logout",
     "/quiz"
   ];
