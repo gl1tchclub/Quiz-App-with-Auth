@@ -1,3 +1,10 @@
+/**
+ * @file CardWrapper.jsx
+ * @module components/CardWrapper
+ * @description Component for wrapping content in a styled card with header, content, and optional footer.
+ * @author Your Name
+ */
+
 import {
   Card,
   CardContent,
@@ -8,6 +15,11 @@ import {
 } from "@/components/ui/card";
 import LinkButton from "./buttons/LinkButton";
 
+/**
+ * Functional component for wrapping content in a styled card with header, content, and optional footer.
+ * @param {Object} props - Component props containing box, title, label, button, href, variant, hrefLabel, buttonLabel, and buttonStyle.
+ * @returns {JSX.Element} Rendered CardWrapper.
+ */
 const CardWrapper = (props) => {
   return (
     <Card className={props.box}>

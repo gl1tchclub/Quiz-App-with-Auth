@@ -1,7 +1,19 @@
+/**
+ * @file AlertComponent.jsx
+ * @module components/AlertComponent
+ * @description Component for displaying different types of alerts with icons.
+ * @author Your Name
+ */
+
 import { ExclamationTriangleIcon, RocketIcon } from "@radix-ui/react-icons";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
+/**
+ * Functional component for rendering an alert with an icon based on type.
+ * @param {Object} props - Component props containing type, title, description, and style.
+ * @returns {JSX.Element} Rendered AlertComponent.
+ */
 const AlertComponent = (props) => {
   return (
     <Alert className={props.style}>
@@ -16,6 +28,11 @@ const AlertComponent = (props) => {
   );
 }
 
+/**
+ * ErrorAlert component that displays an error alert using AlertComponent.
+ * @param {Object} props - Component props containing description.
+ * @returns {JSX.Element} Rendered ErrorAlert.
+ */
 const ErrorAlert = (props) => {
   return (
     <AlertComponent

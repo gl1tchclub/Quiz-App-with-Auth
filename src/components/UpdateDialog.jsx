@@ -1,3 +1,10 @@
+/**
+ * @file UpdateDialog.jsx
+ * @module components/UpdateDialog
+ * @description Component for displaying a dialog to edit user details.
+ * @author Your Name
+ */
+
 import {
   Dialog,
   DialogContent,
@@ -13,6 +20,11 @@ import { Button } from "@/components/ui/button";
 
 import { useState, useEffect } from "react";
 
+/**
+ * Component for displaying a dialog to edit user details.
+ * @param {Object} props - Component props containing isOpen, onClose, user, and onUpdate.
+ * @returns {JSX.Element} Rendered UpdateDialog.
+ */
 const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
   const [editedUser, setEditedUser] = useState({
     email: "",
@@ -22,6 +34,7 @@ const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
     role: "",
   });
 
+  // Reset editedUser when dialog opens or user changes
   useEffect(() => {
     if (isOpen) {
       setEditedUser({
@@ -34,6 +47,7 @@ const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
     }
   }, [isOpen]);
 
+  // Handle input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditedUser((prevUser) => ({
@@ -42,9 +56,10 @@ const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
     }));
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    onUpdate(editedUser);
+    onUpdate(editedUser); // Call parent onUpdate function with edited user data
     onClose(); // Close dialog after submission
   };
 

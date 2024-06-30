@@ -1,3 +1,11 @@
+/**
+ * @file QuizTable.jsx
+ * @module components/QuizTable
+ * @description Displays a quiz with questions and options for user interaction.
+ * Allows users to select answers and submit the quiz.
+ * @author Your Name
+ */
+
 import { useState, useEffect } from "react";
 import { queryClient } from "../../main";
 
@@ -21,6 +29,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ErrorAlert } from "../Alert";
 import CardWrapper from "../CardWrapper";
 
+/**
+ * Functional component for rendering a quiz table.
+ * Manages quiz data fetching, user answers, and submission.
+ * @param {Object} props - Component props containing quizId.
+ * @returns {JSX.Element} Rendered QuizTable component.
+ */
 const QuizTable = (props) => {
   const [quiz, setQuiz] = useState(null);
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -56,6 +70,12 @@ const QuizTable = (props) => {
     return <ErrorAlert desc="Unauthorized. Please log in" />;
   }
 
+    /**
+   * Handles change in selected answer for a question.
+   * Updates the selectedAnswers state with the selected option for the specified question.
+   * @param {number} questionIndex - Index of the question being answered.
+   * @param {string} selectedOption - Selected answer option for the question.
+   */
   const handleAnswerChange = (questionIndex, selectedOption) => {
     setSelectedAnswers({
       ...selectedAnswers,
