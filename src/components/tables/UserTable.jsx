@@ -44,7 +44,7 @@ const UserTable = () => {
    */
   const updateUser = async (updatedUser) => {
     try {
-      // Perform update operation (e.g., API call)
+      console.log(updatedUser);
       const response = await fetch(
         `https://two4-mintep1-app-dev.onrender.com/api/v1/users/${updatedUser.id}`,
         {
@@ -61,8 +61,9 @@ const UserTable = () => {
       }
       const data = await response.json();
       console.log("Updated user:", data);
-      // Invalidate and refetch users list
-      queryClient.invalidateQueries("users");
+      // localStorage.setItem("userData", updatedUser);
+      console.log(localStorage.getItem("userData"));
+      // queryClient.invalidateQueries("users");
     } catch (error) {
       console.error("Update user error:", error);
     }

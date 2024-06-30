@@ -27,6 +27,7 @@ import { useState, useEffect } from "react";
  */
 const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
   const [editedUser, setEditedUser] = useState({
+    id: user.id,
     email: user.email,
     username: user.username,
     firstName: user.firstName,
@@ -60,6 +61,7 @@ const UpdateDialog = ({ isOpen, onClose, user, onUpdate }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onUpdate(editedUser); // Call parent onUpdate function with edited user data
+    console.log(editedUser);
     onClose(); // Close dialog after submission
   };
 
