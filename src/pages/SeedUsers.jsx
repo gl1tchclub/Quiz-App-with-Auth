@@ -10,9 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const SeedPage = () => {
+    const navigate = useNavigate();
     const [message, setMessage] = useState(null);
     const [showButton, setShowButton] = useState(false);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const seedUsers = async () => {
@@ -37,15 +37,22 @@ const SeedPage = () => {
 
         // Check if user is admin before seeding
         const isAdmin = JSON.parse(localStorage.getItem("userData"))?.role === "ADMIN_USER";
-        if (isAdmin) {
-            seedUsers();
-        } else {
-            setMessage("Unauthorized. Admin access required.");
+        if (!isAdmin) {
+            setMessage("Unauthorized. Admin access required. Returning to user page...");
+            // Navigate back to user page after 2 seconds if not admin
+            setTimeout(() => {
+                navigate("/user");
+            }, 2000);
+            return;
         }
+
+        seedUsers();
     }, []);
 
     const handleNavigateBack = () => {
-        navigate("/user");
+        setTimeout(() => {
+            navigate("/user");
+        }, 2000);
     };
 
     return (
@@ -63,7 +70,7 @@ const SeedPage = () => {
             {/* Render button after seeding is done */}
             {showButton && (
                 <div className="flex justify-center mt-4">
-                    <Button className="bg-pink-500 hover:bg-pink-200 hover:text-pink-600" onClick={handleNavigateBack}>
+                    <Button className="bg-pink-500 hover:bg-pink-200 hover:text-pink-600" onClick={handleNavigateBack(2000)}>
                         Go to User Page
                     </Button>
                 </div>

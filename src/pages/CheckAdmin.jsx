@@ -13,13 +13,25 @@ const CheckAdminPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isAdmin) {
-            setTimeout(() => {
-                navigate("/seedBasicUsers");
-            }, 1500);
+        const checkAuth = () => {
+            if (!isAdmin) {
+                // Navigate back to user page after 2 seconds if not admin
+                setTimeout(() => {
+                    navigate("/user");
+                }, 2000);
+                return;
+            } else {
+                setTimeout(() => {
+                    navigate("/seedBasicUsers");
+                }, 1000);
+                return;
+            }
         }
-    }, [isAdmin, navigate]);
 
+        checkAuth();
+    }, []);
+
+    //isAdmin, navigate
     return (
         <>
             {isAdmin ? (
