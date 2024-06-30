@@ -18,13 +18,14 @@ import UserPage from "./pages/User";
 import QuizzesPage from "./pages/AllQuizzes";
 import QuizPage from "./pages/Quiz";
 import LogoutPage from "./pages/Logout";
+import CheckAdminPage from "./pages/CheckAdmin";
+import SeedUserPage from "./pages/SeedUsers";
 
 const App = () => {
   return (
     <>
       <Router>
         <Layout>
-          {/* <section className="mx-auto h-screen"> */}
             <div className="flex items-center justify-center">
               <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -37,9 +38,10 @@ const App = () => {
                 <Route path="/quiz" element={<QuizPage />} />
                 <Route path="/user" element={<UserPage />} />
                 <Route path="/logout" element={<LogoutPage />} />
+                <Route path="/checkAuth" element={<CheckAdminPage />} />
+                <Route path="/seedBasicUsers" element={<SeedUserPage />} />
               </Routes>
             </div>
-          {/* </section> */}
         </Layout>
         <Footer />
       </Router>

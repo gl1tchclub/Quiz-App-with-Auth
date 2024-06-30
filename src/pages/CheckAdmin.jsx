@@ -1,7 +1,7 @@
 /**
- * @file SeedUsers.jsx
- * @module SeedUsers
- * @description Page component for seeding vasic users from GitHub Gist
+ * @file CheckAdmin.jsx
+ * @module CheckAdmin
+ * @description Page component for validating user authorization before navigating to authorized page
  * @author Elizabeth Minty
  */
 import { useEffect } from "react";
