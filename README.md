@@ -2,11 +2,7 @@
 
 **Home Page for API:** https://two4-mintep1-app-dev.onrender.com/api/v1/
 
-
-
-– A URL to your published RESTful API documentation. Each route needs to be documented. Include a
-description, example request and example response.
-
+[Documentation](https://documenter.getpostman.com/view/28760893/2sA3duGt59)
 
 ### Repo Setup
 Once cloned, open the repo in your preferred IDE. Then, open a terminal and run the following command
