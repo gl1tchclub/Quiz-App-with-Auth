@@ -18,8 +18,8 @@ import UsersTable from "../components/tables/UsersTable";
  * @returns {JSX.Element} Rendered component displaying user tables or error alert.
  */
 const UserPage = () => {
-  let role = JSON.parse(localStorage.getItem("userData"))
-    ? JSON.parse(localStorage.getItem("userData")).role
+  let role = localStorage.getItem("userData")
+    ? localStorage.getItem("userData").role
     : undefined;
 
   return (

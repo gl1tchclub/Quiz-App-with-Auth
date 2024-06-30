@@ -61,7 +61,7 @@ const UserTable = () => {
       }
       const data = await response.json();
       localStorage.setItem("userData", JSON.stringify(data.data));
-      user = JSON.parse(localStorage.getItem("userData"));
+      user = data.data;
       // refetch();
 
       // Invalidate and refetch users list
