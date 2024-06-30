@@ -39,14 +39,23 @@ const createQuiz = async (req, res) => {
     let baseUrl = "https://opentdb.com/api.php";
     let queryParams = [];
 
+        const obj = {
+        name,
+        startDate,
+        endDate,
+    }
+
     if (type) {
       queryParams.push(`type=${type}`);
+      data.type = type;
     }
     if (difficulty) {
       queryParams.push(`difficulty=${difficulty}`);
+      data.difficulty = difficulty;
     }
     if (categoryId) {
       queryParams.push(`category=${categoryId}`);
+      data.categoryId = Number(categoryId);
     }
 
     if (queryParams.length > 0) {
@@ -60,17 +69,10 @@ const createQuiz = async (req, res) => {
 
     if (json.response_code > 0)
       return res.status(404).json({ error: "No quiz data available. Please adjust your quiz requirements.", url: baseUrl, params: queryParams});
-
+    
     // Insert quiz data
     quiz = await prisma.quiz.create({
-      data: {
-        categoryId: Number(categoryId) || null,
-        name,
-        type: type || null,
-        difficulty: difficulty || null,
-        startDate,
-        endDate,
-      },
+      data: data,
     });
 
     if (!quiz) return res.status(400).json({ error: "Failed to create quiz." });
@@ -102,6 +104,7 @@ const createQuiz = async (req, res) => {
   } catch (err) {
     return res.status(500).json({
       error: err.message,
+      url: baseUrl
     });
   }
 };
