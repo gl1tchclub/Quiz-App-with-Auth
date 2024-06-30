@@ -1,3 +1,12 @@
+/**
+ * @file CreateQuiz.jsx
+ * @module CreateQuiz
+ * @description Component for creating a quiz with form submission and mutation handling.
+ * Renders a form to create a quiz, handles form submission, and displays loading states.
+ * Utilizes react-hook-form for form handling and @tanstack/react-query for mutation and query management.
+ * @author Your Name
+ */
+
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
@@ -16,17 +25,25 @@ import CardWrapper from "../CardWrapper";
 import { useState } from "react";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
+
+/**
+ * CreateQuiz component for creating quizzes.
+ * @param {object} props - Component props
+ * @param {string} props.token - Authorization token for API requests
+ * @returns {JSX.Element} CreateQuiz component JSX
+ */
 const CreateQuiz = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const createQuizForm = useForm();
 
+  // Mutation hook for posting quiz data
   const { mutate: postQuizMutation, data: quizData } = useMutation({
     mutationFn: async (quiz) => {
       // Filter out empty fields from quiz object
       const filteredQuiz = Object.fromEntries(
-        Object.entries(quiz).filter(([_, value]) => value !== "")
+        Object.entries(quiz).filter(([_, value]) => value !== '')
       );
-  
+
       return fetch("https://two4-mintep1-app-dev.onrender.com/api/v1/quizzes/create", {
         method: "POST",
         headers: {
@@ -51,7 +68,7 @@ const CreateQuiz = (props) => {
     },
   });
 
-  // Fetch categories
+  // Query hook for fetching categories
   const { data: categories, isLoading: categoriesLoading } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
@@ -61,6 +78,10 @@ const CreateQuiz = (props) => {
     },
   });
 
+  /**
+ * Handles form submission for creating a quiz.
+ * @param {Object} values - Form values submitted
+ */
   const handleCreateQuizSubmit = (values) => {
     setIsLoading(true);
     postQuizMutation(values, {
@@ -84,7 +105,7 @@ const CreateQuiz = (props) => {
               className="space-y-6 justify-center"
             >
               <div className="space-y-4">
-              <FormField
+                <FormField
                   control={createQuizForm.control}
                   name="categoryId"
                   render={({ field }) => (

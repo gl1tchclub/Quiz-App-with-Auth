@@ -1,3 +1,9 @@
+/**
+ * @file AllQuizzesTable.jsx
+ * @module AllQuizzesTable
+ * @description Component to display a table of quizzes, handle quiz actions like deletion, and fetch quiz data using react-query.
+ */
+
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../main";
@@ -28,6 +34,11 @@ import CardWrapper from "../CardWrapper";
 import Loading from "../Load";
 import { Link } from "react-router-dom";
 
+
+/**
+ * Component for displaying all quizzes in a table.
+ * @returns {JSX.Element} AllQuizzesTable component JSX
+ */
 const AllQuizzesTable = () => {
   const baseURL = "https://two4-mintep1-app-dev.onrender.com/api/v1/";
   const navigate = useNavigate();
@@ -37,7 +48,7 @@ const AllQuizzesTable = () => {
   if (token) {
     user = JSON.parse(localStorage.getItem("userData"));
   }
-  
+
   const isAdmin = user.role === "ADMIN_USER";
 
   // const [type, setType] = useState(null); // for old, active, future quizzes (need to implement)
@@ -59,7 +70,7 @@ const AllQuizzesTable = () => {
     });
 
 
-    // Delete quiz
+    // Mutation to delete a quiz
     const { mutate: deleteQuizMutation, data: updatedData } = useMutation({
       mutationFn: async ({ id }) => {
         const response = await fetch(`${baseURL}quizzes/delete/${id}`, {
@@ -82,6 +93,8 @@ const AllQuizzesTable = () => {
       },
     });
 
+
+    // Function to handle deletion of a quiz
     const handleDelete = (id) => {
       const confirmDelete = window.confirm(
         "Are you sure you want to delete this quiz?"
@@ -96,11 +109,12 @@ const AllQuizzesTable = () => {
     };
 
     //create fn to update quiz data when new quiz created using queryClient.invalidateQueries("quizzes") and refetch();
-
+    // Fetch average scores for quizzes on component mount or when quizzes data changes
     useEffect(() => {
       const getAverageScores = async () => {
         const scores = {};
-
+        
+        // Iterate over quizzes and fetch average score for each quiz
         for (const quiz of quizzes.data) {
           try {
             const response = await fetch(`${baseURL}public/${quiz.id}`);

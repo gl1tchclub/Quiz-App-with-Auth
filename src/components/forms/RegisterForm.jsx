@@ -1,3 +1,10 @@
+/**
+ * @file RegisterForm.jsx
+ * @module RegisterForm
+ * @description Form component for user registration using react-hook-form and react-query.
+ * Allows users to register with their email, first name, last name, username, password, role, and confirm password.
+ */
+
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -16,6 +23,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
+/**
+ * RegisterForm component for user registration.
+ * @returns {JSX.Element} RegisterForm component JSX
+ */
 const RegisterForm = () => {
   const registerForm = useForm();
   const navigate = useNavigate();
@@ -65,6 +76,7 @@ const RegisterForm = () => {
     },
   });
 
+   // Function to handle registration form submission
   const handleRegisterSubmit = (values) => {
     setIsLoading(true);
     postRegisterMutation(values, {

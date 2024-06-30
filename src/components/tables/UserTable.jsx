@@ -1,4 +1,10 @@
-// src/components/UserTable.jsx
+/**
+ * @file UserTable.jsx
+ * @module components/UserTable
+ * @description Displays user information in a table and allows for user details update.
+ * @author Your Name
+ */
+
 import { useState } from "react";
 import { queryClient } from "../../main";
 
@@ -15,14 +21,16 @@ import { ErrorAlert } from "../Alert";
 import CardWrapper from "../CardWrapper";
 import UpdateDialog from "../UpdateDialog";
 
+
+/**
+ * Functional component for rendering a table displaying user information.
+ * Handles rendering of user data and provides update functionality through a dialog.
+ * @returns {JSX.Element} Rendered UserTable component.
+ */
 const UserTable = () => {
   const user = JSON.parse(localStorage.getItem("userData"));
   console.log(user);
   console.log(localStorage.getItem("token"));
-
-  if (!user) {
-    return <ErrorAlert desc="Unauthorized. Please log in" />;
-  }
 
   // State for dialog
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -32,10 +40,13 @@ const UserTable = () => {
     setIsDialogOpen(!isDialogOpen);
   };
 
-  // Update user details
+  /**
+   * Updates user details using an API call.
+   * Invalidates and refetches user data upon successful update.
+   * @param {Object} updatedUser - Updated user object containing new details.
+   */
   const updateUser = async (updatedUser) => {
     try {
-      // Perform update operation (e.g., API call)
       const response = await fetch(
         `https://two4-mintep1-app-dev.onrender.com/api/v1/users/${updatedUser.id}`,
         {
@@ -57,8 +68,15 @@ const UserTable = () => {
       refetch();
     } catch (error) {
       console.error("Update user error:", error);
+    } finally {
+      // Close dialog regardless of success or failure
+      toggleDialog();
     }
   };
+
+  if (!user) {
+    return <ErrorAlert desc="Unauthorized. Please log in" />;
+  }
 
   return (
     <>

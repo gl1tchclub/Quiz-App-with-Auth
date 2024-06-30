@@ -1,7 +1,18 @@
+/**
+ * @file Quiz.jsx
+ * @module Quiz
+ * @description Component for displaying quizzes fetched from an API using react-query.
+ * Utilizes useInfiniteQuery for paginated fetching and displays quiz data in a table.
+ */
+
 import { queryClient } from "../../main";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
+/**
+ * Quiz component to display paginated quiz data.
+ * @returns {JSX.Element} Quiz component JSX
+ */
 const Quiz = () => {
   const {
     isLoading,

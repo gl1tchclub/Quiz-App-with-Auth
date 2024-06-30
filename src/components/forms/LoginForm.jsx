@@ -1,3 +1,12 @@
+/**
+ * @file LoginForm.jsx
+ * @module LoginForm
+ * @description Component for user login form handling.
+ * Renders a form for user login, handles form submission, and manages loading states.
+ * Utilizes react-hook-form for form handling and @tanstack/react-query for mutation handling.
+ * @author Your Name
+ */
+
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +27,12 @@ import CardWrapper from "../CardWrapper";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 
+
+
+/**
+ * LoginForm component for handling user login.
+ * @returns {JSX.Element} LoginForm component JSX
+ */
 const LoginForm = () => {
   const loginForm = useForm();
   const navigate = useNavigate();
@@ -60,6 +75,10 @@ const LoginForm = () => {
     },
   });
 
+  /**
+ * Handles form submission for user login.
+ * @param {Object} values - Form values submitted
+ */
   const handleLoginSubmit = (values) => {
     setIsLoading(true);
     postLoginMutation(values, {

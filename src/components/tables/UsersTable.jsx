@@ -1,3 +1,9 @@
+/**
+ * @file UsersTable.jsx
+ * @module UsersTable
+ * @description Component to display a table of users, handle user actions like deletion and updating, and fetch user data using react-query.
+ */
+
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useState } from "react";
@@ -22,10 +28,15 @@ import Loading from "../Load";
 import UpdateDialog from "../UpdateDialog";
 import { ErrorAlert } from "../Alert";
 
+/**
+ * Component for displaying all users in a table.
+ * @returns {JSX.Element} UsersTable component JSX
+ */
 const UsersTable = () => {
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("userData"));
 
+  // If user is not logged in, display unauthorized alert
   if (!user) {
     return <ErrorAlert desc="Unauthorized. Please log in" />;
   }
@@ -55,7 +66,7 @@ const UsersTable = () => {
     });
 
 
-    // Delete users
+    // Mutation to delete a user
     const { mutate: deleteUserMutation, data: updatedData } = useMutation({
       mutationFn: async ({ id }) => {
         const response = await fetch(
@@ -81,6 +92,7 @@ const UsersTable = () => {
       },
     });
 
+    // Function to handle deletion of a user
     const handleDelete = (id) => {
       const confirmDelete = window.confirm(
         "Are you sure you want to delete this user?"
@@ -105,7 +117,7 @@ const UsersTable = () => {
       setIsDialogOpen(true);
     };
 
-    // Update user details
+     // Function to update user details
     const updateUser = async (updatedUser) => {
       try {
         // Perform update operation (e.g., API call)
