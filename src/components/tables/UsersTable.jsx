@@ -125,6 +125,7 @@ const UsersTable = () => {
         }
         // const data = await response.json();
         // Invalidate and refetch users list
+        setIsDialogOpen(false);
         queryClient.invalidateQueries("users");
         refetch();
       } catch (error) {
@@ -187,10 +188,10 @@ const UsersTable = () => {
                           {user.role === "ADMIN_USER" ? null : (
                             <>
                               <UpdateDialog
-                                isOpen={isDialogOpen}
-                                onClose={toggleDialog}
                                 user={user}
                                 onUpdate={updateUser}
+                                submitted={isDialogOpen}
+                                onClose={toggleDialog}
                               />
                               <Button
                                 className="bg-pink-500 hover:bg-pink-400"
