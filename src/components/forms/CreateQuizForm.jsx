@@ -9,7 +9,7 @@
 
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { useQuery } from "@tanstack/react-query";
+import { queryClient } from "../../main";
 import {
   Form,
   FormControl,
@@ -50,9 +50,14 @@ const CreateQuiz = (props) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${props.token}`,
         },
-        body: JSON.stringify(filteredQuiz),
+        body: JSON.stringify({
+          ...filteredQuiz,
+          ...(quiz.categoryId && {
+            categoryId: parseInt(quiz.categoryId)
+          })
+        }),
       }).then((res) => {
-        console.log(filteredQuiz.startDate)
+        console.log(filteredQuiz)
         if (res.status === 201) {
           createQuizForm.reset({
             categoryId: "",
@@ -68,16 +73,6 @@ const CreateQuiz = (props) => {
     },
   });
 
-  // Query hook for fetching categories
-  const { data: categories, isLoading: categoriesLoading } = useQuery({
-    queryKey: ["categories"],
-    queryFn: async () => {
-      const res = await fetch("https://opentdb.com/api_category.php");
-      const data = await res.json();
-      return data.trivia_categories;
-    },
-  });
-
   /**
  * Handles form submission for creating a quiz.
  * @param {Object} values - Form values submitted
@@ -89,6 +84,7 @@ const CreateQuiz = (props) => {
         setIsLoading(false);
       },
     });
+    queryClient.invalidateQueries("quizzes");
   };
 
   return (

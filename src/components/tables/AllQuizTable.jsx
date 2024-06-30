@@ -50,7 +50,6 @@ const AllQuizzesTable = () => {
     isAdmin = user.role === "ADMIN_USER";
   }
 
-
   // const [type, setType] = useState(null); // for old, active, future quizzes (need to implement)
   const [averageScores, setAverageScores] = useState({});
 
