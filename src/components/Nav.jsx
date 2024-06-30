@@ -56,6 +56,11 @@ const userComponents = [
     description: "Find all your user information here",
   },
   {
+    title: "Seed Users",
+    href: "/seedBasicUsers",
+    description: "Seed basic users (admin only)",
+  },
+  {
     title: "Login",
     href: "/login",
     description: "Login here",
@@ -71,6 +76,8 @@ const userComponents = [
     description: "Log out from this account",
   },
 ];
+
+const user = localStorage.getItem("userData");
 
 /**
  * Navigation component for displaying a navigation menu.
