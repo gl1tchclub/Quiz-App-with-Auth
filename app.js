@@ -18,11 +18,11 @@ import seedV1Routes from "./routes/v1/users/seed.js";
 
 const app = express();
 
-// const limiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 100, // Limit each IP to 100 requests per windowMs
-//   message: "Too many requests from this IP, please try again in 15 minutes",
-// });
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again in 15 minutes",
+});
 
 const setXPoweredBy = helmet({
   hidePoweredBy: true,
@@ -50,9 +50,6 @@ const setContentSecurityPolicy = helmet({
 
 app.use(urlencoded({ extended: false }));
 app.use(json());
-// app.use(limiter);
-// app.use(cacheRouteMiddleware);
-
 // CORS Config
 const corsOptions = {
   origin: "http://localhost:5173",
@@ -61,6 +58,9 @@ const corsOptions = {
   optionsSuccessStatus: 204,
 };
 app.use(cors(corsOptions));
+app.use(limiter);
+app.use(cacheRouteMiddleware);
+
 // app.use(cors());
 app.use(setXPoweredBy);
 app.use(setXContentTypeOptions);
