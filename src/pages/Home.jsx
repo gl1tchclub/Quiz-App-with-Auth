@@ -1,8 +1,17 @@
+/**
+ * @file Home.jsx
+ * @module Home
+ * @description Landing page component displaying welcome message and action buttons.
+ * @author Elizabeth Minty
+ */
+
 import CardWrapper from "../components/CardWrapper";
 import LinkButton from "../components/buttons/LinkButton";
 
 const HomePage = () => {
+  // Button style for LinkButton components
   const style = "bg-pink-600 text-white font-bold w-1/3 rounded-lg hover:bg-pink-400 h-12 text-lg";
+
   return (
     <div className="w-full h-dvh flex items-center justify-center">
       <CardWrapper

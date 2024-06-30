@@ -4,7 +4,7 @@
  * @description Component for user login form handling.
  * Renders a form for user login, handles form submission, and manages loading states.
  * Utilizes react-hook-form for form handling and @tanstack/react-query for mutation handling.
- * @author Your Name
+ * @author Elizabeth Minty
  */
 
 import { useForm } from "react-hook-form";

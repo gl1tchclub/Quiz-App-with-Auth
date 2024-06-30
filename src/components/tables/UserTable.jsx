@@ -2,7 +2,7 @@
  * @file UserTable.jsx
  * @module components/UserTable
  * @description Displays user information in a table and allows for user details update.
- * @author Your Name
+ * @author Elizabeth Minty
  */
 
 import { useState } from "react";

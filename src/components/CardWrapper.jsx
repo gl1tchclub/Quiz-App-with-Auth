@@ -2,7 +2,7 @@
  * @file CardWrapper.jsx
  * @module components/CardWrapper
  * @description Component for wrapping content in a styled card with header, content, and optional footer.
- * @author Your Name
+ * @author Elizabeth Minty
  */
 
 import {

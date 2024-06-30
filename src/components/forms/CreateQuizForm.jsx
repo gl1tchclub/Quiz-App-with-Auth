@@ -4,7 +4,7 @@
  * @description Component for creating a quiz with form submission and mutation handling.
  * Renders a form to create a quiz, handles form submission, and displays loading states.
  * Utilizes react-hook-form for form handling and @tanstack/react-query for mutation and query management.
- * @author Your Name
+ * @author Elizabeth Minty
  */
 
 import { useForm } from "react-hook-form";

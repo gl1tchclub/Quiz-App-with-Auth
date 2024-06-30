@@ -1,8 +1,8 @@
 /**
- * @file QuizzesPage.jsx
- * @module pages/QuizzesPage
+ * @file AllQuizzes.jsx
+ * @module AllQuizzes
  * @description Page component displaying quizzes based on user authentication status.
- * @author Your Name
+ * @author Elizabeth Minty
  */
 
 import AllQuizzesTable from "../components/tables/AllQuizTable";

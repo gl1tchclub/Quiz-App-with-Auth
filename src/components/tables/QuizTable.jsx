@@ -3,7 +3,7 @@
  * @module components/QuizTable
  * @description Displays a quiz with questions and options for user interaction.
  * Allows users to select answers and submit the quiz.
- * @author Your Name
+ * @author Elizabeth Minty
  */
 
 import { useState, useEffect } from "react";

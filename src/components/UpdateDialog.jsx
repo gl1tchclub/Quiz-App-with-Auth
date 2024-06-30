@@ -2,7 +2,7 @@
  * @file UpdateDialog.jsx
  * @module components/UpdateDialog
  * @description Component for displaying a dialog to edit user details.
- * @author Your Name
+ * @author Elizabeth Minty
  */
 
 import {

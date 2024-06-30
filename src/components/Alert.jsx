@@ -2,7 +2,7 @@
  * @file AlertComponent.jsx
  * @module components/AlertComponent
  * @description Component for displaying different types of alerts with icons.
- * @author Your Name
+ * @author Elizabeth Minty
  */
 
 import { ExclamationTriangleIcon, RocketIcon } from "@radix-ui/react-icons";
