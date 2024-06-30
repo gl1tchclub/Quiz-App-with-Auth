@@ -18,7 +18,16 @@ npm i
 This will install the necessary dependencies. Then, run the commands in the scripts section as you please.
 
 
-### Scripts
+### Scripts and Quiz Frontend Instructions
+To log into an admin account, use the following account details:
+
+**Username**: admin1
+
+**Password**: p@ssw0rd
+
+Seeding admin users is run automatically upon migration, so they will automatically be in the database. To see them in the database, navigate to the user dashboard page where you will see, if logged into an admin account, a table of all the users in the database.
+
+To seed the basic users, you must be logged into an admin account. Then, navigate to the seed page through the navbar options under "User". There, you will be taken to the /seedBasicUsers endpoint. This will automatically seed the 5 basic users from the Github gist. You may return to the user dashboard to see the updated list.
 
 | **Task**                                              | **Command**                       |
 |-------------------------------------------------------|-----------------------------------|
