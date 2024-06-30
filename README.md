@@ -1,6 +1,7 @@
 # Mintep1 Quiz App
-https://two4-mintep1-app-dev.onrender.com/api/v1/public/all
-A URL to your RESTful API as a web service on Render. // Make home page
+
+**Home Page for API:** https://two4-mintep1-app-dev.onrender.com/api/v1/
+
 
 
 – A URL to your published RESTful API documentation. Each route needs to be documented. Include a
