@@ -13,12 +13,12 @@ npm i
 
 This will install the necessary dependencies. Then, run the commands in the scripts section as you please.
 
+Add the following to a .env file:
+```
 DATABASE_URL="postgresql://db_24_db_jq1q_user:ZeULUDDTXKQY5z2AEjcrRACA7vaOLEXM@dpg-cr5qff3qf0us739s6e1g-a.oregon-postgres.render.com/db_24_db_jq1q"
-# used to sign the JWT
 JWT_SECRET="xxX_Gr4y$0n$w4gG4mer_Xxx"
-# how long JWT is live for
 JWT_LIFETIME=1hr
-
+```
 
 ### Scripts and Quiz Frontend Instructions
 To log into an admin account, use the following account details:
